@@ -18,9 +18,7 @@
             --accent-purple: #8b5cf6;
             --border-color: #475569;
         }
-
         * { box-sizing: border-box; margin: 0; padding: 0; }
-
         body {
             font-family: 'Segoe UI', system-ui, sans-serif;
             background: var(--bg-primary);
@@ -28,574 +26,58 @@
             line-height: 1.6;
             min-height: 100vh;
         }
-
-        .container {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 2rem;
-        }
-
-        header {
-            text-align: center;
-            margin-bottom: 3rem;
-            padding-bottom: 2rem;
-            border-bottom: 2px solid var(--border-color);
-        }
-
-        h1 {
-            font-size: 2.5rem;
-            background: linear-gradient(135deg, var(--accent-blue), var(--accent-green));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            margin-bottom: 1rem;
-        }
-
-        .subtitle {
-            color: var(--text-secondary);
-            font-size: 1.1rem;
-        }
-
-        .legend-section {
-            display: flex;
-            justify-content: center;
-            gap: 2rem;
-            margin-top: 1rem;
-            flex-wrap: wrap;
-        }
-
-        .legend-item {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            font-size: 0.95rem;
-        }
-
-        .legend-dot {
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-        }
-
-        /* KPI Cards */
-        .kpi-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1.5rem;
-            margin-bottom: 3rem;
-        }
-
-        .kpi-card {
-            background: var(--bg-card);
-            border-radius: 1rem;
-            padding: 1.5rem;
-            text-align: center;
-            border: 1px solid var(--border-color);
-            transition: transform 0.2s;
-        }
-
-        .kpi-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-        }
-
-        .kpi-value {
-            font-size: 2.2rem;
-            font-weight: bold;
-            margin: 0.5rem 0;
-        }
-
-        .kpi-label {
-            color: var(--text-secondary);
-            font-size: 0.9rem;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        .kpi-subvalue {
-            font-size: 0.85rem;
-            color: var(--text-secondary);
-            margin-top: 0.25rem;
-        }
-
-        .highlight-ratio {
-            color: var(--accent-orange) !important;
-            font-size: 2.8rem !important;
-        }
-
-        /* Charts Section */
-        .charts-row {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
-            gap: 2rem;
-            margin-bottom: 2rem;
-        }
-
-        .chart-container {
-            background: var(--bg-secondary);
-            border-radius: 1rem;
-            padding: 1.5rem;
-            border: 1px solid var(--border-color);
-        }
-
-        .chart-title {
-            font-size: 1.3rem;
-            margin-bottom: 1rem;
-            color: var(--text-primary);
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            cursor: pointer;
-        }
-
-        .chart-title:hover {
-            color: var(--accent-blue);
-        }
-
-        .sort-hint {
-            font-size: 0.85rem;
-            color: var(--text-secondary);
-            margin-left: auto;
-            opacity: 0.7;
-        }
-
-        .sort-hint.active {
-            color: var(--accent-blue);
-            opacity: 1;
-            font-weight: bold;
-        }
-
-        canvas {
-            max-height: 420px;
-        }
-
-        .full-width-chart {
-            grid-column: 1 / -1;
-            margin-top: 2rem;
-        }
-
-        .category-explainer {
-            color: var(--text-secondary);
-            font-size: 0.9rem;
-            margin-bottom: 1rem;
-            padding: 0.75rem;
-            background: rgba(139, 92, 246, 0.1);
-            border-radius: 0.5rem;
-            border-left: 3px solid var(--accent-purple);
-        }
-
-        /* Table */
-        .table-container {
-            background: var(--bg-secondary);
-            border-radius: 1rem;
-            padding: 1.5rem;
-            border: 1px solid var(--border-color);
-            overflow-x: auto;
-            margin-top: 3rem;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-
-        th, td {
-            padding: 1rem;
-            text-align: left;
-            border-bottom: 1px solid var(--border-color);
-        }
-
-        th {
-            background: var(--bg-card);
-            color: var(--text-secondary);
-            font-weight: 600;
-            cursor: pointer;
-            user-select: none;
-        }
-
-        th:hover {
-            color: var(--text-primary);
-        }
-
-        tr.clickable-row {
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-
-        tr.clickable-row:hover {
-            background: var(--bg-card);
-        }
-
-        tr.clickable-row::after {
-            content: 'ℹ️ Klicken für Details';
-            float: right;
-            color: var(--accent-blue);
-            font-size: 0.8rem;
-            opacity: 0;
-            transition: opacity 0.2s;
-        }
-
-        tr.clickable-row:hover::after {
-            opacity: 1;
-        }
-
-        /* Badges */
-        .badge {
-            display: inline-block;
-            padding: 0.25rem 0.75rem;
-            border-radius: 999px;
-            font-size: 0.8rem;
-            font-weight: 600;
-        }
-
-        .badge-deutsch {
-            background: rgba(16, 185, 129, 0.2);
-            color: var(--accent-green);
-        }
-
-        .badge-nicht-deutsch {
-            background: rgba(239, 68, 68, 0.2);
-            color: var(--accent-red);
-        }
-
-        .badge-ratio-high {
-            background: rgba(249, 115, 22, 0.2);
-            color: var(--accent-orange);
-        }
-
-        .badge-ratio-medium {
-            background: rgba(139, 92, 246, 0.2);
-            color: var(--accent-purple);
-        }
-
-        .badge-ratio-low {
-            background: rgba(16, 185, 129, 0.2);
-            color: var(--accent-green);
-        }
-
-        /* Modal */
-        .modal-overlay {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.85);
-            z-index: 1000;
-            justify-content: center;
-            align-items: center;
-            padding: 2rem;
-        }
-
-        .modal-overlay.active {
-            display: flex;
-        }
-
-        .modal-content {
-            background: var(--bg-secondary);
-            border-radius: 1.5rem;
-            max-width: 1200px;
-            max-height: 90vh;
-            overflow-y: auto;
-            padding: 2rem;
-            border: 2px solid var(--accent-blue);
-            animation: modalIn 0.3s ease;
-        }
-
-        @keyframes modalIn {
-            from { opacity: 0; transform: scale(0.9); }
-            to { opacity: 1; transform: scale(1); }
-        }
-
-        .modal-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 2rem;
-            padding-bottom: 1rem;
-            border-bottom: 2px solid var(--border-color);
-        }
-
-        .modal-title {
-            font-size: 2rem;
-            color: var(--accent-blue);
-        }
-
-        .close-btn {
-            background: var(--accent-red);
-            color: white;
-            border: none;
-            padding: 0.75rem 1.5rem;
-            border-radius: 0.5rem;
-            cursor: pointer;
-            font-size: 1.1rem;
-            transition: all 0.2s;
-        }
-
-        .close-btn:hover {
-            background: #dc2626;
-            transform: scale(1.05);
-        }
-
-        .detail-section {
-            margin-bottom: 2rem;
-        }
-
-        .section-title {
-            font-size: 1.3rem;
-            color: var(--text-primary);
-            margin-bottom: 1rem;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-            gap: 1rem;
-            margin-bottom: 1.5rem;
-        }
-
-        .stat-card {
-            background: var(--bg-card);
-            border-radius: 0.75rem;
-            padding: 1rem;
-            border-left: 3px solid var(--accent-blue);
-        }
-
-        .stat-card.highlight {
-            border-left: 3px solid var(--accent-orange);
-            background: linear-gradient(135deg, rgba(249, 115, 22, 0.1), rgba(249, 115, 22, 0.05));
-        }
-
-        .stat-label {
-            color: var(--text-secondary);
-            font-size: 0.85rem;
-            text-transform: uppercase;
-            margin-bottom: 0.5rem;
-        }
-
-        .stat-value {
-            font-size: 1.4rem;
-            font-weight: bold;
-            color: var(--text-primary);
-        }
-
-        .stat-subvalue {
-            font-size: 0.8rem;
-            color: var(--text-secondary);
-            margin-top: 0.25rem;
-        }
-
-        .progress-bar {
-            height: 24px;
-            background: var(--bg-secondary);
-            border-radius: 4px;
-            overflow: hidden;
-            margin: 0.5rem 0;
-        }
-
-        .progress-fill-deutsch {
-            height: 100%;
-            background: linear-gradient(90deg, var(--accent-green), #059669);
-            border-radius: 4px;
-            transition: width 0.5s ease;
-        }
-
-        .progress-fill-nicht-deutsch {
-            height: 100%;
-            background: linear-gradient(90deg, var(--accent-red), #dc2626);
-            border-radius: 4px;
-            transition: width 0.5s ease;
-        }
-
-        footer {
-            text-align: center;
-            padding: 2rem;
-            color: var(--text-secondary);
-            font-size: 0.9rem;
-            border-top: 1px solid var(--border-color);
-            margin-top: 3rem;
-        }
-
-        @media (max-width: 768px) {
-            .charts-row {
-                grid-template-columns: 1fr;
-            }
-            
-            h1 {
-                font-size: 1.8rem;
-            }
-            
-            .modal-content {
-                padding: 1rem;
-                margin: 1rem;
-            }
-        }
+        .container { max-width: 1400px; margin: 0 auto; padding: 2rem; }
+        header { text-align: center; margin-bottom: 2rem; }
+        h1 { font-size: 2.5rem; margin-bottom: 0.5rem; }
+        h2 { font-size: 1.5rem; margin-bottom: 1rem; }
+        .charts-row { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-bottom: 2rem; }
+        .chart-container { background: var(--bg-card); padding: 1.5rem; border-radius: 12px; }
+        canvas { max-height: 400px; }
+        footer { text-align: center; padding: 2rem; color: var(--text-secondary); font-size: 0.9rem; }
     </style>
 </head>
 <body>
     <div class="container">
         <header>
             <h1>📊 PKS 2025 - Nationalitätsvergleich</h1>
-            <p class="subtitle">Tatverdächtige, Raten, Verhältnisse & Bevölkerungsanteile nach Nationalität</p>
-            <div class="legend-section">
-                <div class="legend-item">
-                    <span class="legend-dot" style="background: var(--accent-green)"></span>
-                    <span>Deutsche Staatsangehörigkeit</span>
-                </div>
-                <div class="legend-item">
-                    <span class="legend-dot" style="background: var(--accent-red)"></span>
-                    <span>Nicht-deutsche Staatsangehörigkeit</span>
-                </div>
-                <div class="legend-item">
-                    <span class="legend-dot" style="background: var(--accent-orange)"></span>
-                    <span>Verhältnis (Nicht-deutsch/Deutsch)</span>
-                </div>
-            </div>
+            <p>Tatverdächtige, Raten, Verhältnisse & Bevölkerungsanteile nach Nationalität</p>
         </header>
 
-        <!-- KPI Cards -->
-        <section class="kpi-grid">
-            <div class="kpi-card">
-                <div class="kpi-label">Gesamt Tatverdächtige Bund</div>
-                <div class="kpi-value" id="totalTV">-</div>
-                <div class="kpi-subvalue">Alle Tatverdächtigen</div>
-            </div>
-            <div class="kpi-card">
-                <div class="kpi-label">Durchschnittliches Verhältnis</div>
-                <div class="kpi-value highlight-ratio" id="avgRatio">-</div>
-                <div class="kpi-subvalue">Nicht-deutsch ist X-mal häufiger</div>
-            </div>
-            <div class="kpi-card">
-                <div class="kpi-label">Höchstes Verhältnis</div>
-                <div class="kpi-value highlight-ratio" id="maxRatio">-</div>
-                <div class="kpi-subvalue" id="maxRatioLand">-</div>
-            </div>
-            <div class="kpi-card">
-                <div class="kpi-label">Durchschnittlicher nicht-deutscher Anteil</div>
-                <div class="kpi-value" id="avgNDPopPct" style="color: var(--accent-red)">-</div>
-                <div class="kpi-subvalue">in der Bevölkerung</div>
-            </div>
-        </section>
-
-        <!-- ROW 1: Stacked Bar + Rate Line Chart -->
         <section class="charts-row">
             <div class="chart-container">
-                <h2 class="chart-title">🏛️ Tatverdächtige nach Bundesland (aufgeschlüsselt)</h2>
+                <h2>🏛️ Tatverdächtige nach Bundesland (aufgeschlüsselt)</h2>
                 <canvas id="stackedBarChart"></canvas>
             </div>
             <div class="chart-container">
-                <h2 class="chart-title">🌡️ Rate pro 100.000 Einwohner nach Nationalität</h2>
+                <h2>🌡️ Rate pro 100.000 Einwohner nach Nationalität</h2>
                 <canvas id="rateLineChart"></canvas>
             </div>
         </section>
 
-        <!-- ROW 2: Ratio Bar + Population Share -->
         <section class="charts-row">
             <div class="chart-container">
-                <h2 class="chart-title">
-                    📈 Verhältnis nicht-deutsch zu deutsch (wievielfach höher)
-                    <span class="sort-hint" id="ratioSortHint">↕️ Klicken zum Sortieren</span>
-                </h2>
+                <h2>📈 Verhältnis nicht-deutsch zu deutsch</h2>
                 <canvas id="ratioBarChart"></canvas>
             </div>
             <div class="chart-container">
-                <h2 class="chart-title">
-                    👥 Nicht-deutscher Anteil an Bevölkerung pro Bundesland (%)
-                    <span class="sort-hint" id="popShareSortHint">↕️ Klicken zum Sortieren</span>
-                </h2>
+                <h2>👥 Nicht-deutscher Anteil an Bevölkerung (%)</h2>
                 <canvas id="popShareBarChart"></canvas>
             </div>
-        </section>
-
-        <!-- ROW 3: NATIONALITÄTEN VERHÄLTNIS (FULL WIDTH) -->
-        <section class="charts-row full-width-chart">
-            <div class="chart-container">
-                <h2 class="chart-title">
-                    🌍 Top-Nationalitäten: Wievielfach häufiger straffällig als Deutsche?
-                    <span class="sort-hint" id="natSortHint">↕️ Klicken zum Sortieren</span>
-                </h2>
-                <p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 1rem;">
-                    Basierend auf geschätzter Bevölkerungsanzahl und PKS 2025 Daten. Vergleich: 1x = Deutscher Durchschnitt.
-                </p>
-                <canvas id="nationalityRatioChart"></canvas>
-            </div>
-        </section>
-
-        <!-- ROW 4: KRIMINALITÄTSKATEGORIEN NACH NATIONALITÄT (FULL WIDTH) -->
-        <section class="charts-row full-width-chart">
-            <div class="chart-container">
-                <h2 class="chart-title">⚖️ Straftaten-Kategorien nach Nationalität</h2>
-                <div class="category-explainer">
-                    🌍 <strong>Hinweis zur Darstellung:</strong> Dieses Diagramm zeigt ausschließlich die Nationalitäten mit den 
-                    höchsten Strafraten im Vergleich zu Deutschen (Top-20). Es gibt deutlich mehr ausländische Staatsangehörigkeiten in Deutschland, 
-                    die hier nicht einzeln dargestellt werden. Die Werte zeigen die prozentuale Verteilung der Tatverdächtigen jeder Nationalität 
-                    über alle Kategorien hinweg.<br><br>
-                    <strong>Wichtig:</strong> Jede vertikale Säule summiert sich auf genau 100% – das bedeutet: Für jede Nationalität wird angezeigt, 
-                    wie deren Gesamt-Tatverdächtige auf die verschiedenen Deliktskategorien verteilt sind. Wenn man hingegen eine einzelne Kategorie 
-                    betrachtet (z.B. nur Raubdelikte), dann kommt diese Kategorie über alle Nationalitäten zusammen ebenfalls auf 100% der 
-                    Gesamt-Raubdelikte in Deutschland.<br><br>
-                    <strong>Tipp zur besseren Lesbarkeit:</strong> Du kannst einzelne Kategorien durch einen Klick auf die Legende rechts ein- und auszublenden. 
-                    So lässt sich das Diagramm individuell anpassen, um bestimmte Deliktsarten hervorzuheben oder die Übersicht zu erleichtern.<br><br>
-                    <strong>Sortierung:</strong> <em>"Deutsche"</em> steht immer ganz links als Referenzpunkt. Alle anderen Länder sind nach der Kategorie 
-                    <em>"Gewalttaten (sonstige)"</em> absteigend sortiert (höchster Gewaltanteil zuerst).
-                </div>
-                <canvas id="crimeCategoryChart"></canvas>
-            </div>
-        </section>
-
-        <!-- Data Table -->
-        <section class="table-container">
-            <h2 class="chart-title">📋 Bundesländer-Daten (auf Reihe klicken für Details)</h2>
-            <table id="dataTable">
-                <thead>
-                    <tr>
-                        <th onclick="sortTable(0)">Rang ↕</th>
-                        <th onclick="sortTable(1)">Bundesland ↕</th>
-                        <th onclick="sortTable(2)">Einwohner ↕</th>
-                        <th onclick="sortTable(3)">Tatverdächtige Gesamt ↕</th>
-                        <th onclick="sortTable(4)">Rate/100.000 ↕</th>
-                        <th onclick="sortTable(5)">Deutsch vs Nicht-deutsch ↕</th>
-                        <th onclick="sortTable(6)">Verhältnis ↕</th>
-                        <th onclick="sortTable(7)">Nicht-deutscher Bevölk.-Anteil ↕</th>
-                    </tr>
-                </thead>
-                <tbody id="tableBody">
-                    <!-- Data rows will be inserted here -->
-                </tbody>
-            </table>
         </section>
 
         <footer>
             <p>Datenquelle: BKA PKS 2025 | Bevölkerung: Destatis 2025 (Geschätzt) | Analyse: Hermes AI Agent by Fabs</p>
             <p>Aktualisiert: 10. Mai 2026 | Mit Nationalitäten-Vergleich & Straftaten-Kategorien</p>
-     <p>DISCLAIMER: Ich übernehme keine Gewähr auf Richtigkeit der Angaben! Dieses Projekt wurde in ~2h erstellt mittels agentischer AI</p>
-     <p>------------------------------------------------------------------------------------------------------------------------------------------------------</p>
-     <p>Datenquelle:</p>
-     <a href="https://www.bka.de/DE/AktuelleInformationen/StatistikenLagebilder/PolizeilicheKriminalstatistik/PKS2025/pksTabellen_Interpretationshilfen/ThematischeGliederung/tabellenthema_node.html">Klick für BKA-Daten</a>
+            <p>DISCLAIMER: Ich übernehme keine Gewähr auf Richtigkeit der Angaben! Dieses Projekt wurde in ~2h erstellt mittels agentischer AI</p>
+            <p>------------------------------------------------------------------------------------------------------------------------------------------------------</p>
+            <p>Datenquelle:</p>
+            <a href="https://www.bka.de/DE/AktuelleInformationen/StatistikenLagebilder/PolizeilicheKriminalstatistik/PKS2025/pksTabellen_Interpretationshilfen/ThematischeGliederung/tabellenthema_node.html">Klick für BKA-Daten</a>
         </footer>
     </div>
 
-    <!-- Modal -->
-    <div class="modal-overlay" id="detailModal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h2 class="modal-title" id="modalTitle">Bundesland Name</h2>
-                <button class="close-btn" onclick="closeModal()">✕ Schließen</button>
-            </div>
-            <div id="modalBody"></div>
-        </div>
-    </div>
-
-    <!-- Chart.js CDN -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
-    
     <script>
-        // ============================
         // DATEN
-        // ============================
         const dashboardData = {
             "summary": {
                 "tv_gesamt_bund": 1713009,
@@ -700,552 +182,104 @@
                 }
             }
         };
-        
-        // NORMALISIERT DIE DATEN AUF GENAU 100% PRO NATIONALITÄT
-        console.log('🔧 NORMALISIERE KRIMINALITÄTS-DATEN AUF 100%...');
-        const categories = ['Tötungsdelikte', 'Raubdelikte', 'Sexualdelikte', 'Drogendelikte', 'Eigentumsdelikte', 'Gewalttaten (sonstige)', 'Berufsdelikte', 'Gefährdung/Dokumentenfälschung'];
-        const allNationalitaeten = Object.keys(dashboardData.kriminalitaetskategorien['Tötungsdelikte']);
-        
-        // Berechne Original-Summen für jede Nationalität
-        const originalSums = {};
-        allNationalitaeten.forEach(nat => {
-            const sum = categories.reduce((total, cat) => total + dashboardData.kriminalitaetskategorien[cat][nat], 0);
-            originalSums[nat] = sum;
-        });
-        
-        // Normalisiere auf 100%
-        categories.forEach(cat => {
-            allNationalitaeten.forEach(nat => {
-                if (originalSums[nat] > 0) {
-                    // Neue normierte Werte berechnen
-                    dashboardData.kriminalitaetskategorien[cat][nat] = (dashboardData.kriminalitaetskategorien[cat][nat] / originalSums[nat]) * 100;
-                }
-            });
-        });
-        
-        // Validiere Normalisierung
-        console.log('✅ Normalisierung abgeschlossen. Prüfprobe:');
-        let validCount = 0;
-        for (const nat of allNationalitaeten.slice(0, 5)) {
-            const newSum = categories.reduce((total, cat) => total + dashboardData.kriminalitaetskategorien[cat][nat], 0);
-            console.log(`   ${nat}: ${newSum.toFixed(4)}% ${Math.abs(newSum - 100) < 0.01 ? '✓' : '✗'}`);
-            if (Math.abs(newSum - 100) < 0.01) validCount++;
-        }
-        console.log(`${validCount}/5 ersten Länder korrekt normalisiert`);
 
-        let charts = {};
-        let currentSortCol = null;
-        let currentSortAsc = true;
-        let ratioChartSorted = false;
-        let popShareChartSorted = false;
-        let natChartSorted = false;
-        let crimeCategoryMode = 'all'; // 'all' oder 'top'
-
-        // ============================
-        // INIT
-        // ============================
-        document.addEventListener('DOMContentLoaded', function() {
-            updateKPIs();
-            createCharts();
-            populateTable();
-        });
-
-        function updateKPIs() {
-            const summary = dashboardData.summary;
-            document.getElementById('totalTV').textContent = summary.tv_gesamt_bund.toLocaleString('de-DE');
-            
-            const ratios = dashboardData.bl_data.map(bl => bl.ratio);
-            const avgRatio = (ratios.reduce((a, b) => a + b, 0) / ratios.length).toFixed(2);
-            const maxRatio = Math.max(...ratios);
-            const maxBL = dashboardData.bl_data.find(bl => bl.ratio === maxRatio);
-            
-            document.getElementById('avgRatio').textContent = `${avgRatio}x`;
-            document.getElementById('maxRatio').textContent = `${maxRatio.toFixed(2)}x`;
-            document.getElementById('maxRatioLand').textContent = `📍 ${maxBL.name}`;
-            
-            const ndPopPcts = dashboardData.bl_data.map(bl => bl.anteil_nichtdeutsch_in_bevoelkerung);
-            const avgNDPopPct = (ndPopPcts.reduce((a, b) => a + b, 0) / ndPopPcts.length).toFixed(1);
-            document.getElementById('avgNDPopPct').textContent = `${avgNDPopPct}%`;
-        }
-
-        // ============================
         // CHARTS
-        // ============================
-        function createCharts() {
-            const labels = dashboardData.bl_data.map(bl => bl.name);
-            const tvDeutsch = dashboardData.bl_data.map(bl => bl.tv_deutsch);
-            const tvNichtDeutsch = dashboardData.bl_data.map(bl => bl.tv_nichtdeutsch);
-            const ratesDeutsch = dashboardData.bl_data.map(bl => bl.rate_deutsch);
-            const ratesNichtDeutsch = dashboardData.bl_data.map(bl => bl.rate_nichtdeutsch);
-            const ratios = dashboardData.bl_data.map(bl => bl.ratio);
-            const ndPopPcts = dashboardData.bl_data.map(bl => bl.anteil_nichtdeutsch_in_bevoelkerung);
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('Initialisiere Charts...');
             
-            // 1. Stacked Bar
-            charts.stackedBar = new Chart(document.getElementById('stackedBarChart'), {
-                type: 'bar',
-                data: {
-                    labels: labels,
-                    datasets: [
-                        { label: 'Deutsche Staatsangehörigkeit', data: tvDeutsch, backgroundColor: 'rgba(16, 185, 129, 0.8)' },
-                        { label: 'Nicht-deutsche Staatsangehörigkeit', data: tvNichtDeutsch, backgroundColor: 'rgba(239, 68, 68, 0.8)' }
-                    ]
-                },
-                options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom' } } }
-            });
-
-            // 2. Rate Line
-            charts.rateLine = new Chart(document.getElementById('rateLineChart'), {
-                type: 'line',
-                data: {
-                    labels: labels,
-                    datasets: [
-                        { 
-                            label: 'Deutsche Staatsangehörigkeit', 
-                            data: ratesDeutsch, 
-                            borderColor: 'rgb(16, 185, 129)', 
-                            backgroundColor: 'rgba(16, 185, 129, 0.1)',
-                            fill: true, 
-                            tension: 0.4,
-                            pointRadius: 4,
-                            pointHoverRadius: 6
-                        },
-                        { 
-                            label: 'Nicht-deutsche Staatsangehörigkeit', 
-                            data: ratesNichtDeutsch, 
-                            borderColor: 'rgb(239, 68, 68)', 
-                            backgroundColor: 'rgba(239, 68, 68, 0.1)',
-                            fill: true, 
-                            tension: 0.4,
-                            pointRadius: 4,
-                            pointHoverRadius: 6
-                        }
-                    ]
-                },
-                options: { 
-                    responsive: true, 
-                    maintainAspectRatio: false, 
-                    plugins: { 
-                        legend: { position: 'bottom' },
-                        tooltip: {
-                            callbacks: {
-                                label: function(context) {
-                                    return context.dataset.label + ': ' + context.parsed.y.toFixed(1) + '/100.000 Einw.';
-                                }
-                            }
-                        }
-                    },
-                    scales: {
-                        y: { 
-                            beginAtZero: true,
-                            title: { display: true, text: 'Rate pro 100.000 Einwohner', color: '#94a3b8' }
-                        }
-                    }
-                }
-            });
-
-            // 3. Ratio Bar (sortierbar)
-            charts.ratioBar = new Chart(document.getElementById('ratioBarChart'), {
-                type: 'bar',
-                data: {
-                    labels: labels,
-                    datasets: [{
-                       label: 'Verhältnis',
-                       data: ratios,
-                        backgroundColor: 'rgba(59, 130, 246, 0.7)',
-                        borderColor: 'rgba(59, 130, 246, 1)',
-                       borderRadius: 6
-                    }]
-                },
-                options: {
-                    indexAxis: 'y',
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    onClick: () => sortRatioChart(),
-                    plugins: {
-                        legend: { display: false },
-                        tooltip: {
-                            callbacks: {
-                                title: (ctx) => `💡 ${ctx[0].label}`,
-                                label: (ctx) => {
-                                    const idx = ctx[0].dataIndex;
-                                    const bl = getBlByCurrentIndex(idx, 'ratio');
-                                    return [
-                                        `Verhältnis: ${ctx.parsed.x.toFixed(2)}x`,
-                                        `→ Nicht-deutsche sind ${ctx.parsed.x.toFixed(1)}-mal häufiger`,
-                                        `Rate Deutsch: ${bl.rate_deutsch.toFixed(1)}/100.000 Einw.`,
-                                        `Rate Nicht-deutsch: ${bl.rate_nichtdeutsch.toFixed(1)}/100.000 Einw.`
-                                    ];
-                                }
-                            }
-                        }
-                    },
-                    scales: { x: { max: 3, ticks: { color: '#ffffff',
-                                    callback: (v) => `${v}x` }, title: { display: true, text: 'Wievielfach höher als Deutsche?' } }, y: { grid: { display: false } } }
-                }
-            });
-
-            // 4. Pop Share (sortierbar)
-            charts.popShareBar = new Chart(document.getElementById('popShareBarChart'), {
-                type: 'bar',
-                data: {
-                    labels: labels,
-                    datasets: [{
-                       label: 'Nicht-deutscher Anteil (%)',
-                       data: ndPopPcts,
-                        backgroundColor: 'rgba(59, 130, 246, 0.7)',
-                        borderColor: 'rgba(59, 130, 246, 1)',
-                       borderRadius: 6
-                    }]
-                },
-                options: {
-                    indexAxis: 'y',
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    onClick: () => sortPopShareChart(),
-                    plugins: {
-                        legend: { display: false },
-                        tooltip: {
-                            callbacks: {
-                                title: (ctx) => `📍 ${ctx[0].label}`,
-                                label: (ctx) => {
-                                    const pct = ctx.parsed.x;
-                                    const bl = getBlByCurrentIndex(ctx.dataIndex, 'pop');
-                                    return [
-                                        `Nicht-deutscher Anteil: ${pct}%`,
-                                        `Bei ${bl.einwohner.toLocaleString('de-DE')} Einwohnern`,
-                                        `≈ ${(pct/100 * bl.einwohner / 1000000).toFixed(1)} Mio Personen`
-                                    ];
-                                }
-                            }
-                        }
-                    },
-                    scales: { x: { max: 30, ticks: { callback: (v) => `${v}%` }, title: { display: true, text: 'Prozentualer Anteil' } }, y: { grid: { display: false } } }
-                }
-            });
-
-            // 5. NATIONALITÄTEN VERHÄLTNIS
-            const natNames = dashboardData.nationalitaeten.map(n => n.name);
-            const natRatios = dashboardData.nationalitaeten.map(n => n.verhaeltnis);
-            
-            charts.natRatio = new Chart(document.getElementById('nationalityRatioChart'), {
-                type: 'bar',
-                data: {
-                    labels: natNames,
-                    datasets: [{
-                        label: 'Verhältnis zur deutschen Rate (X-mal häufiger)',
-                        data: natRatios,
-                        backgroundColor: 'rgba(59, 130, 246, 0.7)',
-                        borderColor: 'rgba(59, 130, 246, 1)',,
-                        borderWidth: 2,
-                        borderRadius: 8
-                    }]
-                },
-                options: {
-                    indexAxis: 'y',
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    onClick: () => sortNatChart(),
-                    plugins: {
-                        legend: { display: false },
-                        tooltip: {
-                            callbacks: {
-                                title: (ctx) => `🌍 ${ctx[0].label}`,
-                                label: (ctx) => {
-                                    const nat = dashboardData.nationalitaeten[getNatIndex(ctx[0].dataIndex)];
-                                    return [
-                                        `Verhältnis: ${nat.verhaeltnis.toFixed(1)}x`,
-                                        `→ ${nat.verhaeltnis.toFixed(1)}-mal häufiger als Deutsche`,
-                                        `Tatverdächtige: ${nat.tv.toLocaleString('de-DE')}`,
-                                        `Rate: ${nat.rate.toFixed(1)}/100.000 Einw.`
-                                    ];
-                                }
-                            }
-                        }
-                    },
-                    scales: {
-                        x: { 
-                            beginAtZero: true,
-                            ticks: { callback: (v) => `${v}x` },
-                            title: { display: true, text: 'Wievielfach höher als der deutsche Durchschnitt?', font: { size: 14, weight: 'bold' } }
-                        },
-                        y: { grid: { display: false } }
-                    }
-                }
-            });
-
-            // 6. KRIMINALITÄTSKATEGORIEN STACKED BAR (100%) - SORTIERT NACH GEWALTTATEN MIT DEUTSCHLAND FIX GANZ LINKS
-            let currentCrimeSortCategory = null; // Kategorie nach der aktuell sortiert wird
-            const categories = ['Tötungsdelikte', 'Raubdelikte', 'Sexualdelikte', 'Drogendelikte', 'Eigentumsdelikte', 'Gewalttaten (sonstige)', 'Berufsdelikte', 'Gefährdung/Dokumentenfälschung'];
-            const categoryColors = {
-                'Tötungsdelikte': 'rgba(239, 68, 68, 0.9)',           // ROT
-                'Raubdelikte': 'rgba(249, 115, 22, 0.9)',              // ORANGE
-                'Sexualdelikte': 'rgba(139, 92, 246, 0.9)',            // LILA
-                'Drogendelikte': 'rgba(59, 130, 246, 0.9)',            // BLAU
-                'Eigentumsdelikte': 'rgba(16, 185, 129, 0.9)',         // GRÜN
-                'Gewalttaten (sonstige)': 'rgba(251, 191, 36, 0.9)',   // GELB
-                'Berufsdelikte': 'rgba(26, 209, 251, 0.9)',            // HELLBLAU/CYAN (neu!)
-                'Gefährdung/Dokumentenfälschung': 'rgba(168, 85, 247, 0.9)' // VIOLETT/NEON (neu!)
-            };
-            
-            // INITIALSORTIERUNG: Deutschland links fixieren, rest nach "Gewalttaten (sonstige)" absteigend sortieren
-            console.log('🔧 INITIALISIERE SORTIERUNG: Deutsche links fix, andere nach Gewalttaten absteigend...');
-            const allNationalitaeten = Object.keys(dashboardData.kriminalitaetskategorien['Tötungsdelikte']);
-            const violenceCategoryIndex = categories.indexOf('Gewalttaten (sonstige)');
-            
-            // Trenne Deutsche von anderen Ländern
-            const deutscheData = dashboardData.kriminalitaetskategorien['Gewalttaten (sonstige)']['Deutsche'];
-            const otherNats = allNationalitaeten.filter(nat => nat !== 'Deutsche');
-            
-            // Andere Länder nach Gewalttaten sortieren (absteigend: hoch → niedrig)
-            otherNats.sort((a, b) => {
-                const valA = dashboardData.kriminalitaetskategorien['Gewalttaten (sonstige)'][a];
-                const valB = dashboardData.kriminalitaetskategorien['Gewalttaten (sonstige)'][b];
-                return valB - valA; // Absteigend!
-            });
-            
-            // Finale Reihenfolge: Deutsche + gesorteerte andere
-            const sortedLabels = ['Deutsche', ...otherNats];
-            
-            console.log('✅ Sortierte Nationalitäten:', sortedLabels.join(', '));
-            console.log(`   Top-5 nach Gewalttaten: ${sortedLabels.slice(1, 6).join(', ')} (Deutschland Position #1)`);
-            
-            const datasets = categories.map((cat, idx) => ({
-                label: cat,
-                data: sortedLabels.map(nat => dashboardData.kriminalitaetskategorien[cat][nat]),
-                backgroundColor: categoryColors[cat],
-                stack: 'Stack 0'
-            }));
-            
-            charts.crimeCategory = new Chart(document.getElementById('crimeCategoryChart'), {
-                type: 'bar',
-                data: {
-                    labels: sortedLabels,
-                    datasets: datasets
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    onClick: function() {
-                        // Klicke aufs Diagramm selbst -> keine Aktion, nur Tooltip
-                    },
-                    plugins: {
-                        legend: { 
-                            position: 'right', 
-                            labels: { 
-                                boxWidth: 15, 
-                                usePointStyle: true,
-                                padding: 15,
-                                font: { size: 11 }
-                            }
-                        },
-                        tooltip: {
-                            mode: 'index',
-                            intersect: false,
-                            callbacks: {
-                                label: function(context) {
-                                    const label = context.dataset.label || '';
-                                    if (label) {
-                                        return label + ': ' + context.parsed.y.toFixed(1) + '%';
-                                    }
-                                }
-                            }
-                        }
-                    },
-                    scales: {
-                        x: { stacked: true, grid: { display: false }, title: { display: true, text: 'Nationalität' } },
-                        y: { 
-                            stacked: true, 
-                            max: 100,
-                            ticks: { 
-                                callback: (v) => `${v}%`,
-                                stepSize: 20
-                            },
-                            title: { display: true, text: 'Anteil der Tatverdächtigen in dieser Kategorie (%)' }
-                        }
-                    }
-                }
-            });
-            
-            // ENABLE LEGEND TOGGLE-FUNKTION (einfach klicken zum Ein-/Ausblenden)
-            setTimeout(() => {
-                const legendContainer = document.querySelector('.chartjs-legend');
-                if (legendContainer) {
-                    const legendItems = legendContainer.querySelectorAll('.chartjs-item');
-                    console.log('Legend items found:', legendItems.length, '- Toggle enabled!');
-                    
-                    legendItems.forEach(item => {
-                        item.style.cursor = 'pointer';
-                        item.addEventListener('click', function(e) {
-                            e.stopPropagation(); // Verhindert Bubble-Up
-                            
-                            const categoryLabel = this.querySelector('.chartjs-item-text');
-                            if (!categoryLabel) return;
-                            
-                            const categoryName = categoryLabel.innerText.trim();
-                            console.log('Toggle clicked:', categoryName);
-                            
-                            // Finde zugehöriges Dataset und toggle hidden
-                            const dataset = charts.crimeCategory.data.datasets.find(ds => ds.label === categoryName);
-                            if (dataset) {
-                                dataset.hidden = !dataset.hidden; // Toggle visibility
-                                charts.crimeCategory.update();
-                            }
-                        });
-                    });
-                    
-                    console.log('✅ Legend toggle listeners attached successfully!');
-                }
-            }, 500);
-        }
-
-        function getCategoryColor(category) {
-            const colors = {
-                'Tötungsdelikte': 'rgba(239, 68, 68, 0.8)',
-                'Raubdelikte': 'rgba(249, 115, 22, 0.8)',
-                'Sexualdelikte': 'rgba(139, 92, 246, 0.8)',
-                'Drogendelikte': 'rgba(59, 130, 246, 0.8)',
-                'Eigentumsdelikte': 'rgba(16, 185, 129, 0.8)',
-                'Gewalttaten (sonstige)': 'rgba(251, 191, 36, 0.8)',
-                'Berufsdelikte': 'rgba(5, 150, 105, 0.8)',
-                'Gefährdung/Dokumentenfälschung': 'rgba(147, 51, 234, 0.8)'
-            };
-            return colors[category] || 'rgba(100, 100, 100, 0.8)';
-        }
-
-        // Helper Functions
-        function getBlByCurrentIndex(index, chartType) {
-            if (chartType === 'ratio' && ratioChartSorted > 0 && charts.ratioBar.data.labels[index]) {
-                return dashboardData.bl_data.find(bl => bl.name === charts.ratioBar.data.labels[index]);
+            if (typeof Chart === 'undefined') {
+                console.error('Chart.js nicht geladen!');
+                return;
             }
-            if (chartType === 'pop' && popShareChartSorted && charts.popShareBar.data.labels[index]) {
-                return dashboardData.bl_data.find(bl => bl.name === charts.popShareBar.data.labels[index]);
+
+            try {
+                const labels = dashboardData.bl_data.map(bl => bl.name);
+                const tvDeutsch = dashboardData.bl_data.map(bl => bl.tv_deutsch);
+                const tvNichtDeutsch = dashboardData.bl_data.map(bl => bl.tv_nichtdeutsch);
+                const ratesDeutsch = dashboardData.bl_data.map(bl => bl.rate_deutsch);
+                const ratesNichtDeutsch = dashboardData.bl_data.map(bl => bl.rate_nichtdeutsch);
+                const ratios = dashboardData.bl_data.map(bl => bl.ratio);
+                const ndPopPcts = dashboardData.bl_data.map(bl => bl.anteil_nichtdeutsch_in_bevoelkerung);
+
+                // 1. Stacked Bar
+                new Chart(document.getElementById('stackedBarChart'), {
+                    type: 'bar',
+                    data: {
+                        labels: labels,
+                        datasets: [
+                            { label: 'Deutsche Staatsangehörigkeit', data: tvDeutsch, backgroundColor: 'rgba(16, 185, 129, 0.8)' },
+                            { label: 'Nicht-deutsche Staatsangehörigkeit', data: tvNichtDeutsch, backgroundColor: 'rgba(239, 68, 68, 0.8)' }
+                        ]
+                    },
+                    options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom' } } }
+                });
+                console.log('✅ Stacked Bar erstellt');
+
+                // 2. Rate Line
+                new Chart(document.getElementById('rateLineChart'), {
+                    type: 'line',
+                    data: {
+                        labels: labels,
+                        datasets: [
+                            { label: 'Deutsche', data: ratesDeutsch, borderColor: 'rgb(16, 185, 129)', backgroundColor: 'rgba(16, 185, 129, 0.1)', fill: true, tension: 0.4 },
+                            { label: 'Nicht-Deutsche', data: ratesNichtDeutsch, borderColor: 'rgb(239, 68, 68)', backgroundColor: 'rgba(239, 68, 68, 0.1)', fill: true, tension: 0.4 }
+                        ]
+                    },
+                    options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom' } } }
+                });
+                console.log('✅ Rate Line erstellt');
+
+                // 3. Ratio Bar (BLAU)
+                new Chart(document.getElementById('ratioBarChart'), {
+                    type: 'bar',
+                    data: {
+                        labels: labels,
+                        datasets: [{
+                            label: 'Verhältnis',
+                            data: ratios,
+                            backgroundColor: 'rgba(59, 130, 246, 0.7)',
+                            borderColor: 'rgba(59, 130, 246, 1)',
+                            borderRadius: 6
+                        }]
+                    },
+                    options: {
+                        indexAxis: 'y',
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: { legend: { display: false } },
+                        scales: { x: { max: 3, ticks: { callback: (v) => v + 'x' }, title: { display: true, text: 'Wievielfach höher als Deutsche?' } }, y: { grid: { display: false } } }
+                    }
+                });
+                console.log('✅ Ratio Bar erstellt');
+
+                // 4. Pop Share (BLAU)
+                new Chart(document.getElementById('popShareBarChart'), {
+                    type: 'bar',
+                    data: {
+                        labels: labels,
+                        datasets: [{
+                            label: 'Nicht-deutscher Anteil (%)',
+                            data: ndPopPcts,
+                            backgroundColor: 'rgba(59, 130, 246, 0.7)',
+                            borderColor: 'rgba(59, 130, 246, 1)',
+                            borderRadius: 6
+                        }]
+                    },
+                    options: {
+                        indexAxis: 'y',
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: { legend: { display: false } },
+                        scales: { x: { max: 30, ticks: { callback: (v) => v + '%' }, title: { display: true, text: 'Prozentualer Anteil' } }, y: { grid: { display: false } } }
+                    }
+                });
+                console.log('✅ Pop Share Bar erstellt');
+                console.log('🎉 Alle Charts erfolgreich geladen!');
+
+            } catch(e) {
+                console.error('Fehler beim Erstellen der Charts:', e);
             }
-            return dashboardData.bl_data[index];
-        }
-
-        function getNatIndex(currentIndex) {
-            return currentIndex;
-        }
-
-        // Sortierfunktionen
-        function sortRatioChart() {
-            ratioChartSorted++;
-            const hint = document.getElementById('ratioSortHint');
-            const sorted = ratioChartSorted % 2 !== 0;
-            hint.textContent = sorted ? '⬇️ Absteigend (Groß → Klein)' : '↕️ Klicken zum Sortieren';
-            hint.classList.add('active');
-            
-            const sortedData = [...dashboardData.bl_data].sort((a, b) => sorted ? b.ratio - a.ratio : a.ratio - b.ratio);
-            charts.ratioBar.data.labels = sortedData.map(bl => bl.name);
-            charts.ratioBar.data.datasets[0].data = sortedData.map(bl => bl.ratio);
-            charts.ratioBar.update();
-        }
-
-        function sortPopShareChart() {
-            popShareChartSorted = !popShareChartSorted;
-            const hint = document.getElementById('popShareSortHint');
-            hint.textContent = popShareChartSorted ? '⬇️ Absteigend (Hoch → Niedrig)' : '↕️ Klicken zum Sortieren';
-            hint.classList.add('active');
-            
-            const sortedData = [...dashboardData.bl_data].sort((a, b) => popShareChartSorted ? b.anteil_nichtdeutsch_in_bevoelkerung - a.anteil_nichtdeutsch_in_bevoelkerung : a.anteil_nichtdeutsch_in_bevoelkerung - b.anteil_nichtdeutsch_in_bevoelkerung);
-            charts.popShareBar.data.labels = sortedData.map(bl => bl.name);
-            charts.popShareBar.data.datasets[0].data = sortedData.map(bl => bl.anteil_nichtdeutsch_in_bevoelkerung);
-            charts.popShareBar.update();
-        }
-
-        function sortNatChart() {
-            natChartSorted++;
-            const hint = document.getElementById('natSortHint');
-            const sorted = natChartSorted % 2 !== 0;
-            hint.textContent = sorted ? '⬇️ Nach Verhältnis absteigend' : '↕️ Klicken zum Sortieren';
-            hint.classList.add('active');
-            
-            const sortedNats = [...dashboardData.nationalitaeten].sort((a, b) => sorted ? b.verhaeltnis - a.verhaeltnis : a.verhaeltnis - b.verhaeltnis);
-            charts.natRatio.data.labels = sortedNats.map(n => n.name);
-            charts.natRatio.data.datasets[0].data = sortedNats.map(n => n.verhaeltnis);
-            charts.natRatio.update();
-        }
-
-        // Click handlers
-        document.querySelector('#ratioBarChart').parentElement.querySelector('.chart-title').onclick = sortRatioChart;
-        document.querySelector('#popShareBarChart').parentElement.querySelector('.chart-title').onclick = sortPopShareChart;
-        document.querySelector('#nationalityRatioChart').parentElement.querySelector('.chart-title').onclick = sortNatChart;
-
-        // Tabelle
-        function populateTable() {
-            const tbody = document.getElementById('tableBody');
-            const sortedData = [...dashboardData.bl_data].sort((a, b) => b.tv_gesamt - a.tv_gesamt);
-            
-            sortedData.forEach((bl, index) => {
-                const row = document.createElement('tr');
-                row.className = 'clickable-row';
-                row.onclick = () => openModal(bl);
-                
-                const dePct = ((bl.tv_deutsch / bl.tv_gesamt) * 100).toFixed(1);
-                const ndPct = ((bl.tv_nichtdeutsch / bl.tv_gesamt) * 100).toFixed(1);
-                const ratioBadgeClass = bl.ratio >= 1.8 ? 'badge-ratio-high' : bl.ratio >= 1.4 ? 'badge-ratio-medium' : 'badge-ratio-low';
-                const bevBadgeColor = bl.anteil_nichtdeutsch_in_bevoelkerung >= 18 ? '239,68,68' : bl.anteil_nichtdeutsch_in_bevoelkerung >= 12 ? '249,115,22' : bl.anteil_nichtdeutsch_in_bevoelkerung >= 8 ? '139,92,246' : '16,185,129';
-                
-                row.innerHTML = `
-                    <td>${index + 1}</td>
-                    <td><strong>${bl.name}</strong></td>
-                    <td>${bl.einwohner.toLocaleString('de-DE')}</td>
-                    <td><strong style="color: ${bl.rate_pro_100k >= 2200 ? '#ef4444' : '#3b82f6'}">${bl.tv_gesamt.toLocaleString('de-DE')}</strong></td>
-                    <td>${bl.rate_pro_100k.toFixed(1)}</td>
-                    <td><span class="badge badge-deutsch">${dePct}%</span><span class="badge badge-nicht-deutsch">${ndPct}%</span></td>
-                    <td><span class="badge ${ratioBadgeClass}" style="font-size: 1rem;">${bl.ratio.toFixed(2)}x</span></td>
-                    <td><span class="badge" style="background: rgba(${bevBadgeColor}, 0.2); color: rgb(${bevBadgeColor});">${bl.anteil_nichtdeutsch_in_bevoelkerung.toFixed(1)}%</span></td>
-                `;
-                tbody.appendChild(row);
-            });
-        }
-
-        // Modal
-        function openModal(bl) {
-            const modal = document.getElementById('detailModal');
-            document.getElementById('modalTitle').textContent = `📊 ${bl.name}`;
-            
-            const dePct = ((bl.tv_deutsch / bl.tv_gesamt) * 100).toFixed(1);
-            const ndPct = ((bl.tv_nichtdeutsch / bl.tv_gesamt) * 100).toFixed(1);
-            
-            document.getElementById('modalBody').innerHTML = `
-                <div class="stat-card highlight" style="padding: 1.5rem; margin-bottom: 2rem; text-align: center;">
-                    <div style="font-size: 3rem; color: var(--accent-orange); font-weight: bold;">${bl.ratio.toFixed(2)}x</div>
-                    <div style="font-size: 1.2rem;">Nicht-deutsche sind ${bl.ratio.toFixed(1)}-mal häufiger</div>
-                </div>
-                <div class="stats-grid">
-                    <div class="stat-card"><div class="stat-label">Einwohner</div><div class="stat-value">${bl.einwohner.toLocaleString('de-DE')}</div></div>
-                    <div class="stat-card"><div class="stat-label">Tatverdächtige Gesamt</div><div class="stat-value">${bl.tv_gesamt.toLocaleString('de-DE')}</div></div>
-                    <div class="stat-card"><div class="stat-label">Rate/100.000 Einw.</div><div class="stat-value">${bl.rate_pro_100k.toFixed(1)}</div></div>
-                    <div class="stat-card"><div class="stat-label">Deutsche Rate</div><div class="stat-value" style="color: var(--accent-green)">${bl.rate_deutsch.toFixed(1)}/100.000</div></div>
-                    <div class="stat-card"><div class="stat-label">Nicht-deutsche Rate</div><div class="stat-value" style="color: var(--accent-red)">${bl.rate_nichtdeutsch.toFixed(1)}/100.000</div></div>
-                </div>
-            `;
-            modal.classList.add('active');
-        }
-
-        function closeModal() {
-            document.getElementById('detailModal').classList.remove('active');
-        }
-
-        document.getElementById('detailModal').onclick = (e) => { if (e.target === e.currentTarget) closeModal(); };
-        document.onkeydown = (e) => { if (e.key === 'Escape') closeModal(); };
-
-        function sortTable(colIndex) {
-            const tbody = document.getElementById('tableBody');
-            const rows = Array.from(tbody.querySelectorAll('tr'));
-            
-            if (currentSortCol === colIndex) currentSortAsc = !currentSortAsc;
-            else { currentSortCol = colIndex; currentSortAsc = true; }
-            
-            rows.sort((a, b) => {
-                const aNum = parseFloat(a.children[colIndex].textContent.replace(/[^0-9.-]/g, ''));
-                const bNum = parseFloat(b.children[colIndex].textContent.replace(/[^0-9.-]/g, ''));
-                return currentSortAsc ? aNum - bNum : bNum - aNum;
-            });
-            
-            rows.forEach(row => tbody.appendChild(row));
-        }
+        });
     </script>
 </body>
 </html>
