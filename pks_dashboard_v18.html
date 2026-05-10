@@ -30,10 +30,21 @@
         header { text-align: center; margin-bottom: 2rem; }
         h1 { font-size: 2.5rem; margin-bottom: 0.5rem; }
         h2 { font-size: 1.5rem; margin-bottom: 1rem; }
+        .kpi-container { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.5rem; margin-bottom: 2rem; }
+        .kpi-box { background: var(--bg-card); padding: 1.5rem; border-radius: 12px; text-align: center; }
+        .kpi-box h3 { font-size: 1rem; color: var(--text-secondary); margin-bottom: 0.5rem; }
+        .kpi-box .value { font-size: 2rem; font-weight: bold; }
         .charts-row { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-bottom: 2rem; }
         .chart-container { background: var(--bg-card); padding: 1.5rem; border-radius: 12px; }
+        .full-width-chart { grid-column: 1 / -1; }
         canvas { max-height: 400px; }
+        .table-container { background: var(--bg-card); padding: 1.5rem; border-radius: 12px; margin-bottom: 2rem; }
+        table { width: 100%; border-collapse: collapse; }
+        th, td { padding: 0.75rem; text-align: left; border-bottom: 1px solid var(--border-color); }
+        th { cursor: pointer; user-select: none; }
+        th:hover { background: var(--bg-secondary); }
         footer { text-align: center; padding: 2rem; color: var(--text-secondary); font-size: 0.9rem; }
+        .category-explainer { font-size: 0.9rem; color: var(--text-secondary); margin-bottom: 1rem; line-height: 1.5; }
     </style>
 </head>
 <body>
@@ -42,6 +53,25 @@
             <h1>📊 PKS 2025 - Nationalitätsvergleich</h1>
             <p>Tatverdächtige, Raten, Verhältnisse & Bevölkerungsanteile nach Nationalität</p>
         </header>
+
+        <section class="kpi-container">
+            <div class="kpi-box">
+                <h3>Tatverdächtige Gesamt</h3>
+                <div class="value" id="totalTV">-</div>
+            </div>
+            <div class="kpi-box">
+                <h3>Ø Verhältnis</h3>
+                <div class="value" id="avgRatio">-</div>
+            </div>
+            <div class="kpi-box">
+                <h3>Max Verhältnis</h3>
+                <div class="value" id="maxRatio">-</div>
+            </div>
+            <div class="kpi-box">
+                <h3>Max Verhältnis Land</h3>
+                <div class="value" id="maxRatioLand">-</div>
+            </div>
+        </section>
 
         <section class="charts-row">
             <div class="chart-container">
@@ -54,17 +84,9 @@
             </div>
         </section>
 
-        <section class="chart-row full-width-chart">
-            <div class="chart-container">
-                <h2>🌍 Top-Nationalitäten: Wievielfach häufiger straffällig als Deutsche?</h2>
-                <canvas id="nationalityRatioChart"></canvas>
-            </div>
-        </section>
-
-
         <section class="charts-row">
             <div class="chart-container">
-                <h2>📈 Verhältnis nicht-deutsch zu deutsch</h2>
+                <h2>📈 Verhältnis nicht-deutsch zu deutsch (wievielfach höher)</h2>
                 <canvas id="ratioBarChart"></canvas>
             </div>
             <div class="chart-container">
@@ -73,28 +95,39 @@
             </div>
         </section>
 
-        
-<section class="table-container">
-            <h2 class="chart-title">📋 Bundesländer-Daten (auf Reihe klicken für Details)</h2>
-            <table id="dataTable">
+        <section class="chart-container full-width-chart">
+            <h2>🌍 Top-Nationalitäten: Wievielfach häufiger straffällig als Deutsche?</h2>
+            <canvas id="nationalityRatioChart"></canvas>
+        </section>
+
+        <section class="chart-container full-width-chart">
+            <h2>⚖️ Straftaten-Kategorien nach Nationalität</h2>
+            <div class="category-explainer">
+                🌍 Jede Säule summiert sich auf 100%.
+            </div>
+            <canvas id="crimeCategoryChart"></canvas>
+        </section>
+
+        <section class="table-container">
+            <h2>📋 Bundesländer-Daten (auf Reihe klicken für Details)</h2>
+            <table>
                 <thead>
                     <tr>
-                        <th onclick="sortTable(0)">Rang ↕</th>
-                        <th onclick="sortTable(1)">Bundesland ↕</th>
-                        <th onclick="sortTable(2)">Einwohner ↕</th>
-                        <th onclick="sortTable(3)">Tatverdächtige Gesamt ↕</th>
-                        <th onclick="sortTable(4)">Rate/100.000 ↕</th>
-                        <th onclick="sortTable(5)">Deutsch vs Nicht-deutsch ↕</th>
-                        <th onclick="sortTable(6)">Verhältnis ↕</th>
-                        <th onclick="sortTable(7)">Nicht-deutscher Bevölk.-Anteil ↕</th>
+                        <th>Rang ↕</th>
+                        <th>Bundesland ↕</th>
+                        <th>Einwohner ↕</th>
+                        <th>Tatverdächtige Gesamt ↕</th>
+                        <th>Rate/100.000 ↕</th>
+                        <th>Deutsch vs Nicht-deutsch ↕</th>
+                        <th>Verhältnis ↕</th>
+                        <th>Nicht-deutscher Bevölk.-Anteil ↕</th>
                     </tr>
                 </thead>
-                <tbody id="tableBody">
-                    <!-- Data rows will be inserted here -->
-                </tbody>
+                <tbody id="tableBody"></tbody>
             </table>
         </section>
-<footer>
+
+        <footer>
             <p>Datenquelle: BKA PKS 2025 | Bevölkerung: Destatis 2025 (Geschätzt) | Analyse: Hermes AI Agent by Fabs</p>
             <p>Aktualisiert: 10. Mai 2026 | Mit Nationalitäten-Vergleich & Straftaten-Kategorien</p>
             <p>DISCLAIMER: Ich übernehme keine Gewähr auf Richtigkeit der Angaben! Dieses Projekt wurde in ~2h erstellt mittels agentischer AI</p>
@@ -214,21 +247,34 @@
 
         // CHARTS
         document.addEventListener('DOMContentLoaded', function() {
-            console.log('Initialisiere Charts...');
-            
             if (typeof Chart === 'undefined') {
                 console.error('Chart.js nicht geladen!');
                 return;
             }
 
             try {
-                const labels = dashboardData.bl_data.map(bl => bl.name);
-                const tvDeutsch = dashboardData.bl_data.map(bl => bl.tv_deutsch);
-                const tvNichtDeutsch = dashboardData.bl_data.map(bl => bl.tv_nichtdeutsch);
-                const ratesDeutsch = dashboardData.bl_data.map(bl => bl.rate_deutsch);
-                const ratesNichtDeutsch = dashboardData.bl_data.map(bl => bl.rate_nichtdeutsch);
-                const ratios = dashboardData.bl_data.map(bl => bl.ratio);
-                const ndPopPcts = dashboardData.bl_data.map(bl => bl.anteil_nichtdeutsch_in_bevoelkerung);
+                var blData = dashboardData.bl_data;
+                var labels = blData.map(function(bl) { return bl.name; });
+                var tvDeutsch = blData.map(function(bl) { return bl.tv_deutsch; });
+                var tvNichtDeutsch = blData.map(function(bl) { return bl.tv_nichtdeutsch; });
+                var ratesDeutsch = blData.map(function(bl) { return bl.rate_deutsch; });
+                var ratesNichtDeutsch = blData.map(function(bl) { return bl.rate_nichtdeutsch; });
+                var ratios = blData.map(function(bl) { return bl.ratio; });
+                var ndPopPcts = blData.map(function(bl) { return bl.anteil_nichtdeutsch_in_bevoelkerung; });
+
+                // KPIs
+                var totalTV = 0;
+                for (var i = 0; i < tvDeutsch.length; i++) totalTV += tvDeutsch[i] + tvNichtDeutsch[i];
+                document.getElementById('totalTV').textContent = totalTV.toLocaleString('de-DE');
+                
+                var avgRatio = 0;
+                for (var j = 0; j < ratios.length; j++) avgRatio += ratios[j];
+                avgRatio = avgRatio / ratios.length;
+                document.getElementById('avgRatio').textContent = avgRatio.toFixed(2) + 'x';
+                
+                var maxRatio = Math.max.apply(null, ratios);
+                document.getElementById('maxRatio').textContent = maxRatio.toFixed(2) + 'x';
+                document.getElementById('maxRatioLand').textContent = labels[ratios.indexOf(maxRatio)];
 
                 // 1. Stacked Bar
                 new Chart(document.getElementById('stackedBarChart'), {
@@ -236,13 +282,12 @@
                     data: {
                         labels: labels,
                         datasets: [
-                            { label: 'Deutsche Staatsangehörigkeit', data: tvDeutsch, backgroundColor: 'rgba(16, 185, 129, 0.8)' },
-                            { label: 'Nicht-deutsche Staatsangehörigkeit', data: tvNichtDeutsch, backgroundColor: 'rgba(239, 68, 68, 0.8)' }
+                            { label: 'Deutsche', data: tvDeutsch, backgroundColor: 'rgba(16, 185, 129, 0.8)' },
+                            { label: 'Nicht-Deutsche', data: tvNichtDeutsch, backgroundColor: 'rgba(239, 68, 68, 0.8)' }
                         ]
                     },
                     options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom' } } }
                 });
-                console.log('✅ Stacked Bar erstellt');
 
                 // 2. Rate Line
                 new Chart(document.getElementById('rateLineChart'), {
@@ -256,7 +301,6 @@
                     },
                     options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom' } } }
                 });
-                console.log('✅ Rate Line erstellt');
 
                 // 3. Ratio Bar (BLAU)
                 new Chart(document.getElementById('ratioBarChart'), {
@@ -276,10 +320,9 @@
                         responsive: true,
                         maintainAspectRatio: false,
                         plugins: { legend: { display: false } },
-                        scales: { x: { max: 3, ticks: { callback: (v) => v + 'x' }, title: { display: true, text: 'Wievielfach höher als Deutsche?' } }, y: { grid: { display: false } } }
+                        scales: { x: { max: 3, ticks: { callback: function(v) { return v + 'x'; } }, title: { display: true, text: 'Wievielfach höher als Deutsche?' } }, y: { grid: { display: false } } }
                     }
                 });
-                console.log('✅ Ratio Bar erstellt');
 
                 // 4. Pop Share (BLAU)
                 new Chart(document.getElementById('popShareBarChart'), {
@@ -299,109 +342,30 @@
                         responsive: true,
                         maintainAspectRatio: false,
                         plugins: { legend: { display: false } },
-                        scales: { x: { max: 30, ticks: { callback: (v) => v + '%' }, title: { display: true, text: 'Prozentualer Anteil' } }, y: { grid: { display: false } } }
+                        scales: { x: { max: 30, ticks: { callback: function(v) { return v + '%'; } }, title: { display: true, text: 'Prozentualer Anteil' } }, y: { grid: { display: false } } }
                     }
                 });
-                console.log('✅ Pop Share Bar erstellt');
-                console.log('🎉 Alle Charts erfolgreich geladen!');
+
+                // Tabelle
+                var tbody = document.getElementById('tableBody');
+                blData.forEach(function(bl, index) {
+                    var row = tbody.insertRow(-1);
+                    row.insertCell(0).textContent = index + 1;
+                    row.insertCell(1).textContent = bl.name;
+                    row.insertCell(2).textContent = bl.einwohner.toLocaleString('de-DE');
+                    row.insertCell(3).textContent = (bl.tv_deutsch + bl.tv_nichtdeutsch).toLocaleString('de-DE');
+                    row.insertCell(4).textContent = (bl.rate_pro_100k ? bl.rate_pro_100k.toFixed(1) : (bl.rate_deutsch + bl.rate_nichtdeutsch).toFixed(1));
+                    row.insertCell(5).textContent = bl.tv_deutsch > bl.tv_nichtdeutsch ? 'Deutsch' : 'Nicht-Deutsch';
+                    row.insertCell(6).textContent = bl.ratio.toFixed(2) + 'x';
+                    row.insertCell(7).textContent = bl.anteil_nichtdeutsch_in_bevoelkerung + '%';
+                });
+
+                console.log('✅ Alle Elemente geladen!');
 
             } catch(e) {
-                console.error('Fehler beim Erstellen der Charts:', e);
+                console.error('Fehler:', e);
             }
         });
-    
-
-function updateKPIs() {
-            const summary = dashboardData.summary;
-            document.getElementById('totalTV').textContent = summary.tv_gesamt_bund.toLocaleString('de-DE');
-            
-            const ratios = dashboardData.bl_data.map(bl => bl.ratio);
-            const avgRatio = (ratios.reduce((a, b) => a + b, 0) / ratios.length).toFixed(2);
-            const maxRatio = Math.max(...ratios);
-            const maxBL = dashboardData.bl_data.find(bl => bl.ratio === maxRatio);
-            
-            document.getElementById('avgRatio').textContent = `${avgRatio}
-
-function getCategoryColor(category) {
-            const colors = {
-                'Tötungsdelikte': 'rgba(239, 68, 68, 0.8)',
-                'Raubdelikte': 'rgba(249, 115, 22, 0.8)',
-                'Sexualdelikte': 'rgba(139, 92, 246, 0.8)',
-                'Drogendelikte': 'rgba(59, 130, 246, 0.8)',
-                'Eigentumsdelikte': 'rgba(16, 185, 129, 0.8)',
-                'Gewalttaten (sonstige)': 'rgba(251, 191, 36, 0.8)',
-                'Berufsdelikte': 'rgba(5, 150, 105, 0.8)',
-                'Gefährdung/Dokumentenfälschung': 'rgba(147, 51, 234, 0.8)'
-            }
-
-function getBlByCurrentIndex(index, chartType) {
-            if (chartType === 'ratio' && ratioChartSorted > 0 && charts.ratioBar.data.labels[index]) {
-                return dashboardData.bl_data.find(bl => bl.name === charts.ratioBar.data.labels[index]);
-            }
-
-function getNatIndex(currentIndex) {
-            return currentIndex;
-        }
-
-function sortRatioChart() {
-            ratioChartSorted++;
-            const hint = document.getElementById('ratioSortHint');
-            const sorted = ratioChartSorted % 2 !== 0;
-            hint.textContent = sorted ? '⬇️ Absteigend (Groß → Klein)' : '↕️ Klicken zum Sortieren';
-            hint.classList.add('active');
-            
-            const sortedData = [...dashboardData.bl_data].sort((a, b) => sorted ? b.ratio - a.ratio : a.ratio - b.ratio);
-            charts.ratioBar.data.labels = sortedData.map(bl => bl.name);
-            charts.ratioBar.data.datasets[0].data = sortedData.map(bl => bl.ratio);
-            charts.ratioBar.update();
-        }
-
-function sortPopShareChart() {
-            popShareChartSorted = !popShareChartSorted;
-            const hint = document.getElementById('popShareSortHint');
-            hint.textContent = popShareChartSorted ? '⬇️ Absteigend (Hoch → Niedrig)' : '↕️ Klicken zum Sortieren';
-            hint.classList.add('active');
-            
-            const sortedData = [...dashboardData.bl_data].sort((a, b) => popShareChartSorted ? b.anteil_nichtdeutsch_in_bevoelkerung - a.anteil_nichtdeutsch_in_bevoelkerung : a.anteil_nichtdeutsch_in_bevoelkerung - b.anteil_nichtdeutsch_in_bevoelkerung);
-            charts.popShareBar.data.labels = sortedData.map(bl => bl.name);
-            charts.popShareBar.data.datasets[0].data = sortedData.map(bl => bl.anteil_nichtdeutsch_in_bevoelkerung);
-            charts.popShareBar.update();
-        }
-
-function sortNatChart() {
-            natChartSorted++;
-            const hint = document.getElementById('natSortHint');
-            const sorted = natChartSorted % 2 !== 0;
-            hint.textContent = sorted ? '⬇️ Nach Verhältnis absteigend' : '↕️ Klicken zum Sortieren';
-            hint.classList.add('active');
-            
-            const sortedNats = [...dashboardData.nationalitaeten].sort((a, b) => sorted ? b.verhaeltnis - a.verhaeltnis : a.verhaeltnis - b.verhaeltnis);
-            charts.natRatio.data.labels = sortedNats.map(n => n.name);
-            charts.natRatio.data.datasets[0].data = sortedNats.map(n => n.verhaeltnis);
-            charts.natRatio.update();
-        }
-
-function populateTable() {
-            const tbody = document.getElementById('tableBody');
-            const sortedData = [...dashboardData.bl_data].sort((a, b) => b.tv_gesamt - a.tv_gesamt);
-            
-            sortedData.forEach((bl, index) => {
-                const row = document.createElement('tr');
-                row.className = 'clickable-row';
-                row.onclick = () => openModal(bl);
-                
-                const dePct = ((bl.tv_deutsch / bl.tv_gesamt) * 100).toFixed(1);
-                const ndPct = ((bl.tv_nichtdeutsch / bl.tv_gesamt) * 100).toFixed(1);
-                const ratioBadgeClass = bl.ratio >= 1.8 ? 'badge-ratio-high' : bl.ratio >= 1.4 ? 'badge-ratio-medium' : 'badge-ratio-low';
-                const bevBadgeColor = bl.anteil_nichtdeutsch_in_bevoelkerung >= 18 ? '239,68,68' : bl.anteil_nichtdeutsch_in_bevoelkerung >= 12 ? '249,115,22' : bl.anteil_nichtdeutsch_in_bevoelkerung >= 8 ? '139,92,246' : '16,185,129';
-                
-                row.innerHTML = `
-                    <td>${index + 1}
-
-function openModal(bl) {
-            const modal = document.getElementById('detailModal');
-            document.getElementById('modalTitle').textContent = `📊 ${bl.name}
-
-</script>
+    </script>
 </body>
 </html>
