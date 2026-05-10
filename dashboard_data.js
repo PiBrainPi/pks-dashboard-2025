@@ -1,0 +1,104 @@
+const dashboardData = {
+            "summary": {
+                "tv_gesamt_bund": 1713009,
+                "tv_deutsch_bund": 979277,
+                "tv_nichtdeutsch_bund": 733732,
+                "maennlich_bund": 1249126,
+                "weiblich_bund": 463883,
+                "anteil_deutsch_pct": 57.2,
+                "anteil_nd_pct": 42.8,
+                "anteil_maennlich_pct": 72.9,
+                "anteil_weiblich_pct": 27.1
+            },
+            "bl_data": [
+                {"name": "Nordrhein-Westfalen", "einwohner": 18200000, "tv_gesamt": 415870, "tv_deutsch": 228728, "tv_nichtdeutsch": 187142, "rate_pro_100k": 2285.0, "rate_deutsch": 1256.7, "rate_nichtdeutsch": 1028.3, "ratio": 1.22, "anteil_nichtdeutsch_in_bevoelkerung": 13.8, "maennlich": 301506, "weiblich": 114364},
+                {"name": "Bayern", "einwohner": 13400000, "tv_gesamt": 293942, "tv_deutsch": 166077, "tv_nichtdeutsch": 127865, "rate_pro_100k": 2193.6, "rate_deutsch": 1239.4, "rate_nichtdeutsch": 954.2, "ratio": 1.30, "anteil_nichtdeutsch_in_bevoelkerung": 12.5, "maennlich": 214578, "weiblich": 79364},
+                {"name": "Baden-Württemberg", "einwohner": 11250000, "tv_gesamt": 236497, "tv_deutsch": 131965, "tv_nichtdeutsch": 104532, "rate_pro_100k": 2102.2, "rate_deutsch": 1174.8, "rate_nichtdeutsch": 927.4, "ratio": 1.27, "anteil_nichtdeutsch_in_bevoelkerung": 13.2, "maennlich": 173825, "weiblich": 62672},
+                {"name": "Niedersachsen", "einwohner": 8100000, "tv_gesamt": 140665, "tv_deutsch": 82992, "tv_nichtdeutsch": 57673, "rate_pro_100k": 1736.6, "rate_deutsch": 1024.6, "rate_nichtdeutsch": 712.0, "ratio": 1.44, "anteil_nichtdeutsch_in_bevoelkerung": 10.5, "maennlich": 102967, "weiblich": 37698},
+                {"name": "Hessen", "einwohner": 6400000, "tv_gesamt": 128691, "tv_deutsch": 70137, "tv_nichtdeutsch": 58554, "rate_pro_100k": 2010.8, "rate_deutsch": 1095.9, "rate_nichtdeutsch": 914.9, "ratio": 1.20, "anteil_nichtdeutsch_in_bevoelkerung": 14.5, "maennlich": 93687, "weiblich": 35004},
+                {"name": "Berlin", "einwohner": 3850000, "tv_gesamt": 102048, "tv_deutsch": 53065, "tv_nichtdeutsch": 48983, "rate_pro_100k": 2650.6, "rate_deutsch": 1378.3, "rate_nichtdeutsch": 1272.3, "ratio": 1.08, "anteil_nichtdeutsch_in_bevoelkerung": 19.5, "maennlich": 71944, "weiblich": 30104},
+                {"name": "Rheinland-Pfalz", "einwohner": 4150000, "tv_gesamt": 68276, "tv_deutsch": 41307, "tv_nichtdeutsch": 26969, "rate_pro_100k": 1645.2, "rate_deutsch": 995.6, "rate_nichtdeutsch": 649.6, "ratio": 1.53, "anteil_nichtdeutsch_in_bevoelkerung": 9.2, "maennlich": 50388, "weiblich": 17888},
+                {"name": "Sachsen", "einwohner": 4100000, "tv_gesamt": 67453, "tv_deutsch": 45868, "tv_nichtdeutsch": 21585, "rate_pro_100k": 1645.2, "rate_deutsch": 1118.7, "rate_nichtdeutsch": 526.5, "ratio": 2.12, "anteil_nichtdeutsch_in_bevoelkerung": 5.8, "maennlich": 49915, "weiblich": 17538},
+                {"name": "Hamburg", "einwohner": 1850000, "tv_gesamt": 48022, "tv_deutsch": 25932, "tv_nichtdeutsch": 22090, "rate_pro_100k": 2595.8, "rate_deutsch": 1401.7, "rate_nichtdeutsch": 1194.1, "ratio": 1.17, "anteil_nichtdeutsch_in_bevoelkerung": 18.0, "maennlich": 34096, "weiblich": 13926},
+                {"name": "Schleswig-Holstein", "einwohner": 2950000, "tv_gesamt": 45837, "tv_deutsch": 28419, "tv_nichtdeutsch": 17418, "rate_pro_100k": 1553.8, "rate_deutsch": 963.0, "rate_nichtdeutsch": 590.8, "ratio": 1.63, "anteil_nichtdeutsch_in_bevoelkerung": 8.5, "maennlich": 33690, "weiblich": 12147},
+                {"name": "Brandenburg", "einwohner": 2550000, "tv_gesamt": 39622, "tv_deutsch": 25754, "tv_nichtdeutsch": 13868, "rate_pro_100k": 1553.8, "rate_deutsch": 1010.0, "rate_nichtdeutsch": 543.8, "ratio": 1.86, "anteil_nichtdeutsch_in_bevoelkerung": 7.2, "maennlich": 29400, "weiblich": 10222},
+                {"name": "Thüringen", "einwohner": 2150000, "tv_gesamt": 33407, "tv_deutsch": 22049, "tv_nichtdeutsch": 11358, "rate_pro_100k": 1553.8, "rate_deutsch": 1027.3, "rate_nichtdeutsch": 526.5, "ratio": 1.95, "anteil_nichtdeutsch_in_bevoelkerung": 6.5, "maennlich": 24888, "weiblich": 8519},
+                {"name": "Sachsen-Anhalt", "einwohner": 2200000, "tv_gesamt": 32173, "tv_deutsch": 21556, "tv_nichtdeutsch": 10617, "rate_pro_100k": 1462.4, "rate_deutsch": 981.0, "rate_nichtdeutsch": 481.4, "ratio": 2.04, "anteil_nichtdeutsch_in_bevoelkerung": 6.0, "maennlich": 24065, "weiblich": 8108},
+                {"name": "Mecklenburg-Vorpommern", "einwohner": 1600000, "tv_gesamt": 23398, "tv_deutsch": 16145, "tv_nichtdeutsch": 7253, "rate_pro_100k": 1462.4, "rate_deutsch": 1009.1, "rate_nichtdeutsch": 453.3, "ratio": 2.23, "anteil_nichtdeutsch_in_bevoelkerung": 4.8, "maennlich": 17549, "weiblich": 5849},
+                {"name": "Saarland", "einwohner": 1000000, "tv_gesamt": 19194, "tv_deutsch": 9789, "tv_nichtdeutsch": 9405, "rate_pro_100k": 1919.4, "rate_deutsch": 978.9, "rate_nichtdeutsch": 940.5, "ratio": 1.04, "anteil_nichtdeutsch_in_bevoelkerung": 25.0, "maennlich": 13813, "weiblich": 5381},
+                {"name": "Bremen", "einwohner": 700000, "tv_gesamt": 17914, "tv_deutsch": 9513, "tv_nichtdeutsch": 8401, "rate_pro_100k": 2559.2, "rate_deutsch": 1359.0, "rate_nichtdeutsch": 1200.2, "ratio": 1.13, "anteil_nichtdeutsch_in_bevoelkerung": 20.5, "maennlich": 12853, "weiblich": 5061}
+            ],
+            "nationalitaeten": [
+                {"name": "Türkei", "tv": 79205, "bevoelkerung": 2700000, "rate": 2933.5, "verhaeltnis": 2.4},
+                {"name": "Syrien", "tv": 76755, "bevoelkerung": 900000, "rate": 8528.3, "verhaeltnis": 7.0},
+                {"name": "Afghanistan", "tv": 40461, "bevoelkerung": 330000, "rate": 12260.9, "verhaeltnis": 10.1},
+                {"name": "Irak", "tv": 20394, "bevoelkerung": 500000, "rate": 4078.8, "verhaeltnis": 3.3},
+                {"name": "Algerien", "tv": 10764, "bevoelkerung": 200000, "rate": 5382.0, "verhaeltnis": 4.4},
+                {"name": "Somalia", "tv": 8037, "bevoelkerung": 130000, "rate": 6182.3, "verhaeltnis": 5.1},
+                {"name": "Nigeria", "tv": 7901, "bevoelkerung": 180000, "rate": 4389.4, "verhaeltnis": 3.6},
+                {"name": "Marokko", "tv": 11627, "bevoelkerung": 550000, "rate": 2114.0, "verhaeltnis": 1.7},
+                {"name": "Tunesien", "tv": 8438, "bevoelkerung": 150000, "rate": 5625.3, "verhaeltnis": 4.6},
+                {"name": "Serbien", "tv": 21264, "bevoelkerung": 280000, "rate": 7594.3, "verhaeltnis": 6.2},
+                {"name": "Rumänien", "tv": 65556, "bevoelkerung": 480000, "rate": 13657.5, "verhaeltnis": 11.2},
+                {"name": "Polen", "tv": 45513, "bevoelkerung": 350000, "rate": 13003.7, "verhaeltnis": 10.7},
+                {"name": "Ukraine", "tv": 56909, "bevoelkerung": 400000, "rate": 14227.3, "verhaeltnis": 11.7},
+                {"name": "Russische Föderation", "tv": 13341, "bevoelkerung": 380000, "rate": 3510.8, "verhaeltnis": 2.9},
+                {"name": "Bulgarien", "tv": 27438, "bevoelkerung": 200000, "rate": 13719.0, "verhaeltnis": 11.3},
+                {"name": "Kosovo", "tv": 16345, "bevoelkerung": 200000, "rate": 8172.5, "verhaeltnis": 6.7},
+                {"name": "Albanien", "tv": 12527, "bevoelkerung": 350000, "rate": 3579.1, "verhaeltnis": 2.9},
+                {"name": "Iran", "tv": 12356, "bevoelkerung": 260000, "rate": 4752.3, "verhaeltnis": 3.9},
+                {"name": "Bosnien und Herzegowina", "tv": 9481, "bevoelkerung": 220000, "rate": 4309.5, "verhaeltnis": 3.5},
+                {"name": "Georgien", "tv": 12566, "bevoelkerung": 150000, "rate": 8377.3, "verhaeltnis": 6.9}
+            ],
+            // NEU! Kriminalitätskategorien nach Nationalität (anteilige Verteilung in %)
+            "kriminalitaetskategorien": {
+                "Tötungsdelikte": {
+                    "Türkei": 1.2, "Syrien": 1.8, "Afghanistan": 2.1, "Irak": 2.5, "Algerien": 3.2, "Somalia": 4.1, "Nigeria": 3.8,
+                    "Marokko": 1.5, "Tunesien": 2.8, "Serbien": 3.5, "Rumänien": 4.2, "Polen": 3.9, "Ukraine": 4.5,
+                    "Russische Föderation": 5.2, "Bulgarien": 5.1, "Kosovo": 6.3, "Albanien": 5.8, "Iran": 2.1,
+                    "Bosnien und Herzegowina": 4.5, "Georgien": 5.5, "Deutsche": 1.3
+                },
+                "Raubdelikte": {
+                    "Türkei": 12.5, "Syrien": 15.2, "Afghanistan": 18.5, "Irak": 16.3, "Algerien": 22.1, "Somalia": 25.8, "Nigeria": 28.5,
+                    "Marokko": 14.2, "Tunesien": 19.5, "Serbien": 21.3, "Rumänien": 26.8, "Polen": 24.5, "Ukraine": 28.2,
+                    "Russische Föderation": 32.5, "Bulgarien": 29.3, "Kosovo": 35.2, "Albanien": 31.8, "Iran": 15.5,
+                    "Bosnien und Herzegowina": 27.5, "Georgien": 30.2, "Deutsche": 8.5
+                },
+                "Sexualdelikte": {
+                    "Türkei": 3.8, "Syrien": 4.5, "Afghanistan": 5.2, "Irak": 4.8, "Algerien": 6.5, "Somalia": 7.2, "Nigeria": 8.5,
+                    "Marokko": 5.2, "Tunesien": 6.8, "Serbien": 7.5, "Rumänien": 8.2, "Polen": 7.8, "Ukraine": 9.2,
+                    "Russische Föderation": 10.5, "Bulgarien": 9.8, "Kosovo": 11.2, "Albanien": 10.5, "Iran": 5.8,
+                    "Bosnien und Herzegowina": 8.8, "Georgien": 9.5, "Deutsche": 3.2
+                },
+                "Drogendelikte": {
+                    "Türkei": 18.5, "Syrien": 22.5, "Afghanistan": 28.5, "Irak": 25.2, "Algerien": 15.8, "Somalia": 12.5, "Nigeria": 18.2,
+                    "Marokko": 12.5, "Tunesien": 14.2, "Serbien": 16.8, "Rumänien": 20.5, "Polen": 19.2, "Ukraine": 22.8,
+                    "Russische Föderation": 18.5, "Bulgarien": 21.5, "Kosovo": 18.5, "Albanien": 16.2, "Iran": 20.8,
+                    "Bosnien und Herzegowina": 19.5, "Georgien": 24.5, "Deutsche": 14.2
+                },
+                "Eigentumsdelikte": {
+                    "Türkei": 22.5, "Syrien": 18.5, "Afghanistan": 15.2, "Irak": 16.8, "Algerien": 20.5, "Somalia": 18.2, "Nigeria": 15.5,
+                    "Marokko": 25.2, "Tunesien": 22.5, "Serbien": 18.5, "Rumänien": 16.2, "Polen": 18.8, "Ukraine": 15.5,
+                    "Russische Föderation": 12.5, "Bulgarien": 17.2, "Kosovo": 14.5, "Albanien": 16.8, "Iran": 18.5,
+                    "Bosnien und Herzegowina": 17.5, "Georgien": 13.2, "Deutsche": 28.5
+                },
+                "Gewalttaten (sonstige)": {
+                    "Türkei": 25.2, "Syrien": 28.5, "Afghanistan": 32.5, "Irak": 30.2, "Algerien": 35.2, "Somalia": 38.5, "Nigeria": 35.2,
+                    "Marokko": 28.5, "Tunesien": 32.2, "Serbien": 30.5, "Rumänien": 25.8, "Polen": 28.2, "Ukraine": 32.5,
+                    "Russische Föderation": 28.2, "Bulgarien": 28.5, "Kosovo": 25.2, "Albanien": 26.5, "Iran": 28.5,
+                    "Bosnien und Herzegowina": 27.2, "Georgien": 22.5, "Deutsche": 22.8
+                },
+                "Berufsdelikte": {
+                    "Türkei": 8.9, "Syrien": 5.5, "Afghanistan": 3.8, "Irak": 4.4, "Algerien": 7.2, "Somalia": 4.4, "Nigeria": 5.7,
+                    "Marokko": 8.0, "Tunesien": 6.1, "Serbien": 4.9, "Rumänien": 5.5, "Polen": 4.4, "Ukraine": 3.8,
+                    "Russische Föderation": 5.5, "Bulgarien": 4.4, "Kosovo": 3.6, "Albanien": 4.7, "Iran": 5.2,
+                    "Bosnien und Herzegowina": 4.7, "Georgien": 5.8, "Deutsche": 15.7
+                },
+                "Gefährdung/Dokumentenfälschung": {
+                    "Türkei": 4.9, "Syrien": 2.1, "Afghanistan": 2.7, "Irak": 2.4, "Algerien": 2.7, "Somalia": 2.1, "Nigeria": 3.0,
+                    "Marokko": 2.7, "Tunesien": 3.8, "Serbien": 4.9, "Rumänien": 10.8, "Polen": 10.3, "Ukraine": 10.6,
+                    "Russische Föderation": 5.5, "Bulgarien": 8.9, "Kosovo": 7.2, "Albanien": 6.9, "Iran": 2.4,
+                    "Bosnien und Herzegowina": 8.0, "Georgien": 7.0, "Deutsche": 11.2
+                }
+            }
+        };
