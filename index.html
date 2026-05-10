@@ -54,6 +54,14 @@
             </div>
         </section>
 
+        <section class="chart-row full-width-chart">
+            <div class="chart-container">
+                <h2>🌍 Top-Nationalitäten: Wievielfach häufiger straffällig als Deutsche?</h2>
+                <canvas id="nationalityRatioChart"></canvas>
+            </div>
+        </section>
+
+
         <section class="charts-row">
             <div class="chart-container">
                 <h2>📈 Verhältnis nicht-deutsch zu deutsch</h2>
@@ -65,7 +73,28 @@
             </div>
         </section>
 
-        <footer>
+        
+<section class="table-container">
+            <h2 class="chart-title">📋 Bundesländer-Daten (auf Reihe klicken für Details)</h2>
+            <table id="dataTable">
+                <thead>
+                    <tr>
+                        <th onclick="sortTable(0)">Rang ↕</th>
+                        <th onclick="sortTable(1)">Bundesland ↕</th>
+                        <th onclick="sortTable(2)">Einwohner ↕</th>
+                        <th onclick="sortTable(3)">Tatverdächtige Gesamt ↕</th>
+                        <th onclick="sortTable(4)">Rate/100.000 ↕</th>
+                        <th onclick="sortTable(5)">Deutsch vs Nicht-deutsch ↕</th>
+                        <th onclick="sortTable(6)">Verhältnis ↕</th>
+                        <th onclick="sortTable(7)">Nicht-deutscher Bevölk.-Anteil ↕</th>
+                    </tr>
+                </thead>
+                <tbody id="tableBody">
+                    <!-- Data rows will be inserted here -->
+                </tbody>
+            </table>
+        </section>
+<footer>
             <p>Datenquelle: BKA PKS 2025 | Bevölkerung: Destatis 2025 (Geschätzt) | Analyse: Hermes AI Agent by Fabs</p>
             <p>Aktualisiert: 10. Mai 2026 | Mit Nationalitäten-Vergleich & Straftaten-Kategorien</p>
             <p>DISCLAIMER: Ich übernehme keine Gewähr auf Richtigkeit der Angaben! Dieses Projekt wurde in ~2h erstellt mittels agentischer AI</p>
@@ -280,6 +309,99 @@
                 console.error('Fehler beim Erstellen der Charts:', e);
             }
         });
-    </script>
+    
+
+function updateKPIs() {
+            const summary = dashboardData.summary;
+            document.getElementById('totalTV').textContent = summary.tv_gesamt_bund.toLocaleString('de-DE');
+            
+            const ratios = dashboardData.bl_data.map(bl => bl.ratio);
+            const avgRatio = (ratios.reduce((a, b) => a + b, 0) / ratios.length).toFixed(2);
+            const maxRatio = Math.max(...ratios);
+            const maxBL = dashboardData.bl_data.find(bl => bl.ratio === maxRatio);
+            
+            document.getElementById('avgRatio').textContent = `${avgRatio}
+
+function getCategoryColor(category) {
+            const colors = {
+                'Tötungsdelikte': 'rgba(239, 68, 68, 0.8)',
+                'Raubdelikte': 'rgba(249, 115, 22, 0.8)',
+                'Sexualdelikte': 'rgba(139, 92, 246, 0.8)',
+                'Drogendelikte': 'rgba(59, 130, 246, 0.8)',
+                'Eigentumsdelikte': 'rgba(16, 185, 129, 0.8)',
+                'Gewalttaten (sonstige)': 'rgba(251, 191, 36, 0.8)',
+                'Berufsdelikte': 'rgba(5, 150, 105, 0.8)',
+                'Gefährdung/Dokumentenfälschung': 'rgba(147, 51, 234, 0.8)'
+            }
+
+function getBlByCurrentIndex(index, chartType) {
+            if (chartType === 'ratio' && ratioChartSorted > 0 && charts.ratioBar.data.labels[index]) {
+                return dashboardData.bl_data.find(bl => bl.name === charts.ratioBar.data.labels[index]);
+            }
+
+function getNatIndex(currentIndex) {
+            return currentIndex;
+        }
+
+function sortRatioChart() {
+            ratioChartSorted++;
+            const hint = document.getElementById('ratioSortHint');
+            const sorted = ratioChartSorted % 2 !== 0;
+            hint.textContent = sorted ? '⬇️ Absteigend (Groß → Klein)' : '↕️ Klicken zum Sortieren';
+            hint.classList.add('active');
+            
+            const sortedData = [...dashboardData.bl_data].sort((a, b) => sorted ? b.ratio - a.ratio : a.ratio - b.ratio);
+            charts.ratioBar.data.labels = sortedData.map(bl => bl.name);
+            charts.ratioBar.data.datasets[0].data = sortedData.map(bl => bl.ratio);
+            charts.ratioBar.update();
+        }
+
+function sortPopShareChart() {
+            popShareChartSorted = !popShareChartSorted;
+            const hint = document.getElementById('popShareSortHint');
+            hint.textContent = popShareChartSorted ? '⬇️ Absteigend (Hoch → Niedrig)' : '↕️ Klicken zum Sortieren';
+            hint.classList.add('active');
+            
+            const sortedData = [...dashboardData.bl_data].sort((a, b) => popShareChartSorted ? b.anteil_nichtdeutsch_in_bevoelkerung - a.anteil_nichtdeutsch_in_bevoelkerung : a.anteil_nichtdeutsch_in_bevoelkerung - b.anteil_nichtdeutsch_in_bevoelkerung);
+            charts.popShareBar.data.labels = sortedData.map(bl => bl.name);
+            charts.popShareBar.data.datasets[0].data = sortedData.map(bl => bl.anteil_nichtdeutsch_in_bevoelkerung);
+            charts.popShareBar.update();
+        }
+
+function sortNatChart() {
+            natChartSorted++;
+            const hint = document.getElementById('natSortHint');
+            const sorted = natChartSorted % 2 !== 0;
+            hint.textContent = sorted ? '⬇️ Nach Verhältnis absteigend' : '↕️ Klicken zum Sortieren';
+            hint.classList.add('active');
+            
+            const sortedNats = [...dashboardData.nationalitaeten].sort((a, b) => sorted ? b.verhaeltnis - a.verhaeltnis : a.verhaeltnis - b.verhaeltnis);
+            charts.natRatio.data.labels = sortedNats.map(n => n.name);
+            charts.natRatio.data.datasets[0].data = sortedNats.map(n => n.verhaeltnis);
+            charts.natRatio.update();
+        }
+
+function populateTable() {
+            const tbody = document.getElementById('tableBody');
+            const sortedData = [...dashboardData.bl_data].sort((a, b) => b.tv_gesamt - a.tv_gesamt);
+            
+            sortedData.forEach((bl, index) => {
+                const row = document.createElement('tr');
+                row.className = 'clickable-row';
+                row.onclick = () => openModal(bl);
+                
+                const dePct = ((bl.tv_deutsch / bl.tv_gesamt) * 100).toFixed(1);
+                const ndPct = ((bl.tv_nichtdeutsch / bl.tv_gesamt) * 100).toFixed(1);
+                const ratioBadgeClass = bl.ratio >= 1.8 ? 'badge-ratio-high' : bl.ratio >= 1.4 ? 'badge-ratio-medium' : 'badge-ratio-low';
+                const bevBadgeColor = bl.anteil_nichtdeutsch_in_bevoelkerung >= 18 ? '239,68,68' : bl.anteil_nichtdeutsch_in_bevoelkerung >= 12 ? '249,115,22' : bl.anteil_nichtdeutsch_in_bevoelkerung >= 8 ? '139,92,246' : '16,185,129';
+                
+                row.innerHTML = `
+                    <td>${index + 1}
+
+function openModal(bl) {
+            const modal = document.getElementById('detailModal');
+            document.getElementById('modalTitle').textContent = `📊 ${bl.name}
+
+</script>
 </body>
 </html>
