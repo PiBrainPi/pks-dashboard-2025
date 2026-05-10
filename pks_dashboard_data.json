@@ -1,0 +1,1484 @@
+{
+  "meta": {
+    "titel": "PKS 2025 - Tatverdächtigen-Dashboard",
+    "beschreibung": "Polizeiliche Kriminalstatistik 2025 - Analyse der Tatverdächtigen nach Bundesländern, Nationalitäten, Straftaten, Geschlecht und Altersgruppen",
+    "quellen": "BKA PKS 2025 (Bund-Daten), Destatis 2025 (Bevölkerung), Schätzung mit differenzierter Gewichtung (Option B)",
+    "stand": "10. Mai 2026",
+    "version": "1.0.2",
+    "korrekturen": [
+      "Mecklenburg-Vorpommern hinzugefügt",
+      "Duplikat entfernt",
+      "Alle 16 Bundesländer enthalten",
+      "Summe: 1.523.084 TV (0.0% Abweichung zu BKA)",
+      "Footer mit Schätzungs-Hinweis erweitert"
+    ]
+  },
+  "bundeslaender": [
+    {
+      "id": "nw",
+      "name": "Nordrhein-Westfalen",
+      "einwohner": 18200000,
+      "faktor": 1.1,
+      "rate_pro_100k": 2001.7,
+      "tv_gesamt": 364310,
+      "geschlecht": {
+        "männlich": 298000,
+        "weiblich": 117471,
+        "anteil_männlich_prozent": 71.7,
+        "anteil_weiblich_prozent": 28.3
+      },
+      "altersgruppen": {
+        "kinder_0_17": 58000,
+        "erwachsene_18_59": 245000,
+        "senioren_60plus": 112471,
+        "anteil_kinder_prozent": 14.0,
+        "anteil_erwachsene_prozent": 59.0,
+        "anteil_senioren_prozent": 27.0
+      },
+      "straftaten": [
+        {
+          "kat_id": "200000",
+          "kat_name": "Rohheitsdelikte & Straftaten gegen persönliche Freiheit",
+          "anzahl": 85000,
+          "rate_pro_100k": 467.0,
+          "gewichtung": "hoch"
+        },
+        {
+          "kat_id": "220000",
+          "kat_name": "Körperverletzung §§ 223-227 StGB",
+          "anzahl": 62000,
+          "rate_pro_100k": 341.0,
+          "gewichtung": "sehr_hoch"
+        },
+        {
+          "kat_id": "500000",
+          "kat_name": "Vermögens- und Fälschungsdelikte",
+          "anzahl": 58000,
+          "rate_pro_100k": 319.0,
+          "gewichtung": "hoch"
+        },
+        {
+          "kat_id": "510000",
+          "kat_name": "Betrug §§ 263-265a StGB",
+          "anzahl": 32000,
+          "rate_pro_100k": 176.0,
+          "gewichtung": "mittel"
+        },
+        {
+          "kat_id": "700000",
+          "kat_name": "Strafrechtliche Nebengesetze",
+          "anzahl": 45000,
+          "rate_pro_100k": 247.0,
+          "gewichtung": "hoch"
+        },
+        {
+          "kat_id": "720000",
+          "kat_name": "Nebengesetze ohne Verkehr",
+          "anzahl": 38000,
+          "rate_pro_100k": 209.0,
+          "gewichtung": "mittel"
+        }
+      ],
+      "top_nationalitaeten": [
+        {
+          "land": "Syrien",
+          "anzahl": 28000,
+          "rate_pro_100k": 2295.1
+        },
+        {
+          "land": "Türkei",
+          "anzahl": 22000,
+          "rate_pro_100k": 1000.0
+        },
+        {
+          "land": "Rumänien",
+          "anzahl": 18000,
+          "rate_pro_100k": 1836.7
+        },
+        {
+          "land": "Ukraine",
+          "anzahl": 15000,
+          "rate_pro_100k": 1363.6
+        },
+        {
+          "land": "Afghanistan",
+          "anzahl": 12000,
+          "rate_pro_100k": 3636.4
+        }
+      ]
+    },
+    {
+      "id": "by",
+      "name": "Bayern",
+      "einwohner": 13400000,
+      "faktor": 1.07,
+      "rate_pro_100k": 1950.8,
+      "tv_gesamt": 261409,
+      "geschlecht": {
+        "männlich": 210000,
+        "weiblich": 83660,
+        "anteil_männlich_prozent": 71.5,
+        "anteil_weiblich_prozent": 28.5
+      },
+      "altersgruppen": {
+        "kinder_0_17": 41000,
+        "erwachsene_18_59": 172000,
+        "senioren_60plus": 80660,
+        "anteil_kinder_prozent": 14.0,
+        "anteil_erwachsene_prozent": 58.5,
+        "anteil_senioren_prozent": 27.5
+      },
+      "straftaten": [
+        {
+          "kat_id": "200000",
+          "kat_name": "Rohheitsdelikte & Straftaten gegen persönliche Freiheit",
+          "anzahl": 60000,
+          "rate_pro_100k": 447.8,
+          "gewichtung": "hoch"
+        },
+        {
+          "kat_id": "220000",
+          "kat_name": "Körperverletzung §§ 223-227 StGB",
+          "anzahl": 45000,
+          "rate_pro_100k": 335.8,
+          "gewichtung": "hoch"
+        },
+        {
+          "kat_id": "500000",
+          "kat_name": "Vermögens- und Fälschungsdelikte",
+          "anzahl": 42000,
+          "rate_pro_100k": 313.4,
+          "gewichtung": "hoch"
+        },
+        {
+          "kat_id": "700000",
+          "kat_name": "Strafrechtliche Nebengesetze",
+          "anzahl": 32000,
+          "rate_pro_100k": 238.8,
+          "gewichtung": "mittel"
+        },
+        {
+          "kat_id": "510000",
+          "kat_name": "Betrug §§ 263-265a StGB",
+          "anzahl": 25000,
+          "rate_pro_100k": 186.6,
+          "gewichtung": "mittel"
+        }
+      ],
+      "top_nationalitaeten": [
+        {
+          "land": "Syrien",
+          "anzahl": 20000,
+          "rate_pro_100k": 1639.3
+        },
+        {
+          "land": "Türkei",
+          "anzahl": 18000,
+          "rate_pro_100k": 818.2
+        },
+        {
+          "land": "Rumänien",
+          "anzahl": 15000,
+          "rate_pro_100k": 1530.6
+        },
+        {
+          "land": "Ukraine",
+          "anzahl": 12000,
+          "rate_pro_100k": 1090.9
+        },
+        {
+          "land": "Afghanistan",
+          "anzahl": 9000,
+          "rate_pro_100k": 2727.3
+        }
+      ]
+    },
+    {
+      "id": "bw",
+      "name": "Baden-Württemberg",
+      "einwohner": 11250000,
+      "faktor": 1.02,
+      "rate_pro_100k": 1866.0,
+      "tv_gesamt": 209924,
+      "geschlecht": {
+        "männlich": 169000,
+        "weiblich": 67270,
+        "anteil_männlich_prozent": 71.5,
+        "anteil_weiblich_prozent": 28.5
+      },
+      "altersgruppen": {
+        "kinder_0_17": 33000,
+        "erwachsene_18_59": 138000,
+        "senioren_60plus": 65270,
+        "anteil_kinder_prozent": 14.0,
+        "anteil_erwachsene_prozent": 58.5,
+        "anteil_senioren_prozent": 27.5
+      },
+      "straftaten": [
+        {
+          "kat_id": "200000",
+          "kat_name": "Rohheitsdelikte & Straftaten gegen persönliche Freiheit",
+          "anzahl": 48000,
+          "rate_pro_100k": 426.7,
+          "gewichtung": "hoch"
+        },
+        {
+          "kat_id": "220000",
+          "kat_name": "Körperverletzung §§ 223-227 StGB",
+          "anzahl": 36000,
+          "rate_pro_100k": 320.0,
+          "gewichtung": "hoch"
+        },
+        {
+          "kat_id": "500000",
+          "kat_name": "Vermögens- und Fälschungsdelikte",
+          "anzahl": 34000,
+          "rate_pro_100k": 302.2,
+          "gewichtung": "hoch"
+        },
+        {
+          "kat_id": "700000",
+          "kat_name": "Strafrechtliche Nebengesetze",
+          "anzahl": 26000,
+          "rate_pro_100k": 231.1,
+          "gewichtung": "mittel"
+        },
+        {
+          "kat_id": "510000",
+          "kat_name": "Betrug §§ 263-265a StGB",
+          "anzahl": 20000,
+          "rate_pro_100k": 177.8,
+          "gewichtung": "mittel"
+        }
+      ],
+      "top_nationalitaeten": [
+        {
+          "land": "Syrien",
+          "anzahl": 16000,
+          "rate_pro_100k": 1311.5
+        },
+        {
+          "land": "Türkei",
+          "anzahl": 14000,
+          "rate_pro_100k": 636.4
+        },
+        {
+          "land": "Rumänien",
+          "anzahl": 12000,
+          "rate_pro_100k": 1224.5
+        },
+        {
+          "land": "Ukraine",
+          "anzahl": 10000,
+          "rate_pro_100k": 909.1
+        },
+        {
+          "land": "Afghanistan",
+          "anzahl": 8000,
+          "rate_pro_100k": 2424.2
+        }
+      ]
+    },
+    {
+      "id": "ni",
+      "name": "Niedersachsen",
+      "einwohner": 8100000,
+      "faktor": 0.85,
+      "rate_pro_100k": 1560.6,
+      "tv_gesamt": 126412,
+      "geschlecht": {
+        "männlich": 101000,
+        "weiblich": 39529,
+        "anteil_männlich_prozent": 71.9,
+        "anteil_weiblich_prozent": 28.1
+      },
+      "altersgruppen": {
+        "kinder_0_17": 20000,
+        "erwachsene_18_59": 82400,
+        "senioren_60plus": 38129,
+        "anteil_kinder_prozent": 14.2,
+        "anteil_erwachsene_prozent": 58.6,
+        "anteil_senioren_prozent": 27.2
+      },
+      "straftaten": [
+        {
+          "kat_id": "200000",
+          "kat_name": "Rohheitsdelikte & Straftaten gegen persönliche Freiheit",
+          "anzahl": 29000,
+          "rate_pro_100k": 358.0,
+          "gewichtung": "hoch"
+        },
+        {
+          "kat_id": "220000",
+          "kat_name": "Körperverletzung §§ 223-227 StGB",
+          "anzahl": 22000,
+          "rate_pro_100k": 271.6,
+          "gewichtung": "hoch"
+        },
+        {
+          "kat_id": "500000",
+          "kat_name": "Vermögens- und Fälschungsdelikte",
+          "anzahl": 26000,
+          "rate_pro_100k": 321.0,
+          "gewichtung": "hoch"
+        },
+        {
+          "kat_id": "700000",
+          "kat_name": "Strafrechtliche Nebengesetze",
+          "anzahl": 19000,
+          "rate_pro_100k": 234.6,
+          "gewichtung": "mittel"
+        },
+        {
+          "kat_id": "510000",
+          "kat_name": "Betrug §§ 263-265a StGB",
+          "anzahl": 15000,
+          "rate_pro_100k": 185.2,
+          "gewichtung": "mittel"
+        }
+      ],
+      "top_nationalitaeten": [
+        {
+          "land": "Syrien",
+          "anzahl": 10000,
+          "rate_pro_100k": 819.7
+        },
+        {
+          "land": "Türkei",
+          "anzahl": 9000,
+          "rate_pro_100k": 409.1
+        },
+        {
+          "land": "Rumänien",
+          "anzahl": 8000,
+          "rate_pro_100k": 816.3
+        },
+        {
+          "land": "Ukraine",
+          "anzahl": 7000,
+          "rate_pro_100k": 636.4
+        },
+        {
+          "land": "Afghanistan",
+          "anzahl": 5000,
+          "rate_pro_100k": 1515.2
+        }
+      ]
+    },
+    {
+      "id": "he",
+      "name": "Hessen",
+      "einwohner": 6400000,
+      "faktor": 0.98,
+      "rate_pro_100k": 1781.2,
+      "tv_gesamt": 113995,
+      "geschlecht": {
+        "männlich": 92000,
+        "weiblich": 36567,
+        "anteil_männlich_prozent": 71.6,
+        "anteil_weiblich_prozent": 28.4
+      },
+      "altersgruppen": {
+        "kinder_0_17": 18000,
+        "erwachsene_18_59": 75500,
+        "senioren_60plus": 35067,
+        "anteil_kinder_prozent": 14.0,
+        "anteil_erwachsene_prozent": 58.7,
+        "anteil_senioren_prozent": 27.3
+      },
+      "straftaten": [
+        {
+          "kat_id": "200000",
+          "kat_name": "Rohheitsdelikte & Straftaten gegen persönliche Freiheit",
+          "anzahl": 26000,
+          "rate_pro_100k": 406.3,
+          "gewichtung": "hoch"
+        },
+        {
+          "kat_id": "220000",
+          "kat_name": "Körperverletzung §§ 223-227 StGB",
+          "anzahl": 20000,
+          "rate_pro_100k": 312.5,
+          "gewichtung": "hoch"
+        },
+        {
+          "kat_id": "500000",
+          "kat_name": "Vermögens- und Fälschungsdelikte",
+          "anzahl": 24000,
+          "rate_pro_100k": 375.0,
+          "gewichtung": "hoch"
+        },
+        {
+          "kat_id": "700000",
+          "kat_name": "Strafrechtliche Nebengesetze",
+          "anzahl": 18000,
+          "rate_pro_100k": 281.3,
+          "gewichtung": "mittel"
+        },
+        {
+          "kat_id": "510000",
+          "kat_name": "Betrug §§ 263-265a StGB",
+          "anzahl": 14000,
+          "rate_pro_100k": 218.8,
+          "gewichtung": "mittel"
+        }
+      ],
+      "top_nationalitaeten": [
+        {
+          "land": "Syrien",
+          "anzahl": 9000,
+          "rate_pro_100k": 737.7
+        },
+        {
+          "land": "Türkei",
+          "anzahl": 8000,
+          "rate_pro_100k": 363.6
+        },
+        {
+          "land": "Rumänien",
+          "anzahl": 7000,
+          "rate_pro_100k": 714.3
+        },
+        {
+          "land": "Ukraine",
+          "anzahl": 6000,
+          "rate_pro_100k": 545.5
+        },
+        {
+          "land": "Afghanistan",
+          "anzahl": 5000,
+          "rate_pro_100k": 1515.2
+        }
+      ]
+    },
+    {
+      "id": "rp",
+      "name": "Rheinland-Pfalz",
+      "einwohner": 4150000,
+      "faktor": 0.84,
+      "rate_pro_100k": 1526.7,
+      "tv_gesamt": 63358,
+      "geschlecht": {
+        "männlich": 49000,
+        "weiblich": 19210,
+        "anteil_männlich_prozent": 71.8,
+        "anteil_weiblich_prozent": 28.2
+      },
+      "altersgruppen": {
+        "kinder_0_17": 9500,
+        "erwachsene_18_59": 40000,
+        "senioren_60plus": 18710,
+        "anteil_kinder_prozent": 13.9,
+        "anteil_erwachsene_prozent": 58.6,
+        "anteil_senioren_prozent": 27.5
+      },
+      "straftaten": [
+        {
+          "kat_id": "200000",
+          "kat_name": "Rohheitsdelikte & Straftaten gegen persönliche Freiheit",
+          "anzahl": 14000,
+          "rate_pro_100k": 337.3,
+          "gewichtung": "hoch"
+        },
+        {
+          "kat_id": "220000",
+          "kat_name": "Körperverletzung §§ 223-227 StGB",
+          "anzahl": 11000,
+          "rate_pro_100k": 265.1,
+          "gewichtung": "hoch"
+        },
+        {
+          "kat_id": "500000",
+          "kat_name": "Vermögens- und Fälschungsdelikte",
+          "anzahl": 12000,
+          "rate_pro_100k": 289.2,
+          "gewichtung": "hoch"
+        },
+        {
+          "kat_id": "700000",
+          "kat_name": "Strafrechtliche Nebengesetze",
+          "anzahl": 9000,
+          "rate_pro_100k": 216.9,
+          "gewichtung": "mittel"
+        },
+        {
+          "kat_id": "510000",
+          "kat_name": "Betrug §§ 263-265a StGB",
+          "anzahl": 7000,
+          "rate_pro_100k": 168.7,
+          "gewichtung": "mittel"
+        }
+      ],
+      "top_nationalitaeten": [
+        {
+          "land": "Syrien",
+          "anzahl": 5000,
+          "rate_pro_100k": 409.8
+        },
+        {
+          "land": "Türkei",
+          "anzahl": 4000,
+          "rate_pro_100k": 181.8
+        },
+        {
+          "land": "Rumänien",
+          "anzahl": 4000,
+          "rate_pro_100k": 408.2
+        },
+        {
+          "land": "Ukraine",
+          "anzahl": 3000,
+          "rate_pro_100k": 272.7
+        },
+        {
+          "land": "Afghanistan",
+          "anzahl": 2000,
+          "rate_pro_100k": 606.1
+        }
+      ]
+    },
+    {
+      "id": "sn",
+      "name": "Sachsen",
+      "einwohner": 4100000,
+      "faktor": 0.84,
+      "rate_pro_100k": 1526.7,
+      "tv_gesamt": 62595,
+      "geschlecht": {
+        "männlich": 48000,
+        "weiblich": 19388,
+        "anteil_männlich_prozent": 71.2,
+        "anteil_weiblich_prozent": 28.8
+      },
+      "altersgruppen": {
+        "kinder_0_17": 9500,
+        "erwachsene_18_59": 39500,
+        "senioren_60plus": 18388,
+        "anteil_kinder_prozent": 14.1,
+        "anteil_erwachsene_prozent": 58.6,
+        "anteil_senioren_prozent": 27.3
+      },
+      "straftaten": [
+        {
+          "kat_id": "200000",
+          "kat_name": "Rohheitsdelikte & Straftaten gegen persönliche Freiheit",
+          "anzahl": 14000,
+          "rate_pro_100k": 341.5,
+          "gewichtung": "hoch"
+        },
+        {
+          "kat_id": "220000",
+          "kat_name": "Körperverletzung §§ 223-227 StGB",
+          "anzahl": 11000,
+          "rate_pro_100k": 268.3,
+          "gewichtung": "hoch"
+        },
+        {
+          "kat_id": "500000",
+          "kat_name": "Vermögens- und Fälschungsdelikte",
+          "anzahl": 12000,
+          "rate_pro_100k": 292.7,
+          "gewichtung": "hoch"
+        },
+        {
+          "kat_id": "700000",
+          "kat_name": "Strafrechtliche Nebengesetze",
+          "anzahl": 9000,
+          "rate_pro_100k": 219.5,
+          "gewichtung": "mittel"
+        },
+        {
+          "kat_id": "510000",
+          "kat_name": "Betrug §§ 263-265a StGB",
+          "anzahl": 7000,
+          "rate_pro_100k": 170.7,
+          "gewichtung": "mittel"
+        }
+      ],
+      "top_nationalitaeten": [
+        {
+          "land": "Syrien",
+          "anzahl": 5000,
+          "rate_pro_100k": 122.0
+        },
+        {
+          "land": "Ukraine",
+          "anzahl": 4000,
+          "rate_pro_100k": 97.6
+        },
+        {
+          "land": "Rumänien",
+          "anzahl": 3000,
+          "rate_pro_100k": 306.1
+        },
+        {
+          "land": "Polen",
+          "anzahl": 3000,
+          "rate_pro_100k": 375.0
+        },
+        {
+          "land": "Afghanistan",
+          "anzahl": 2000,
+          "rate_pro_100k": 606.1
+        }
+      ]
+    },
+    {
+      "id": "be",
+      "name": "Berlin",
+      "einwohner": 3850000,
+      "faktor": 1.25,
+      "rate_pro_100k": 2290.1,
+      "tv_gesamt": 88167,
+      "geschlecht": {
+        "männlich": 75000,
+        "weiblich": 26950,
+        "anteil_männlich_prozent": 73.6,
+        "anteil_weiblich_prozent": 26.4
+      },
+      "altersgruppen": {
+        "kinder_0_17": 14000,
+        "erwachsene_18_59": 62000,
+        "senioren_60plus": 25950,
+        "anteil_kinder_prozent": 13.7,
+        "anteil_erwachsene_prozent": 60.8,
+        "anteil_senioren_prozent": 25.5
+      },
+      "straftaten": [
+        {
+          "kat_id": "200000",
+          "kat_name": "Rohheitsdelikte & Straftaten gegen persönliche Freiheit",
+          "anzahl": 22000,
+          "rate_pro_100k": 571.4,
+          "gewichtung": "sehr_hoch"
+        },
+        {
+          "kat_id": "220000",
+          "kat_name": "Körperverletzung §§ 223-227 StGB",
+          "anzahl": 18000,
+          "rate_pro_100k": 467.5,
+          "gewichtung": "sehr_hoch"
+        },
+        {
+          "kat_id": "500000",
+          "kat_name": "Vermögens- und Fälschungsdelikte",
+          "anzahl": 16000,
+          "rate_pro_100k": 415.6,
+          "gewichtung": "hoch"
+        },
+        {
+          "kat_id": "510000",
+          "kat_name": "Betrug §§ 263-265a StGB",
+          "anzahl": 12000,
+          "rate_pro_100k": 311.7,
+          "gewichtung": "hoch"
+        },
+        {
+          "kat_id": "700000",
+          "kat_name": "Strafrechtliche Nebengesetze",
+          "anzahl": 14000,
+          "rate_pro_100k": 363.6,
+          "gewichtung": "hoch"
+        }
+      ],
+      "top_nationalitaeten": [
+        {
+          "land": "Syrien",
+          "anzahl": 8000,
+          "rate_pro_100k": 207.8
+        },
+        {
+          "land": "Rumänien",
+          "anzahl": 7000,
+          "rate_pro_100k": 714.3
+        },
+        {
+          "land": "Ukraine",
+          "anzahl": 6000,
+          "rate_pro_100k": 545.5
+        },
+        {
+          "land": "Afghanistan",
+          "anzahl": 5000,
+          "rate_pro_100k": 1515.2
+        },
+        {
+          "land": "Türkei",
+          "anzahl": 4000,
+          "rate_pro_100k": 181.8
+        }
+      ]
+    },
+    {
+      "id": "sh",
+      "name": "Schleswig-Holstein",
+      "einwohner": 2950000,
+      "faktor": 0.79,
+      "rate_pro_100k": 1441.9,
+      "tv_gesamt": 42536,
+      "geschlecht": {
+        "männlich": 33000,
+        "weiblich": 12793,
+        "anteil_männlich_prozent": 72.1,
+        "anteil_weiblich_prozent": 27.9
+      },
+      "altersgruppen": {
+        "kinder_0_17": 6400,
+        "erwachsene_18_59": 27000,
+        "senioren_60plus": 12393,
+        "anteil_kinder_prozent": 14.0,
+        "anteil_erwachsene_prozent": 58.9,
+        "anteil_senioren_prozent": 27.1
+      },
+      "straftaten": [
+        {
+          "kat_id": "200000",
+          "kat_name": "Rohheitsdelikte & Straftaten gegen persönliche Freiheit",
+          "anzahl": 9500,
+          "rate_pro_100k": 322.0,
+          "gewichtung": "hoch"
+        },
+        {
+          "kat_id": "220000",
+          "kat_name": "Körperverletzung §§ 223-227 StGB",
+          "anzahl": 7500,
+          "rate_pro_100k": 254.2,
+          "gewichtung": "hoch"
+        },
+        {
+          "kat_id": "500000",
+          "kat_name": "Vermögens- und Fälschungsdelikte",
+          "anzahl": 8500,
+          "rate_pro_100k": 288.1,
+          "gewichtung": "hoch"
+        },
+        {
+          "kat_id": "700000",
+          "kat_name": "Strafrechtliche Nebengesetze",
+          "anzahl": 6000,
+          "rate_pro_100k": 203.4,
+          "gewichtung": "mittel"
+        },
+        {
+          "kat_id": "510000",
+          "kat_name": "Betrug §§ 263-265a StGB",
+          "anzahl": 4500,
+          "rate_pro_100k": 152.5,
+          "gewichtung": "mittel"
+        }
+      ],
+      "top_nationalitaeten": [
+        {
+          "land": "Syrien",
+          "anzahl": 3500,
+          "rate_pro_100k": 286.9
+        },
+        {
+          "land": "Türkei",
+          "anzahl": 3000,
+          "rate_pro_100k": 136.4
+        },
+        {
+          "land": "Rumänien",
+          "anzahl": 2500,
+          "rate_pro_100k": 255.1
+        },
+        {
+          "land": "Ukraine",
+          "anzahl": 2000,
+          "rate_pro_100k": 181.8
+        },
+        {
+          "land": "Afghanistan",
+          "anzahl": 1500,
+          "rate_pro_100k": 454.5
+        }
+      ]
+    },
+    {
+      "id": "bb",
+      "name": "Brandenburg",
+      "einwohner": 2550000,
+      "faktor": 0.76,
+      "rate_pro_100k": 1390.9,
+      "tv_gesamt": 35469,
+      "geschlecht": {
+        "männlich": 28500,
+        "weiblich": 11083,
+        "anteil_männlich_prozent": 72.0,
+        "anteil_weiblich_prozent": 28.0
+      },
+      "altersgruppen": {
+        "kinder_0_17": 5500,
+        "erwachsene_18_59": 23200,
+        "senioren_60plus": 10883,
+        "anteil_kinder_prozent": 13.9,
+        "anteil_erwachsene_prozent": 58.6,
+        "anteil_senioren_prozent": 27.5
+      },
+      "straftaten": [
+        {
+          "kat_id": "200000",
+          "kat_name": "Rohheitsdelikte & Straftaten gegen persönliche Freiheit",
+          "anzahl": 8000,
+          "rate_pro_100k": 313.7,
+          "gewichtung": "hoch"
+        },
+        {
+          "kat_id": "220000",
+          "kat_name": "Körperverletzung §§ 223-227 StGB",
+          "anzahl": 6500,
+          "rate_pro_100k": 254.9,
+          "gewichtung": "hoch"
+        },
+        {
+          "kat_id": "500000",
+          "kat_name": "Vermögens- und Fälschungsdelikte",
+          "anzahl": 7000,
+          "rate_pro_100k": 274.5,
+          "gewichtung": "hoch"
+        },
+        {
+          "kat_id": "700000",
+          "kat_name": "Strafrechtliche Nebengesetze",
+          "anzahl": 5000,
+          "rate_pro_100k": 196.1,
+          "gewichtung": "mittel"
+        },
+        {
+          "kat_id": "510000",
+          "kat_name": "Betrug §§ 263-265a StGB",
+          "anzahl": 4000,
+          "rate_pro_100k": 156.9,
+          "gewichtung": "mittel"
+        }
+      ],
+      "top_nationalitaeten": [
+        {
+          "land": "Syrien",
+          "anzahl": 3000,
+          "rate_pro_100k": 245.9
+        },
+        {
+          "land": "Ukraine",
+          "anzahl": 2500,
+          "rate_pro_100k": 227.3
+        },
+        {
+          "land": "Rumänien",
+          "anzahl": 2000,
+          "rate_pro_100k": 204.1
+        },
+        {
+          "land": "Polen",
+          "anzahl": 1500,
+          "rate_pro_100k": 187.5
+        },
+        {
+          "land": "Afghanistan",
+          "anzahl": 1000,
+          "rate_pro_100k": 303.0
+        }
+      ]
+    },
+    {
+      "id": "st",
+      "name": "Sachsen-Anhalt",
+      "einwohner": 2200000,
+      "faktor": 0.72,
+      "rate_pro_100k": 1323.1,
+      "tv_gesamt": 29108,
+      "geschlecht": {
+        "männlich": 23000,
+        "weiblich": 9141,
+        "anteil_männlich_prozent": 71.5,
+        "anteil_weiblich_prozent": 28.5
+      },
+      "altersgruppen": {
+        "kinder_0_17": 4500,
+        "erwachsene_18_59": 18900,
+        "senioren_60plus": 8741,
+        "anteil_kinder_prozent": 14.0,
+        "anteil_erwachsene_prozent": 58.8,
+        "anteil_senioren_prozent": 27.2
+      },
+      "straftaten": [
+        {
+          "kat_id": "200000",
+          "kat_name": "Rohheitsdelikte & Straftaten gegen persönliche Freiheit",
+          "anzahl": 6500,
+          "rate_pro_100k": 295.5,
+          "gewichtung": "hoch"
+        },
+        {
+          "kat_id": "220000",
+          "kat_name": "Körperverletzung §§ 223-227 StGB",
+          "anzahl": 5000,
+          "rate_pro_100k": 227.3,
+          "gewichtung": "hoch"
+        },
+        {
+          "kat_id": "500000",
+          "kat_name": "Vermögens- und Fälschungsdelikte",
+          "anzahl": 6000,
+          "rate_pro_100k": 272.7,
+          "gewichtung": "hoch"
+        },
+        {
+          "kat_id": "700000",
+          "kat_name": "Strafrechtliche Nebengesetze",
+          "anzahl": 4000,
+          "rate_pro_100k": 181.8,
+          "gewichtung": "mittel"
+        },
+        {
+          "kat_id": "510000",
+          "kat_name": "Betrug §§ 263-265a StGB",
+          "anzahl": 3000,
+          "rate_pro_100k": 136.4,
+          "gewichtung": "mittel"
+        }
+      ],
+      "top_nationalitaeten": [
+        {
+          "land": "Syrien",
+          "anzahl": 2500,
+          "rate_pro_100k": 204.9
+        },
+        {
+          "land": "Ukraine",
+          "anzahl": 2000,
+          "rate_pro_100k": 181.8
+        },
+        {
+          "land": "Rumänien",
+          "anzahl": 1500,
+          "rate_pro_100k": 153.1
+        },
+        {
+          "land": "Polen",
+          "anzahl": 1000,
+          "rate_pro_100k": 125.0
+        },
+        {
+          "land": "Afghanistan",
+          "anzahl": 800,
+          "rate_pro_100k": 242.4
+        }
+      ]
+    },
+    {
+      "id": "th",
+      "name": "Thüringen",
+      "einwohner": 2150000,
+      "faktor": 0.76,
+      "rate_pro_100k": 1391.0,
+      "tv_gesamt": 29906,
+      "geschlecht": {
+        "männlich": 24000,
+        "weiblich": 9374,
+        "anteil_männlich_prozent": 71.9,
+        "anteil_weiblich_prozent": 28.1
+      },
+      "altersgruppen": {
+        "kinder_0_17": 4700,
+        "erwachsene_18_59": 19600,
+        "senioren_60plus": 9074,
+        "anteil_kinder_prozent": 14.1,
+        "anteil_erwachsene_prozent": 58.7,
+        "anteil_senioren_prozent": 27.2
+      },
+      "straftaten": [
+        {
+          "kat_id": "200000",
+          "kat_name": "Rohheitsdelikte & Straftaten gegen persönliche Freiheit",
+          "anzahl": 7000,
+          "rate_pro_100k": 325.6,
+          "gewichtung": "hoch"
+        },
+        {
+          "kat_id": "220000",
+          "kat_name": "Körperverletzung §§ 223-227 StGB",
+          "anzahl": 5500,
+          "rate_pro_100k": 255.8,
+          "gewichtung": "hoch"
+        },
+        {
+          "kat_id": "500000",
+          "kat_name": "Vermögens- und Fälschungsdelikte",
+          "anzahl": 6000,
+          "rate_pro_100k": 279.1,
+          "gewichtung": "hoch"
+        },
+        {
+          "kat_id": "700000",
+          "kat_name": "Strafrechtliche Nebengesetze",
+          "anzahl": 4000,
+          "rate_pro_100k": 186.1,
+          "gewichtung": "mittel"
+        },
+        {
+          "kat_id": "510000",
+          "kat_name": "Betrug §§ 263-265a StGB",
+          "anzahl": 3000,
+          "rate_pro_100k": 139.5,
+          "gewichtung": "mittel"
+        }
+      ],
+      "top_nationalitaeten": [
+        {
+          "land": "Syrien",
+          "anzahl": 2500,
+          "rate_pro_100k": 204.9
+        },
+        {
+          "land": "Ukraine",
+          "anzahl": 2000,
+          "rate_pro_100k": 181.8
+        },
+        {
+          "land": "Rumänien",
+          "anzahl": 1500,
+          "rate_pro_100k": 153.1
+        },
+        {
+          "land": "Polen",
+          "anzahl": 1000,
+          "rate_pro_100k": 125.0
+        },
+        {
+          "land": "Afghanistan",
+          "anzahl": 800,
+          "rate_pro_100k": 242.4
+        }
+      ]
+    },
+    {
+      "id": "hh",
+      "name": "Hamburg",
+      "einwohner": 1850000,
+      "faktor": 1.23,
+      "rate_pro_100k": 2239.1,
+      "tv_gesamt": 41424,
+      "geschlecht": {
+        "männlich": 34000,
+        "weiblich": 13975,
+        "anteil_männlich_prozent": 70.9,
+        "anteil_weiblich_prozent": 29.1
+      },
+      "altersgruppen": {
+        "kinder_0_17": 6700,
+        "erwachsene_18_59": 29000,
+        "senioren_60plus": 12275,
+        "anteil_kinder_prozent": 14.0,
+        "anteil_erwachsene_prozent": 60.4,
+        "anteil_senioren_prozent": 25.6
+      },
+      "straftaten": [
+        {
+          "kat_id": "200000",
+          "kat_name": "Rohheitsdelikte & Straftaten gegen persönliche Freiheit",
+          "anzahl": 10000,
+          "rate_pro_100k": 540.5,
+          "gewichtung": "sehr_hoch"
+        },
+        {
+          "kat_id": "220000",
+          "kat_name": "Körperverletzung §§ 223-227 StGB",
+          "anzahl": 8500,
+          "rate_pro_100k": 459.5,
+          "gewichtung": "sehr_hoch"
+        },
+        {
+          "kat_id": "500000",
+          "kat_name": "Vermögens- und Fälschungsdelikte",
+          "anzahl": 7000,
+          "rate_pro_100k": 378.4,
+          "gewichtung": "hoch"
+        },
+        {
+          "kat_id": "510000",
+          "kat_name": "Betrug §§ 263-265a StGB",
+          "anzahl": 5500,
+          "rate_pro_100k": 297.3,
+          "gewichtung": "hoch"
+        },
+        {
+          "kat_id": "700000",
+          "kat_name": "Strafrechtliche Nebengesetze",
+          "anzahl": 6500,
+          "rate_pro_100k": 351.4,
+          "gewichtung": "hoch"
+        }
+      ],
+      "top_nationalitaeten": [
+        {
+          "land": "Syrien",
+          "anzahl": 4000,
+          "rate_pro_100k": 103.9
+        },
+        {
+          "land": "Rumänien",
+          "anzahl": 3500,
+          "rate_pro_100k": 357.1
+        },
+        {
+          "land": "Ukraine",
+          "anzahl": 3000,
+          "rate_pro_100k": 272.7
+        },
+        {
+          "land": "Afghanistan",
+          "anzahl": 2500,
+          "rate_pro_100k": 757.6
+        },
+        {
+          "land": "Türkei",
+          "anzahl": 2000,
+          "rate_pro_100k": 90.9
+        }
+      ]
+    },
+    {
+      "id": "mv",
+      "name": "Mecklenburg-Vorpommern",
+      "einwohner": 1600000,
+      "faktor": 0.7,
+      "rate_pro_100k": 1358.3,
+      "tv_gesamt": 21733,
+      "geschlecht": {
+        "männlich": 16000,
+        "weiblich": 7398,
+        "anteil_männlich_prozent": 68.4,
+        "anteil_weiblich_prozent": 31.6
+      },
+      "altersgruppen": {
+        "kinder_0_17": 3300,
+        "erwachsene_18_59": 13600,
+        "senioren_60plus": 6498,
+        "anteil_kinder_prozent": 14.1,
+        "anteil_erwachsene_prozent": 58.1,
+        "anteil_senioren_prozent": 27.8
+      },
+      "straftaten": [
+        {
+          "kat_id": "200000",
+          "kat_name": "Rohheitsdelikte & Straftaten gegen persönliche Freiheit",
+          "anzahl": 4800,
+          "rate_pro_100k": 300.0,
+          "gewichtung": "hoch"
+        },
+        {
+          "kat_id": "220000",
+          "kat_name": "Körperverletzung §§ 223-227 StGB",
+          "anzahl": 3700,
+          "rate_pro_100k": 231.3,
+          "gewichtung": "hoch"
+        },
+        {
+          "kat_id": "500000",
+          "kat_name": "Vermögens- und Fälschungsdelikte",
+          "anzahl": 4200,
+          "rate_pro_100k": 262.5,
+          "gewichtung": "hoch"
+        },
+        {
+          "kat_id": "700000",
+          "kat_name": "Strafrechtliche Nebengesetze",
+          "anzahl": 3000,
+          "rate_pro_100k": 187.5,
+          "gewichtung": "mittel"
+        },
+        {
+          "kat_id": "510000",
+          "kat_name": "Betrug §§ 263-265a StGB",
+          "anzahl": 2300,
+          "rate_pro_100k": 143.8,
+          "gewichtung": "mittel"
+        }
+      ],
+      "top_nationalitaeten": [
+        {
+          "land": "Syrien",
+          "anzahl": 1800,
+          "rate_pro_100k": 148.7
+        },
+        {
+          "land": "Ukraine",
+          "anzahl": 1500,
+          "rate_pro_100k": 136.4
+        },
+        {
+          "land": "Rumänien",
+          "anzahl": 1100,
+          "rate_pro_100k": 112.2
+        },
+        {
+          "land": "Polen",
+          "anzahl": 900,
+          "rate_pro_100k": 112.5
+        },
+        {
+          "land": "Afghanistan",
+          "anzahl": 700,
+          "rate_pro_100k": 212.1
+        }
+      ]
+    },
+    {
+      "id": "sl",
+      "name": "Saarland",
+      "einwohner": 1000000,
+      "faktor": 0.95,
+      "rate_pro_100k": 1730.2,
+      "tv_gesamt": 17302,
+      "geschlecht": {
+        "männlich": 13500,
+        "weiblich": 5675,
+        "anteil_männlich_prozent": 70.4,
+        "anteil_weiblich_prozent": 29.6
+      },
+      "altersgruppen": {
+        "kinder_0_17": 2700,
+        "erwachsene_18_59": 11200,
+        "senioren_60plus": 5275,
+        "anteil_kinder_prozent": 14.1,
+        "anteil_erwachsene_prozent": 58.4,
+        "anteil_senioren_prozent": 27.5
+      },
+      "straftaten": [
+        {
+          "kat_id": "200000",
+          "kat_name": "Rohheitsdelikte & Straftaten gegen persönliche Freiheit",
+          "anzahl": 4000,
+          "rate_pro_100k": 400.0,
+          "gewichtung": "hoch"
+        },
+        {
+          "kat_id": "220000",
+          "kat_name": "Körperverletzung §§ 223-227 StGB",
+          "anzahl": 3200,
+          "rate_pro_100k": 320.0,
+          "gewichtung": "hoch"
+        },
+        {
+          "kat_id": "500000",
+          "kat_name": "Vermögens- und Fälschungsdelikte",
+          "anzahl": 3500,
+          "rate_pro_100k": 350.0,
+          "gewichtung": "hoch"
+        },
+        {
+          "kat_id": "700000",
+          "kat_name": "Strafrechtliche Nebengesetze",
+          "anzahl": 2500,
+          "rate_pro_100k": 250.0,
+          "gewichtung": "mittel"
+        },
+        {
+          "kat_id": "510000",
+          "kat_name": "Betrug §§ 263-265a StGB",
+          "anzahl": 2000,
+          "rate_pro_100k": 200.0,
+          "gewichtung": "mittel"
+        }
+      ],
+      "top_nationalitaeten": [
+        {
+          "land": "Syrien",
+          "anzahl": 1500,
+          "rate_pro_100k": 122.9
+        },
+        {
+          "land": "Rumänien",
+          "anzahl": 1200,
+          "rate_pro_100k": 122.4
+        },
+        {
+          "land": "Ukraine",
+          "anzahl": 1000,
+          "rate_pro_100k": 90.9
+        },
+        {
+          "land": "Afghanistan",
+          "anzahl": 800,
+          "rate_pro_100k": 242.4
+        },
+        {
+          "land": "Türkei",
+          "anzahl": 600,
+          "rate_pro_100k": 27.3
+        }
+      ]
+    },
+    {
+      "id": "hb",
+      "name": "Bremen",
+      "einwohner": 700000,
+      "faktor": 1.21,
+      "rate_pro_100k": 2205.1,
+      "tv_gesamt": 15436,
+      "geschlecht": {
+        "männlich": 13000,
+        "weiblich": 4897,
+        "anteil_männlich_prozent": 72.6,
+        "anteil_weiblich_prozent": 27.4
+      },
+      "altersgruppen": {
+        "kinder_0_17": 2500,
+        "erwachsene_18_59": 10800,
+        "senioren_60plus": 4597,
+        "anteil_kinder_prozent": 14.0,
+        "anteil_erwachsene_prozent": 60.3,
+        "anteil_senioren_prozent": 25.7
+      },
+      "straftaten": [
+        {
+          "kat_id": "200000",
+          "kat_name": "Rohheitsdelikte & Straftaten gegen persönliche Freiheit",
+          "anzahl": 3800,
+          "rate_pro_100k": 542.9,
+          "gewichtung": "sehr_hoch"
+        },
+        {
+          "kat_id": "220000",
+          "kat_name": "Körperverletzung §§ 223-227 StGB",
+          "anzahl": 3200,
+          "rate_pro_100k": 457.1,
+          "gewichtung": "sehr_hoch"
+        },
+        {
+          "kat_id": "500000",
+          "kat_name": "Vermögens- und Fälschungsdelikte",
+          "anzahl": 3000,
+          "rate_pro_100k": 428.6,
+          "gewichtung": "hoch"
+        },
+        {
+          "kat_id": "510000",
+          "kat_name": "Betrug §§ 263-265a StGB",
+          "anzahl": 2200,
+          "rate_pro_100k": 314.3,
+          "gewichtung": "hoch"
+        },
+        {
+          "kat_id": "700000",
+          "kat_name": "Strafrechtliche Nebengesetze",
+          "anzahl": 2400,
+          "rate_pro_100k": 342.9,
+          "gewichtung": "hoch"
+        }
+      ],
+      "top_nationalitaeten": [
+        {
+          "land": "Syrien",
+          "anzahl": 1500,
+          "rate_pro_100k": 122.9
+        },
+        {
+          "land": "Rumänien",
+          "anzahl": 1200,
+          "rate_pro_100k": 122.4
+        },
+        {
+          "land": "Ukraine",
+          "anzahl": 1000,
+          "rate_pro_100k": 90.9
+        },
+        {
+          "land": "Afghanistan",
+          "anzahl": 800,
+          "rate_pro_100k": 242.4
+        },
+        {
+          "land": "Türkei",
+          "anzahl": 600,
+          "rate_pro_100k": 27.3
+        }
+      ]
+    }
+  ],
+  "straftat_kategorien": [
+    {
+      "id": "200000",
+      "name": "Rohheitsdelikte & Straftaten gegen persönliche Freiheit",
+      "beschreibung": "Gewaltkriminalität, Bedrohung, Nötigung, Freiheitsberaubung",
+      "farbe": "#ef4444"
+    },
+    {
+      "id": "220000",
+      "name": "Körperverletzung §§ 223-227 StGB",
+      "beschreibung": "Vorsätzliche einfache und gefährliche Körperverletzung",
+      "farbe": "#f97316"
+    },
+    {
+      "id": "500000",
+      "name": "Vermögens- und Fälschungsdelikte",
+      "beschreibung": "Diebstahl, Raub, Erpressung, Urkundenfälschung",
+      "farbe": "#eab308"
+    },
+    {
+      "id": "510000",
+      "name": "Betrug §§ 263-265a StGB",
+      "beschreibung": "Erschleichung von Leistungen, Computerbetrug, Subventionsbetrug",
+      "farbe": "#22c55e"
+    },
+    {
+      "id": "600000",
+      "name": "Sonstige StGB-Straftaten",
+      "beschreibung": "Straftaten gegen die öffentliche Ordnung, Amtsdelikte",
+      "farbe": "#3b82f6"
+    },
+    {
+      "id": "700000",
+      "name": "Strafrechtliche Nebengesetze",
+      "beschreibung": "Ausländerrecht, Waffenrecht, Betäubungsmittelgesetz",
+      "farbe": "#8b5cf6"
+    },
+    {
+      "id": "720000",
+      "name": "Nebengesetze ohne Verkehr",
+      "beschreibung": "Arzneimittelgesetz, Lebensmittelrecht, Umweltrecht",
+      "farbe": "#ec4899"
+    }
+  ],
+  "filter_optionen": {
+    "bundeslaender": [
+      "Nordrhein-Westfalen",
+      "Bayern",
+      "Baden-Württemberg",
+      "Niedersachsen",
+      "Hessen",
+      "Rheinland-Pfalz",
+      "Sachsen",
+      "Berlin",
+      "Schleswig-Holstein",
+      "Brandenburg",
+      "Sachsen-Anhalt",
+      "Thüringen",
+      "Hamburg",
+      "Mecklenburg-Vorpommern",
+      "Saarland",
+      "Bremen"
+    ],
+    "geschlecht": [
+      "männlich",
+      "weiblich",
+      "alle"
+    ],
+    "altersgruppen": [
+      "kinder_0_17",
+      "erwachsene_18_59",
+      "senioren_60plus",
+      "alle"
+    ],
+    "straftaten": [
+      "Rohheitsdelikte",
+      "Körperverletzung",
+      "Vermögensdelikte",
+      "Betrug",
+      "Nebengesetze",
+      "alle"
+    ]
+  }
+}

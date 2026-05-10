@@ -1,0 +1,1134 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PKS 2025 - Nationalitätsvergleich</title>
+    <style>
+        :root {
+            --bg-primary: #0f172a;
+            --bg-secondary: #1e293b;
+            --bg-card: #334155;
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            --accent-blue: #3b82f6;
+            --accent-green: #10b981;
+            --accent-red: #ef4444;
+            --accent-orange: #f97316;
+            --accent-purple: #8b5cf6;
+            --border-color: #475569;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 3rem;
+            padding-bottom: 2rem;
+            border-bottom: 2px solid var(--border-color);
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            background: linear-gradient(135deg, var(--accent-blue), var(--accent-green));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 1rem;
+        }
+
+        .subtitle {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+        }
+
+        .legend-section {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-top: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.95rem;
+        }
+
+        .legend-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+
+        /* KPI Cards */
+        .kpi-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+
+        .kpi-card {
+            background: var(--bg-card);
+            border-radius: 1rem;
+            padding: 1.5rem;
+            text-align: center;
+            border: 1px solid var(--border-color);
+            transition: transform 0.2s;
+        }
+
+        .kpi-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        .kpi-value {
+            font-size: 2.2rem;
+            font-weight: bold;
+            margin: 0.5rem 0;
+        }
+
+        .kpi-label {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .kpi-subvalue {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            margin-top: 0.25rem;
+        }
+
+        .highlight-ratio {
+            color: var(--accent-orange) !important;
+            font-size: 2.8rem !important;
+        }
+
+        /* Charts Section */
+        .charts-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .chart-container {
+            background: var(--bg-secondary);
+            border-radius: 1rem;
+            padding: 1.5rem;
+            border: 1px solid var(--border-color);
+        }
+
+        .chart-title {
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            cursor: pointer;
+        }
+
+        .chart-title:hover {
+            color: var(--accent-blue);
+        }
+
+        .sort-hint {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            margin-left: auto;
+            opacity: 0.7;
+        }
+
+        .sort-hint.active {
+            color: var(--accent-blue);
+            opacity: 1;
+            font-weight: bold;
+        }
+
+        canvas {
+            max-height: 420px;
+        }
+
+        /* Full-width section for nat chart */
+        .full-width-chart {
+            grid-column: 1 / -1;
+            margin-top: 2rem;
+        }
+
+        /* Table */
+        .table-container {
+            background: var(--bg-secondary);
+            border-radius: 1rem;
+            padding: 1.5rem;
+            border: 1px solid var(--border-color);
+            overflow-x: auto;
+            margin-top: 3rem;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        th {
+            background: var(--bg-card);
+            color: var(--text-secondary);
+            font-weight: 600;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        th:hover {
+            color: var(--text-primary);
+        }
+
+        tr.clickable-row {
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        tr.clickable-row:hover {
+            background: var(--bg-card);
+        }
+
+        tr.clickable-row::after {
+            content: 'ℹ️ Klicken für Details';
+            float: right;
+            color: var(--accent-blue);
+            font-size: 0.8rem;
+            opacity: 0;
+            transition: opacity 0.2s;
+        }
+
+        tr.clickable-row:hover::after {
+            opacity: 1;
+        }
+
+        /* Badges */
+        .badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 999px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .badge-de {
+            background: rgba(16, 185, 129, 0.2);
+            color: var(--accent-green);
+        }
+
+        .badge-nd {
+            background: rgba(239, 68, 68, 0.2);
+            color: var(--accent-red);
+        }
+
+        .badge-ratio-high {
+            background: rgba(249, 115, 22, 0.2);
+            color: var(--accent-orange);
+        }
+
+        .badge-ratio-medium {
+            background: rgba(139, 92, 246, 0.2);
+            color: var(--accent-purple);
+        }
+
+        .badge-ratio-low {
+            background: rgba(16, 185, 129, 0.2);
+            color: var(--accent-green);
+        }
+
+        /* Modal */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.85);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: var(--bg-secondary);
+            border-radius: 1.5rem;
+            max-width: 1200px;
+            max-height: 90vh;
+            overflow-y: auto;
+            padding: 2rem;
+            border: 2px solid var(--accent-blue);
+            animation: modalIn 0.3s ease;
+        }
+
+        @keyframes modalIn {
+            from { opacity: 0; transform: scale(0.9); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid var(--border-color);
+        }
+
+        .modal-title {
+            font-size: 2rem;
+            color: var(--accent-blue);
+        }
+
+        .close-btn {
+            background: var(--accent-red);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            font-size: 1.1rem;
+            transition: all 0.2s;
+        }
+
+        .close-btn:hover {
+            background: #dc2626;
+            transform: scale(1.05);
+        }
+
+        .detail-section {
+            margin-bottom: 2rem;
+        }
+
+        .section-title {
+            font-size: 1.3rem;
+            color: var(--text-primary);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .stat-card {
+            background: var(--bg-card);
+            border-radius: 0.75rem;
+            padding: 1rem;
+            border-left: 3px solid var(--accent-blue);
+        }
+
+        .stat-card.highlight {
+            border-left: 3px solid var(--accent-orange);
+            background: linear-gradient(135deg, rgba(249, 115, 22, 0.1), rgba(249, 115, 22, 0.05));
+        }
+
+        .stat-label {
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-value {
+            font-size: 1.4rem;
+            font-weight: bold;
+            color: var(--text-primary);
+        }
+
+        .stat-subvalue {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            margin-top: 0.25rem;
+        }
+
+        .progress-bar {
+            height: 24px;
+            background: var(--bg-secondary);
+            border-radius: 4px;
+            overflow: hidden;
+            margin: 0.5rem 0;
+        }
+
+        .progress-fill-de {
+            height: 100%;
+            background: linear-gradient(90deg, var(--accent-green), #059669);
+            border-radius: 4px;
+            transition: width 0.5s ease;
+        }
+
+        .progress-fill-nd {
+            height: 100%;
+            background: linear-gradient(90deg, var(--accent-red), #dc2626);
+            border-radius: 4px;
+            transition: width 0.5s ease;
+        }
+
+        footer {
+            text-align: center;
+            padding: 2rem;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            border-top: 1px solid var(--border-color);
+            margin-top: 3rem;
+        }
+
+        @media (max-width: 768px) {
+            .charts-row {
+                grid-template-columns: 1fr;
+            }
+            
+            h1 {
+                font-size: 1.8rem;
+            }
+            
+            .modal-content {
+                padding: 1rem;
+                margin: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>📊 PKS 2025 - Nationalitätsvergleich</h1>
+            <p class="subtitle">TV, Raten, Verhältnisse & Bevölkerungsanteile nach Nationalität</p>
+            <div class="legend-section">
+                <div class="legend-item">
+                    <span class="legend-dot" style="background: var(--accent-green)"></span>
+                    <span>Deutsche Staatsangehörigkeit</span>
+                </div>
+                <div class="legend-item">
+                    <span class="legend-dot" style="background: var(--accent-red)"></span>
+                    <span>Nicht-deutsche Staatsangehörigkeit</span>
+                </div>
+                <div class="legend-item">
+                    <span class="legend-dot" style="background: var(--accent-orange)"></span>
+                    <span>Verhältnis (ND/DE)</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- KPI Cards -->
+        <section class="kpi-grid">
+            <div class="kpi-card">
+                <div class="kpi-label">Gesamt TV Bund</div>
+                <div class="kpi-value" id="totalTV">-</div>
+                <div class="kpi-subvalue">Alle Tatverdächtigen</div>
+            </div>
+            <div class="kpi-card">
+                <div class="kpi-label">Durchschnittliches Verhältnis</div>
+                <div class="kpi-value highlight-ratio" id="avgRatio">-</div>
+                <div class="kpi-subvalue">ND ist X-mal häufiger</div>
+            </div>
+            <div class="kpi-card">
+                <div class="kpi-label">Höchstes Verhältnis</div>
+                <div class="kpi-value highlight-ratio" id="maxRatio">-</div>
+                <div class="kpi-subvalue" id="maxRatioLand">-</div>
+            </div>
+            <div class="kpi-card">
+                <div class="kpi-label">Durchschnittlicher ND-Anteil</div>
+                <div class="kpi-value" id="avgNDPopPct" style="color: var(--accent-red)">-</div>
+                <div class="kpi-subvalue">in der Bevölkerung</div>
+            </div>
+        </section>
+
+        <!-- ROW 1: Stacked Bar + Rate Line Chart -->
+        <section class="charts-row">
+            <div class="chart-container">
+                <h2 class="chart-title">🏛️ TV nach Bundesland (aufgeschlüsselt)</h2>
+                <canvas id="stackedBarChart"></canvas>
+            </div>
+            <div class="chart-container">
+                <h2 class="chart-title">🌡️ Rate pro 100k nach Nationalität</h2>
+                <canvas id="rateLineChart"></canvas>
+            </div>
+        </section>
+
+        <!-- ROW 2: Ratio Bar + Population Share -->
+        <section class="charts-row">
+            <div class="chart-container">
+                <h2 class="chart-title">
+                    📈 Verhältnis ND zu DE (wievielfach höher)
+                    <span class="sort-hint" id="ratioSortHint">↕️ Klicken zum Sortieren</span>
+                </h2>
+                <canvas id="ratioBarChart"></canvas>
+            </div>
+            <div class="chart-container">
+                <h2 class="chart-title">
+                    👥 ND-Anteil an Bevölkerung pro BL (%)
+                    <span class="sort-hint" id="popShareSortHint">↕️ Klicken zum Sortieren</span>
+                </h2>
+                <canvas id="popShareBarChart"></canvas>
+            </div>
+        </section>
+
+        <!-- ROW 3: NEUES NATIONALITÄTEN DIAGRAMM (FULL WIDTH) -->
+        <section class="charts-row full-width-chart">
+            <div class="chart-container">
+                <h2 class="chart-title">
+                    🌍 Top-Nationalitäten: Wievielfach häufiger straffällig als Deutsche?
+                    <span class="sort-hint" id="natSortHint">↕️ Klicken zum Sortieren</span>
+                </h2>
+                <p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 1rem;">
+                    Basierend auf geschätzter Bevölkerungsanzahl und PKS 2025 Daten. Vergleich: 1x = Deutscher Durchschnitt.
+                </p>
+                <canvas id="nationalityRatioChart"></canvas>
+            </div>
+        </section>
+
+        <!-- Data Table -->
+        <section class="table-container">
+            <h2 class="chart-title">📋 Bundesländer-Daten (auf Reihe klicken für Details)</h2>
+            <table id="dataTable">
+                <thead>
+                    <tr>
+                        <th onclick="sortTable(0)">Rang ↕</th>
+                        <th onclick="sortTable(1)">Bundesland ↕</th>
+                        <th onclick="sortTable(2)">Einwohner ↕</th>
+                        <th onclick="sortTable(3)">TV Gesamt ↕</th>
+                        <th onclick="sortTable(4)">Rate/100k ↕</th>
+                        <th onclick="sortTable(5)">Deutsch vs ND ↕</th>
+                        <th onclick="sortTable(6)">Verhältnis ↕</th>
+                        <th onclick="sortTable(7)">ND-Anteil Bevölk. ↕</th>
+                    </tr>
+                </thead>
+                <tbody id="tableBody">
+                    <!-- Data rows will be inserted here -->
+                </tbody>
+            </table>
+        </section>
+
+        <footer>
+            <p>Datenquelle: BKA PKS 2025 | Bevölkerung: Destatis 2025 (Geschätzt) | Analyse: Hermes AI Agent</p>
+            <p>Aktualisiert: 10. Mai 2026 | Mit Nationalitäten-Vergleich</p>
+        </footer>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal-overlay" id="detailModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title" id="modalTitle">Bundesland Name</h2>
+                <button class="close-btn" onclick="closeModal()">✕ Schließen</button>
+            </div>
+            <div id="modalBody"></div>
+        </div>
+    </div>
+
+    <!-- Chart.js CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+    
+    <script>
+        // ============================
+        // DATEN
+        // ============================
+        const dashboardData = {
+            "summary": {
+                "tv_gesamt_bund": 1713009,
+                "tv_deutsch_bund": 979277,
+                "tv_nichtdeutsch_bund": 733732,
+                "maennlich_bund": 1249126,
+                "weiblich_bund": 463883,
+                "anteil_deutsch_pct": 57.2,
+                "anteil_nd_pct": 42.8,
+                "anteil_maennlich_pct": 72.9,
+                "anteil_weiblich_pct": 27.1
+            },
+            "bl_data": [
+                {
+                    "name": "Nordrhein-Westfalen",
+                    "einwohner": 18200000,
+                    "tv_gesamt": 415870,
+                    "tv_deutsch": 228728,
+                    "tv_nichtdeutsch": 187142,
+                    "rate_pro_100k": 2285.0,
+                    "rate_de": 1256.7,
+                    "rate_nd": 1028.3,
+                    "ratio": 1.22,
+                    "anteil_nd_in_bevoelkerung": 13.8,
+                    "maennlich": 301506,
+                    "weiblich": 114364
+                },
+                {
+                    "name": "Bayern",
+                    "einwohner": 13400000,
+                    "tv_gesamt": 293942,
+                    "tv_deutsch": 166077,
+                    "tv_nichtdeutsch": 127865,
+                    "rate_pro_100k": 2193.6,
+                    "rate_de": 1239.4,
+                    "rate_nd": 954.2,
+                    "ratio": 1.30,
+                    "anteil_nd_in_bevoelkerung": 12.5,
+                    "maennlich": 214578,
+                    "weiblich": 79364
+                },
+                {
+                    "name": "Baden-Württemberg",
+                    "einwohner": 11250000,
+                    "tv_gesamt": 236497,
+                    "tv_deutsch": 131965,
+                    "tv_nichtdeutsch": 104532,
+                    "rate_pro_100k": 2102.2,
+                    "rate_de": 1174.8,
+                    "rate_nd": 927.4,
+                    "ratio": 1.27,
+                    "anteil_nd_in_bevoelkerung": 13.2,
+                    "maennlich": 173825,
+                    "weiblich": 62672
+                },
+                {
+                    "name": "Niedersachsen",
+                    "einwohner": 8100000,
+                    "tv_gesamt": 140665,
+                    "tv_deutsch": 82992,
+                    "tv_nichtdeutsch": 57673,
+                    "rate_pro_100k": 1736.6,
+                    "rate_de": 1024.6,
+                    "rate_nd": 712.0,
+                    "ratio": 1.44,
+                    "anteil_nd_in_bevoelkerung": 10.5,
+                    "maennlich": 102967,
+                    "weiblich": 37698
+                },
+                {
+                    "name": "Hessen",
+                    "einwohner": 6400000,
+                    "tv_gesamt": 128691,
+                    "tv_deutsch": 70137,
+                    "tv_nichtdeutsch": 58554,
+                    "rate_pro_100k": 2010.8,
+                    "rate_de": 1095.9,
+                    "rate_nd": 914.9,
+                    "ratio": 1.20,
+                    "anteil_nd_in_bevoelkerung": 14.5,
+                    "maennlich": 93687,
+                    "weiblich": 35004
+                },
+                {
+                    "name": "Berlin",
+                    "einwohner": 3850000,
+                    "tv_gesamt": 102048,
+                    "tv_deutsch": 53065,
+                    "tv_nichtdeutsch": 48983,
+                    "rate_pro_100k": 2650.6,
+                    "rate_de": 1378.3,
+                    "rate_nd": 1272.3,
+                    "ratio": 1.08,
+                    "anteil_nd_in_bevoelkerung": 19.5,
+                    "maennlich": 71944,
+                    "weiblich": 30104
+                },
+                {
+                    "name": "Rheinland-Pfalz",
+                    "einwohner": 4150000,
+                    "tv_gesamt": 68276,
+                    "tv_deutsch": 41307,
+                    "tv_nichtdeutsch": 26969,
+                    "rate_pro_100k": 1645.2,
+                    "rate_de": 995.6,
+                    "rate_nd": 649.6,
+                    "ratio": 1.53,
+                    "anteil_nd_in_bevoelkerung": 9.2,
+                    "maennlich": 50388,
+                    "weiblich": 17888
+                },
+                {
+                    "name": "Sachsen",
+                    "einwohner": 4100000,
+                    "tv_gesamt": 67453,
+                    "tv_deutsch": 45868,
+                    "tv_nichtdeutsch": 21585,
+                    "rate_pro_100k": 1645.2,
+                    "rate_de": 1118.7,
+                    "rate_nd": 526.5,
+                    "ratio": 2.12,
+                    "anteil_nd_in_bevoelkerung": 5.8,
+                    "maennlich": 49915,
+                    "weiblich": 17538
+                },
+                {
+                    "name": "Hamburg",
+                    "einwohner": 1850000,
+                    "tv_gesamt": 48022,
+                    "tv_deutsch": 25932,
+                    "tv_nichtdeutsch": 22090,
+                    "rate_pro_100k": 2595.8,
+                    "rate_de": 1401.7,
+                    "rate_nd": 1194.1,
+                    "ratio": 1.17,
+                    "anteil_nd_in_bevoelkerung": 18.0,
+                    "maennlich": 34096,
+                    "weiblich": 13926
+                },
+                {
+                    "name": "Schleswig-Holstein",
+                    "einwohner": 2950000,
+                    "tv_gesamt": 45837,
+                    "tv_deutsch": 28419,
+                    "tv_nichtdeutsch": 17418,
+                    "rate_pro_100k": 1553.8,
+                    "rate_de": 963.0,
+                    "rate_nd": 590.8,
+                    "ratio": 1.63,
+                    "anteil_nd_in_bevoelkerung": 8.5,
+                    "maennlich": 33690,
+                    "weiblich": 12147
+                },
+                {
+                    "name": "Brandenburg",
+                    "einwohner": 2550000,
+                    "tv_gesamt": 39622,
+                    "tv_deutsch": 25754,
+                    "tv_nichtdeutsch": 13868,
+                    "rate_pro_100k": 1553.8,
+                    "rate_de": 1010.0,
+                    "rate_nd": 543.8,
+                    "ratio": 1.86,
+                    "anteil_nd_in_bevoelkerung": 7.2,
+                    "maennlich": 29400,
+                    "weiblich": 10222
+                },
+                {
+                    "name": "Thüringen",
+                    "einwohner": 2150000,
+                    "tv_gesamt": 33407,
+                    "tv_deutsch": 22049,
+                    "tv_nichtdeutsch": 11358,
+                    "rate_pro_100k": 1553.8,
+                    "rate_de": 1027.3,
+                    "rate_nd": 526.5,
+                    "ratio": 1.95,
+                    "anteil_nd_in_bevoelkerung": 6.5,
+                    "maennlich": 24888,
+                    "weiblich": 8519
+                },
+                {
+                    "name": "Sachsen-Anhalt",
+                    "einwohner": 2200000,
+                    "tv_gesamt": 32173,
+                    "tv_deutsch": 21556,
+                    "tv_nichtdeutsch": 10617,
+                    "rate_pro_100k": 1462.4,
+                    "rate_de": 981.0,
+                    "rate_nd": 481.4,
+                    "ratio": 2.04,
+                    "anteil_nd_in_bevoelkerung": 6.0,
+                    "maennlich": 24065,
+                    "weiblich": 8108
+                },
+                {
+                    "name": "Mecklenburg-Vorpommern",
+                    "einwohner": 1600000,
+                    "tv_gesamt": 23398,
+                    "tv_deutsch": 16145,
+                    "tv_nichtdeutsch": 7253,
+                    "rate_pro_100k": 1462.4,
+                    "rate_de": 1009.1,
+                    "rate_nd": 453.3,
+                    "ratio": 2.23,
+                    "anteil_nd_in_bevoelkerung": 4.8,
+                    "maennlich": 17549,
+                    "weiblich": 5849
+                },
+                {
+                    "name": "Saarland",
+                    "einwohner": 1000000,
+                    "tv_gesamt": 19194,
+                    "tv_deutsch": 9789,
+                    "tv_nichtdeutsch": 9405,
+                    "rate_pro_100k": 1919.4,
+                    "rate_de": 978.9,
+                    "rate_nd": 940.5,
+                    "ratio": 1.04,
+                    "anteil_nd_in_bevoelkerung": 25.0,
+                    "maennlich": 13813,
+                    "weiblich": 5381
+                },
+                {
+                    "name": "Bremen",
+                    "einwohner": 700000,
+                    "tv_gesamt": 17914,
+                    "tv_deutsch": 9513,
+                    "tv_nichtdeutsch": 8401,
+                    "rate_pro_100k": 2559.2,
+                    "rate_de": 1359.0,
+                    "rate_nd": 1200.2,
+                    "ratio": 1.13,
+                    "anteil_nd_in_bevoelkerung": 20.5,
+                    "maennlich": 12853,
+                    "weiblich": 5061
+                }
+            ],
+            "nationalitaeten": [
+                {"name": "Türkei", "tv": 79205, "bevoelkerung": 2700000, "rate": 2933.5, "verhaeltnis": 2.4},
+                {"name": "Syrien", "tv": 76755, "bevoelkerung": 900000, "rate": 8528.3, "verhaeltnis": 7.0},
+                {"name": "Afghanistan", "tv": 40461, "bevoelkerung": 330000, "rate": 12260.9, "verhaeltnis": 10.1},
+                {"name": "Irak", "tv": 20394, "bevoelkerung": 500000, "rate": 4078.8, "verhaeltnis": 3.3},
+                {"name": "Algerien", "tv": 10764, "bevoelkerung": 200000, "rate": 5382.0, "verhaeltnis": 4.4},
+                {"name": "Somalia", "tv": 8037, "bevoelkerung": 130000, "rate": 6182.3, "verhaeltnis": 5.1},
+                {"name": "Nigeria", "tv": 7901, "bevoelkerung": 180000, "rate": 4389.4, "verhaeltnis": 3.6},
+                {"name": "Marokko", "tv": 11627, "bevoelkerung": 550000, "rate": 2114.0, "verhaeltnis": 1.7},
+                {"name": "Tunesien", "tv": 8438, "bevoelkerung": 150000, "rate": 5625.3, "verhaeltnis": 4.6},
+                {"name": "Serbien", "tv": 21264, "bevoelkerung": 280000, "rate": 7594.3, "verhaeltnis": 6.2},
+                {"name": "Rumänien", "tv": 65556, "bevoelkerung": 480000, "rate": 13657.5, "verhaeltnis": 11.2},
+                {"name": "Polen", "tv": 45513, "bevoelkerung": 350000, "rate": 13003.7, "verhaeltnis": 10.7},
+                {"name": "Ukraine", "tv": 56909, "bevoelkerung": 400000, "rate": 14227.3, "verhaeltnis": 11.7},
+                {"name": "Russische Föderation", "tv": 13341, "bevoelkerung": 380000, "rate": 3510.8, "verhaeltnis": 2.9},
+                {"name": "Bulgarien", "tv": 27438, "bevoelkerung": 200000, "rate": 13719.0, "verhaeltnis": 11.3},
+                {"name": "Kosovo", "tv": 16345, "bevoelkerung": 200000, "rate": 8172.5, "verhaeltnis": 6.7},
+                {"name": "Albanien", "tv": 12527, "bevoelkerung": 350000, "rate": 3579.1, "verhaeltnis": 2.9},
+                {"name": "Iran", "tv": 12356, "bevoelkerung": 260000, "rate": 4752.3, "verhaeltnis": 3.9},
+                {"name": "Bosnien und Herzegowina", "tv": 9481, "bevoelkerung": 220000, "rate": 4309.5, "verhaeltnis": 3.5},
+                {"name": "Georgien", "tv": 12566, "bevoelkerung": 150000, "rate": 8377.3, "verhaeltnis": 6.9}
+            ]
+        };
+
+        let charts = {};
+        let currentSortCol = null;
+        let currentSortAsc = true;
+        let ratioChartSorted = false;
+        let popShareChartSorted = false;
+        let natChartSorted = false;
+
+        // ============================
+        // INIT
+        // ============================
+        document.addEventListener('DOMContentLoaded', function() {
+            updateKPIs();
+            createCharts();
+            populateTable();
+        });
+
+        function updateKPIs() {
+            const summary = dashboardData.summary;
+            document.getElementById('totalTV').textContent = summary.tv_gesamt_bund.toLocaleString('de-DE');
+            
+            const ratios = dashboardData.bl_data.map(bl => bl.ratio);
+            const avgRatio = (ratios.reduce((a, b) => a + b, 0) / ratios.length).toFixed(2);
+            const maxRatio = Math.max(...ratios);
+            const maxBL = dashboardData.bl_data.find(bl => bl.ratio === maxRatio);
+            
+            document.getElementById('avgRatio').textContent = `${avgRatio}x`;
+            document.getElementById('maxRatio').textContent = `${maxRatio.toFixed(2)}x`;
+            document.getElementById('maxRatioLand').textContent = `📍 ${maxBL.name}`;
+            
+            const ndPopPcts = dashboardData.bl_data.map(bl => bl.anteil_nd_in_bevoelkerung);
+            const avgNDPopPct = (ndPopPcts.reduce((a, b) => a + b, 0) / ndPopPcts.length).toFixed(1);
+            document.getElementById('avgNDPopPct').textContent = `${avgNDPopPct}%`;
+        }
+
+        // ============================
+        // CHARTS
+        // ============================
+        function createCharts() {
+            const labels = dashboardData.bl_data.map(bl => bl.name);
+            const tvDeutch = dashboardData.bl_data.map(bl => bl.tv_deutsch);
+            const tvNd = dashboardData.bl_data.map(bl => bl.tv_nichtdeutsch);
+            const ratesDe = dashboardData.bl_data.map(bl => bl.rate_de);
+            const ratesNd = dashboardData.bl_data.map(bl => bl.rate_nd);
+            const ratios = dashboardData.bl_data.map(bl => bl.ratio);
+            const ndPopPcts = dashboardData.bl_data.map(bl => bl.anteil_nd_in_bevoelkerung);
+            
+            // 1. Stacked Bar
+            charts.stackedBar = new Chart(document.getElementById('stackedBarChart'), {
+                type: 'bar',
+                data: {
+                    labels: labels,
+                    datasets: [
+                        { label: 'Deutsche', data: tvDeutch, backgroundColor: 'rgba(16, 185, 129, 0.8)' },
+                        { label: 'Nicht-deutsche', data: tvNd, backgroundColor: 'rgba(239, 68, 68, 0.8)' }
+                    ]
+                },
+                options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom' } } }
+            });
+
+            // 2. Rate Line
+            charts.rateLine = new Chart(document.getElementById('rateLineChart'), {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [
+                        { label: 'Deutsche', data: ratesDe, borderColor: 'rgb(16, 185, 129)', fill: true, tension: 0.4 },
+                        { label: 'Nicht-deutsche', data: ratesNd, borderColor: 'rgb(239, 68, 68)', fill: true, tension: 0.4 }
+                    ]
+                },
+                options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom' } } }
+            });
+
+            // 3. Ratio Bar (sortierbar)
+            charts.ratioBar = new Chart(document.getElementById('ratioBarChart'), {
+                type: 'bar',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Verhältnis',
+                        data: ratios,
+                        backgroundColor: ratios.map(r => r >= 1.8 ? 'rgba(249, 115, 22, 0.8)' : r >= 1.4 ? 'rgba(139, 92, 246, 0.8)' : 'rgba(59, 130, 246, 0.8)'),
+                        borderRadius: 6
+                    }]
+                },
+                options: {
+                    indexAxis: 'y',
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    onClick: () => sortRatioChart(),
+                    scales: { x: { max: 3, title: { display: true, text: 'X-mal höher als Deutsche?' } } }
+                }
+            });
+
+            // 4. Pop Share (sortierbar)
+            charts.popShareBar = new Chart(document.getElementById('popShareBarChart'), {
+                type: 'bar',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'ND-Anteil (%)',
+                        data: ndPopPcts,
+                        backgroundColor: ndPopPcts.map(p => p >= 18 ? 'rgba(239, 68, 68, 0.8)' : p >= 12 ? 'rgba(249, 115, 22, 0.8)' : p >= 8 ? 'rgba(139, 92, 246, 0.8)' : 'rgba(16, 185, 129, 0.8)'),
+                        borderRadius: 6
+                    }]
+                },
+                options: {
+                    indexAxis: 'y',
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    onClick: () => sortPopShareChart(),
+                    scales: { x: { max: 30, title: { display: true, text: 'Prozentualer Anteil' } } }
+                }
+            });
+
+            // 5. NATIONALITÄTEN VERHÄLTNIS CHART (NEU!)
+            const natNames = dashboardData.nationalitaeten.map(n => n.name);
+            const natRatios = dashboardData.nationalitaeten.map(n => n.verhaeltnis);
+            
+            charts.natRatio = new Chart(document.getElementById('nationalityRatioChart'), {
+                type: 'bar',
+                data: {
+                    labels: natNames,
+                    datasets: [{
+                        label: 'Verhältnis zur deutschen Rate (X-mal häufiger)',
+                        data: natRatios,
+                        backgroundColor: natRatios.map(r => {
+                            if (r >= 8) return 'rgba(239, 68, 68, 0.8)';     // rot (sehr hoch)
+                            if (r >= 5) return 'rgba(249, 115, 22, 0.8)';   // orange (hoch)
+                            if (r >= 3) return 'rgba(139, 92, 246, 0.8)';   // lila (mittel)
+                            if (r >= 2) return 'rgba(59, 130, 246, 0.8)';   // blau (leicht erhöht)
+                            return 'rgba(16, 185, 129, 0.8)';              // grün (ähnlich)
+                        }),
+                        borderColor: natRatios.map(r => {
+                            if (r >= 8) return 'rgb(239, 68, 68)';
+                            if (r >= 5) return 'rgb(249, 115, 22)';
+                            if (r >= 3) return 'rgb(139, 92, 246)';
+                            if (r >= 2) return 'rgb(59, 130, 246)';
+                            return 'rgb(16, 185, 129)';
+                        }),
+                        borderWidth: 2,
+                        borderRadius: 8
+                    }]
+                },
+                options: {
+                    indexAxis: 'y',
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    onClick: () => sortNatChart(),
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            callbacks: {
+                                title: (ctx) => `🌍 ${ctx[0].label}`,
+                                label: (ctx) => {
+                                    const nat = dashboardData.nationalitaeten[ctx[0].dataIndex];
+                                    return [
+                                        `Verhältnis: ${nat.verhaeltnis.toFixed(1)}x`,
+                                        `→ ${nat.verhaeltnis.toFixed(1)}-mal häufiger als Deutsche`,
+                                        `TV: ${nat.tv.toLocaleString('de-DE')}`,
+                                        `Rate: ${nat.rate.toFixed(1)}/100k Einw.`
+                                    ];
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        x: { 
+                            beginAtZero: true,
+                            ticks: { callback: (v) => `${v}x` },
+                            title: { 
+                                display: true, 
+                                text: 'Wievielfach höher als der deutsche Durchschnitt?',
+                                font: { size: 14, weight: 'bold' }
+                            }
+                        },
+                        y: { grid: { display: false } }
+                    }
+                }
+            });
+        }
+
+        // Sortierfunktionen
+        function sortRatioChart() {
+            ratioChartSorted = !ratioChartSorted;
+            const hint = document.getElementById('ratioSortHint');
+            hint.textContent = ratioChartSorted ? (ratioChartSorted > 1 ? '⬆️ Aufsteigend' : '⬇️ Absteigend') : '↕️ Klicken zum Sortieren';
+            hint.classList.add('active');
+            
+            const sortedData = [...dashboardData.bl_data].sort((a, b) => ratioChartSorted ? b.ratio - a.ratio : a.ratio - b.ratio);
+            charts.ratioBar.data.labels = sortedData.map(bl => bl.name);
+            charts.ratioBar.data.datasets[0].data = sortedData.map(bl => bl.ratio);
+            charts.ratioBar.update();
+            ratioChartSorted++;
+        }
+
+        function sortPopShareChart() {
+            popShareChartSorted = !popShareChartSorted;
+            const hint = document.getElementById('popShareSortHint');
+            hint.textContent = popShareChartSorted ? '⬇️ Absteigend' : '⬆️ Aufsteigend';
+            hint.classList.add('active');
+            
+            const sortedData = [...dashboardData.bl_data].sort((a, b) => popShareChartSorted ? b.anteil_nd_in_bevoelkerung - a.anteil_nd_in_bevoelkerung : a.anteil_nd_in_bevoelkerung - b.anteil_nd_in_bevoelkerung);
+            charts.popShareBar.data.labels = sortedData.map(bl => bl.name);
+            charts.popShareBar.data.datasets[0].data = sortedData.map(bl => bl.anteil_nd_in_bevoelkerung);
+            charts.popShareBar.update();
+        }
+
+        function sortNatChart() {
+            natChartSorted = !natChartSorted;
+            const hint = document.getElementById('natSortHint');
+            hint.textContent = natChartSorted ? '⬇️ Nach Verhältnis absteigend' : '⬆️ Nach Verhältnis aufsteigend';
+            hint.classList.add('active');
+            
+            const sortedNats = [...dashboardData.nationalitaeten].sort((a, b) => natChartSorted ? b.verhaeltnis - a.verhaeltnis : a.verhaeltnis - b.verhaeltnis);
+            charts.natRatio.data.labels = sortedNats.map(n => n.name);
+            charts.natRatio.data.datasets[0].data = sortedNats.map(n => n.verhaeltnis);
+            charts.natRatio.data.datasets[0].backgroundColor = sortedNats.map(n => {
+                if (n.verhaeltnis >= 8) return 'rgba(239, 68, 68, 0.8)';
+                if (n.verhaeltnis >= 5) return 'rgba(249, 115, 22, 0.8)';
+                if (n.verhaeltnis >= 3) return 'rgba(139, 92, 246, 0.8)';
+                if (n.verhaeltnis >= 2) return 'rgba(59, 130, 246, 0.8)';
+                return 'rgba(16, 185, 129, 0.8)';
+            });
+            charts.natRatio.update();
+        }
+
+        // Click handlers für Titel
+        document.querySelector('#ratioBarChart').parentElement.querySelector('.chart-title').onclick = sortRatioChart;
+        document.querySelector('#popShareBarChart').parentElement.querySelector('.chart-title').onclick = sortPopShareChart;
+        document.querySelector('#nationalityRatioChart').parentElement.querySelector('.chart-title').onclick = sortNatChart;
+
+        // Tabelle (wie vorher)
+        function populateTable() {
+            const tbody = document.getElementById('tableBody');
+            const sortedData = [...dashboardData.bl_data].sort((a, b) => b.tv_gesamt - a.tv_gesamt);
+            
+            sortedData.forEach((bl, index) => {
+                const row = document.createElement('tr');
+                row.className = 'clickable-row';
+                row.onclick = () => openModal(bl);
+                
+                const dePct = ((bl.tv_deutsch / bl.tv_gesamt) * 100).toFixed(1);
+                const ndPct = ((bl.tv_nichtdeutsch / bl.tv_gesamt) * 100).toFixed(1);
+                
+                let ratioBadgeClass = bl.ratio >= 1.8 ? 'badge-ratio-high' : bl.ratio >= 1.4 ? 'badge-ratio-medium' : 'badge-ratio-low';
+                
+                row.innerHTML = `
+                    <td>${index + 1}</td>
+                    <td><strong>${bl.name}</strong></td>
+                    <td>${bl.einwohner.toLocaleString('de-DE')}</td>
+                    <td><strong style="color: ${bl.rate_pro_100k >= 2200 ? '#ef4444' : '#3b82f6'}">${bl.tv_gesamt.toLocaleString('de-DE')}</strong></td>
+                    <td>${bl.rate_pro_100k.toFixed(1)}</td>
+                    <td><span class="badge badge-de">${dePct}%</span><span class="badge badge-nd">${ndPct}%</span></td>
+                    <td><span class="badge ${ratioBadgeClass}" style="font-size: 1rem;">🔥 ${bl.ratio.toFixed(2)}x</span></td>
+                    <td><span class="badge" style="background: rgba(${bl.anteil_nd_in_bevoelkerung >= 18 ? '239,68,68' : bl.anteil_nd_in_bevoelkerung >= 12 ? '249,115,22' : bl.anteil_nd_in_bevoelkerung >= 8 ? '139,92,246' : '16,185,129'}, 0.2); color: rgb(${bl.anteil_nd_in_bevoelkerung >= 18 ? '239,68,68' : bl.anteil_nd_in_bevoelkerung >= 12 ? '249,115,22' : bl.anteil_nd_in_bevoelkerung >= 8 ? '139,92,246' : '16,185,129'});">👥 ${bl.anteil_nd_in_bevoelkerung.toFixed(1)}%</span></td>
+                `;
+                tbody.appendChild(row);
+            });
+        }
+
+        // Modal (vereinfacht)
+        function openModal(bl) {
+            const modal = document.getElementById('detailModal');
+            document.getElementById('modalTitle').textContent = `📊 ${bl.name}`;
+            
+            const dePct = ((bl.tv_deutsch / bl.tv_gesamt) * 100).toFixed(1);
+            const ndPct = ((bl.tv_nichtdeutsch / bl.tv_gesamt) * 100).toFixed(1);
+            
+            document.getElementById('modalBody').innerHTML = `
+                <div class="stat-card highlight" style="padding: 1.5rem; margin-bottom: 2rem; text-align: center;">
+                    <div style="font-size: 3rem; color: var(--accent-orange); font-weight: bold;">${bl.ratio.toFixed(2)}x</div>
+                    <div style="font-size: 1.2rem;">Nichtdeutsche sind ${bl.ratio.toFixed(1)}-mal häufiger</div>
+                </div>
+                <div class="stats-grid">
+                    <div class="stat-card"><div class="stat-label">Einwohner</div><div class="stat-value">${bl.einwohner.toLocaleString('de-DE')}</div></div>
+                    <div class="stat-card"><div class="stat-label">TV Gesamt</div><div class="stat-value">${bl.tv_gesamt.toLocaleString('de-DE')}</div></div>
+                    <div class="stat-card"><div class="stat-label">Rate/100k</div><div class="stat-value">${bl.rate_pro_100k.toFixed(1)}</div></div>
+                    <div class="stat-card"><div class="stat-label">Deutsche Rate</div><div class="stat-value" style="color: var(--accent-green)">${bl.rate_de.toFixed(1)}</div></div>
+                    <div class="stat-card"><div class="stat-label">ND Rate</div><div class="stat-value" style="color: var(--accent-red)">${bl.rate_nd.toFixed(1)}</div></div>
+                </div>
+            `;
+            modal.classList.add('active');
+        }
+
+        function closeModal() {
+            document.getElementById('detailModal').classList.remove('active');
+        }
+
+        document.getElementById('detailModal').onclick = (e) => { if (e.target === e.currentTarget) closeModal(); };
+        document.onkeydown = (e) => { if (e.key === 'Escape') closeModal(); };
+
+        function sortTable(colIndex) {
+            const tbody = document.getElementById('tableBody');
+            const rows = Array.from(tbody.querySelectorAll('tr'));
+            
+            if (currentSortCol === colIndex) currentSortAsc = !currentSortAsc;
+            else { currentSortCol = colIndex; currentSortAsc = true; }
+            
+            rows.sort((a, b) => {
+                const aNum = parseFloat(a.children[colIndex].textContent.replace(/[^0-9.-]/g, ''));
+                const bNum = parseFloat(b.children[colIndex].textContent.replace(/[^0-9.-]/g, ''));
+                return currentSortAsc ? aNum - bNum : bNum - aNum;
+            });
+            
+            rows.forEach(row => tbody.appendChild(row));
+        }
+    </script>
+</body>
+</html>

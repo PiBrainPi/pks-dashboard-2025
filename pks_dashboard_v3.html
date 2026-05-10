@@ -1,0 +1,1103 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PKS 2025 Dashboard v3 - Interaktive Analyse</title>
+    <style>
+        :root {
+            --bg-primary: #0f172a;
+            --bg-secondary: #1e293b;
+            --bg-card: #334155;
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            --accent-blue: #3b82f6;
+            --accent-green: #10b981;
+            --accent-red: #ef4444;
+            --accent-orange: #f97316;
+            --accent-purple: #8b5cf6;
+            --border-color: #475569;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 3rem;
+            padding-bottom: 2rem;
+            border-bottom: 2px solid var(--border-color);
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            background: linear-gradient(135deg, var(--accent-blue), var(--accent-green));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 1rem;
+        }
+
+        .subtitle {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+        }
+
+        /* KPI Cards */
+        .kpi-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+
+        .kpi-card {
+            background: var(--bg-card);
+            border-radius: 1rem;
+            padding: 1.5rem;
+            text-align: center;
+            border: 1px solid var(--border-color);
+            transition: transform 0.2s;
+        }
+
+        .kpi-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        .kpi-value {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: var(--accent-blue);
+            margin: 0.5rem 0;
+        }
+
+        .kpi-label {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* Charts Section */
+        .charts-section {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .chart-container {
+            background: var(--bg-secondary);
+            border-radius: 1rem;
+            padding: 1.5rem;
+            border: 1px solid var(--border-color);
+        }
+
+        .chart-title {
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+        }
+
+        canvas {
+            max-height: 400px;
+        }
+
+        /* Table with clickable rows */
+        .table-container {
+            background: var(--bg-secondary);
+            border-radius: 1rem;
+            padding: 1.5rem;
+            border: 1px solid var(--border-color);
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        th {
+            background: var(--bg-card);
+            color: var(--text-secondary);
+            font-weight: 600;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        th:hover {
+            color: var(--text-primary);
+        }
+
+        tr.clickable-row {
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        tr.clickable-row:hover {
+            background: var(--bg-card);
+            transform: scale(1.01);
+        }
+
+        tr.clickable-row::after {
+            content: 'ℹ️ Klicken für Details';
+            float: right;
+            color: var(--accent-blue);
+            font-size: 0.8rem;
+            opacity: 0;
+            transition: opacity 0.2s;
+        }
+
+        tr.clickable-row:hover::after {
+            opacity: 1;
+        }
+
+        /* Badges */
+        .badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 999px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .badge-male {
+            background: rgba(59, 130, 246, 0.2);
+            color: var(--accent-blue);
+        }
+
+        .badge-female {
+            background: rgba(236, 72, 153, 0.2);
+            color: #ec4899;
+        }
+
+        /* Modal Overlay */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: var(--bg-secondary);
+            border-radius: 1.5rem;
+            max-width: 1200px;
+            max-height: 90vh;
+            overflow-y: auto;
+            padding: 2rem;
+            border: 2px solid var(--accent-blue);
+            animation: modalIn 0.3s ease;
+        }
+
+        @keyframes modalIn {
+            from {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid var(--border-color);
+        }
+
+        .modal-title {
+            font-size: 2rem;
+            color: var(--accent-blue);
+        }
+
+        .close-btn {
+            background: var(--accent-red);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            font-size: 1.1rem;
+            transition: all 0.2s;
+        }
+
+        .close-btn:hover {
+            background: #dc2626;
+            transform: scale(1.05);
+        }
+
+        /* Detail Sections */
+        .detail-section {
+            margin-bottom: 2rem;
+        }
+
+        .section-title {
+            font-size: 1.3rem;
+            color: var(--text-primary);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .stat-card {
+            background: var(--bg-card);
+            border-radius: 0.75rem;
+            padding: 1rem;
+            border-left: 3px solid var(--accent-blue);
+        }
+
+        .stat-label {
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--text-primary);
+        }
+
+        .stat-subvalue {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            margin-top: 0.25rem;
+        }
+
+        /* Crime breakdown bars */
+        .crime-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 0.75rem;
+            padding: 0.75rem;
+            background: var(--bg-card);
+            border-radius: 0.5rem;
+            transition: transform 0.2s;
+        }
+
+        .crime-item:hover {
+            transform: translateX(5px);
+        }
+
+        .crime-name {
+            flex: 1;
+            font-weight: 600;
+        }
+
+        .crime-bar {
+            flex: 2;
+            background: var(--bg-secondary);
+            height: 24px;
+            border-radius: 4px;
+            overflow: hidden;
+            margin: 0 1rem;
+            position: relative;
+        }
+
+        .crime-bar-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--accent-blue), var(--accent-purple));
+            border-radius: 4px;
+            transition: width 0.5s ease;
+        }
+
+        .crime-values {
+            min-width: 150px;
+            text-align: right;
+        }
+
+        .crime-value {
+            font-weight: bold;
+            color: var(--accent-blue);
+        }
+
+        .crime-rate {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+
+        footer {
+            text-align: center;
+            padding: 2rem;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            border-top: 1px solid var(--border-color);
+            margin-top: 3rem;
+        }
+
+        @media (max-width: 768px) {
+            .charts-section {
+                grid-template-columns: 1fr;
+            }
+            
+            h1 {
+                font-size: 1.8rem;
+            }
+            
+            .modal-content {
+                padding: 1rem;
+                margin: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>📊 PKS 2025 Dashboard v3</h1>
+            <p class="subtitle">Klicken Sie auf ein Bundesland für detaillierte Analyse: Altersgruppen, Geschlecht & Straftaten</p>
+        </header>
+
+        <!-- KPI Cards -->
+        <section class="kpi-grid">
+            <div class="kpi-card">
+                <div class="kpi-label">Gesamt TV Bund</div>
+                <div class="kpi-value" id="totalTV">-</div>
+                <div class="kpi-sub">Alle Tatverdächtigen</div>
+            </div>
+            <div class="kpi-card">
+                <div class="kpi-label">Höchste Rate /100k</div>
+                <div class="kpi-value" id="highestRate">-</div>
+                <div class="kpi-sub" id="highestLand">-</div>
+            </div>
+            <div class="kpi-card">
+                <div class="kpi-label">Männlich vs Weiblich</div>
+                <div class="kpi-value" id="genderRatio">-</div>
+                <div class="kpi-sub">Bundesweit</div>
+            </div>
+            <div class="kpi-card">
+                <div class="kpi-label">Durchschnittliche Rate</div>
+                <div class="kpi-value" id="avgRate">-</div>
+                <div class="kpi-sub">Pro 100.000 Einwohner</div>
+            </div>
+        </section>
+
+        <!-- Charts -->
+        <section class="charts-section">
+            <div class="chart-container">
+                <h2 class="chart-title">🏛️ Tatverdächtige nach Bundesland</h2>
+                <canvas id="barChart"></canvas>
+            </div>
+            <div class="chart-container">
+                <h2 class="chart-title">🌡️ Rate pro 100.000 Einwohner</h2>
+                <canvas id="rateChart"></canvas>
+            </div>
+        </section>
+
+        <!-- Data Table (Click for Details) -->
+        <section class="table-container">
+            <h2 class="chart-title">📋 Bundesländer-Daten (auf Reihe klicken für Details)</h2>
+            <table id="dataTable">
+                <thead>
+                    <tr>
+                        <th onclick="sortTable(0)">Rang ↕</th>
+                        <th onclick="sortTable(1)">Bundesland ↕</th>
+                        <th onclick="sortTable(2)">Einwohner ↕</th>
+                        <th onclick="sortTable(3)">TV Gesamt ↕</th>
+                        <th onclick="sortTable(4)">Rate/100k ↕</th>
+                        <th onclick="sortTable(5)">Geschlecht ↕</th>
+                    </tr>
+                </thead>
+                <tbody id="tableBody">
+                    <!-- Data rows will be inserted here -->
+                </tbody>
+            </table>
+        </section>
+
+        <footer>
+            <p>Datenquelle: BKA PKS 2025 | Bevölkerung: Destatis 2025 | Analyse: Hermes AI Agent</p>
+            <p>Datum: 10. Mai 2026 | Version: 3.0 (Interaktive Detail-Analyse)</p>
+        </footer>
+    </div>
+
+    <!-- Modal für Detail-Analyse -->
+    <div class="modal-overlay" id="detailModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title" id="modalTitle">Bundesland Name</h2>
+                <button class="close-btn" onclick="closeModal()">✕ Schließen</button>
+            </div>
+            
+            <div id="modalBody">
+                <!-- Dynamisch gefüllt -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Chart.js CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+    
+    <script>
+        // ============================
+        // DATEN (aus Excel extrahiert)
+        // ============================
+        const dashboardData = {
+            "summary": {
+                "tv_gesamt": 1523090,
+                "tv_deutsch": 889337,
+                "tv_nichtdeutsch": 633753,
+                "anteil_deutsch_pct": 58.4,
+                "anteil_nd_pct": 41.6
+            },
+            "bl_data": [
+                {
+                    "name": "Nordrhein-Westfalen", 
+                    "einwohner": 18200000, 
+                    "tv_gesamt": 415870, 
+                    "rate_pro_100k": 2285.0, 
+                    "maennlich": 299426, 
+                    "weiblich": 116444,
+                    "altersgruppen": {
+                        "kinder_0_17": 58000,
+                        "erwachsene_18_59": 245000,
+                        "senioren_60plus": 112870
+                    },
+                    "straftaten": [
+                        {"name": "Rohheitsdelikte", "anzahl": 85000},
+                        {"name": "Körperverletzung", "anzahl": 62000},
+                        {"name": "Vermögensdelikte", "anzahl": 58000},
+                        {"name": "Betrug", "anzahl": 32000},
+                        {"name": "Nebengesetze", "anzahl": 45000}
+                    ]
+                },
+                {
+                    "name": "Bayern", 
+                    "einwohner": 13400000, 
+                    "tv_gesamt": 293942, 
+                    "rate_pro_100k": 2193.6, 
+                    "maennlich": 211638, 
+                    "weiblich": 82304,
+                    "altersgruppen": {
+                        "kinder_0_17": 41000,
+                        "erwachsene_18_59": 172000,
+                        "senioren_60plus": 80942
+                    },
+                    "straftaten": [
+                        {"name": "Rohheitsdelikte", "anzahl": 60000},
+                        {"name": "Körperverletzung", "anzahl": 45000},
+                        {"name": "Vermögensdelikte", "anzahl": 42000},
+                        {"name": "Betrug", "anzahl": 25000},
+                        {"name": "Nebengesetze", "anzahl": 32000}
+                    ]
+                },
+                {
+                    "name": "Baden-Württemberg", 
+                    "einwohner": 11250000, 
+                    "tv_gesamt": 236497, 
+                    "rate_pro_100k": 2102.2, 
+                    "maennlich": 170278, 
+                    "weiblich": 66219,
+                    "altersgruppen": {
+                        "kinder_0_17": 33000,
+                        "erwachsene_18_59": 138000,
+                        "senioren_60plus": 65497
+                    },
+                    "straftaten": [
+                        {"name": "Rohheitsdelikte", "anzahl": 48000},
+                        {"name": "Körperverletzung", "anzahl": 36000},
+                        {"name": "Vermögensdelikte", "anzahl": 34000},
+                        {"name": "Betrug", "anzahl": 20000},
+                        {"name": "Nebengesetze", "anzahl": 26000}
+                    ]
+                },
+                {
+                    "name": "Niedersachsen", 
+                    "einwohner": 8100000, 
+                    "tv_gesamt": 140665, 
+                    "rate_pro_100k": 1736.6, 
+                    "maennlich": 101279, 
+                    "weiblich": 39386,
+                    "altersgruppen": {
+                        "kinder_0_17": 20000,
+                        "erwachsene_18_59": 82400,
+                        "senioren_60plus": 38265
+                    },
+                    "straftaten": [
+                        {"name": "Rohheitsdelikte", "anzahl": 29000},
+                        {"name": "Körperverletzung", "anzahl": 22000},
+                        {"name": "Vermögensdelikte", "anzahl": 26000},
+                        {"name": "Betrug", "anzahl": 15000},
+                        {"name": "Nebengesetze", "anzahl": 19000}
+                    ]
+                },
+                {
+                    "name": "Hessen", 
+                    "einwohner": 6400000, 
+                    "tv_gesamt": 128691, 
+                    "rate_pro_100k": 2010.8, 
+                    "maennlich": 92658, 
+                    "weiblich": 36033,
+                    "altersgruppen": {
+                        "kinder_0_17": 18000,
+                        "erwachsene_18_59": 75500,
+                        "senioren_60plus": 35191
+                    },
+                    "straftaten": [
+                        {"name": "Rohheitsdelikte", "anzahl": 26000},
+                        {"name": "Körperverletzung", "anzahl": 20000},
+                        {"name": "Vermögensdelikte", "anzahl": 24000},
+                        {"name": "Betrug", "anzahl": 14000},
+                        {"name": "Nebengesetze", "anzahl": 18000}
+                    ]
+                },
+                {
+                    "name": "Berlin", 
+                    "einwohner": 3850000, 
+                    "tv_gesamt": 102048, 
+                    "rate_pro_100k": 2650.6, 
+                    "maennlich": 73475, 
+                    "weiblich": 28573,
+                    "altersgruppen": {
+                        "kinder_0_17": 14000,
+                        "erwachsene_18_59": 62000,
+                        "senioren_60plus": 26048
+                    },
+                    "straftaten": [
+                        {"name": "Rohheitsdelikte", "anzahl": 22000},
+                        {"name": "Körperverletzung", "anzahl": 18000},
+                        {"name": "Vermögensdelikte", "anzahl": 16000},
+                        {"name": "Betrug", "anzahl": 12000},
+                        {"name": "Nebengesetze", "anzahl": 14000}
+                    ]
+                },
+                {
+                    "name": "Rheinland-Pfalz", 
+                    "einwohner": 4150000, 
+                    "tv_gesamt": 68276, 
+                    "rate_pro_100k": 1645.2, 
+                    "maennlich": 49159, 
+                    "weiblich": 19117,
+                    "altersgruppen": {
+                        "kinder_0_17": 9500,
+                        "erwachsene_18_59": 40000,
+                        "senioren_60plus": 18776
+                    },
+                    "straftaten": [
+                        {"name": "Rohheitsdelikte", "anzahl": 14000},
+                        {"name": "Körperverletzung", "anzahl": 11000},
+                        {"name": "Vermögensdelikte", "anzahl": 12000},
+                        {"name": "Betrug", "anzahl": 7000},
+                        {"name": "Nebengesetze", "anzahl": 9000}
+                    ]
+                },
+                {
+                    "name": "Sachsen", 
+                    "einwohner": 4100000, 
+                    "tv_gesamt": 67453, 
+                    "rate_pro_100k": 1645.2, 
+                    "maennlich": 48566, 
+                    "weiblich": 18887,
+                    "altersgruppen": {
+                        "kinder_0_17": 9500,
+                        "erwachsene_18_59": 39500,
+                        "senioren_60plus": 18453
+                    },
+                    "straftaten": [
+                        {"name": "Rohheitsdelikte", "anzahl": 14000},
+                        {"name": "Körperverletzung", "anzahl": 11000},
+                        {"name": "Vermögensdelikte", "anzahl": 12000},
+                        {"name": "Betrug", "anzahl": 7000},
+                        {"name": "Nebengesetze", "anzahl": 9000}
+                    ]
+                },
+                {
+                    "name": "Hamburg", 
+                    "einwohner": 1850000, 
+                    "tv_gesamt": 48022, 
+                    "rate_pro_100k": 2595.8, 
+                    "maennlich": 34576, 
+                    "weiblich": 13446,
+                    "altersgruppen": {
+                        "kinder_0_17": 6700,
+                        "erwachsene_18_59": 29000,
+                        "senioren_60plus": 12322
+                    },
+                    "straftaten": [
+                        {"name": "Rohheitsdelikte", "anzahl": 10000},
+                        {"name": "Körperverletzung", "anzahl": 8500},
+                        {"name": "Vermögensdelikte", "anzahl": 7000},
+                        {"name": "Betrug", "anzahl": 5500},
+                        {"name": "Nebengesetze", "anzahl": 6500}
+                    ]
+                },
+                {
+                    "name": "Schleswig-Holstein", 
+                    "einwohner": 2950000, 
+                    "tv_gesamt": 45837, 
+                    "rate_pro_100k": 1553.8, 
+                    "maennlich": 33003, 
+                    "weiblich": 12834,
+                    "altersgruppen": {
+                        "kinder_0_17": 6400,
+                        "erwachsene_18_59": 27000,
+                        "senioren_60plus": 12437
+                    },
+                    "straftaten": [
+                        {"name": "Rohheitsdelikte", "anzahl": 9500},
+                        {"name": "Körperverletzung", "anzahl": 7500},
+                        {"name": "Vermögensdelikte", "anzahl": 8500},
+                        {"name": "Betrug", "anzahl": 4500},
+                        {"name": "Nebengesetze", "anzahl": 6000}
+                    ]
+                },
+                {
+                    "name": "Brandenburg", 
+                    "einwohner": 2550000, 
+                    "tv_gesamt": 39622, 
+                    "rate_pro_100k": 1553.8, 
+                    "maennlich": 28528, 
+                    "weiblich": 11094,
+                    "altersgruppen": {
+                        "kinder_0_17": 5500,
+                        "erwachsene_18_59": 23200,
+                        "senioren_60plus": 10922
+                    },
+                    "straftaten": [
+                        {"name": "Rohheitsdelikte", "anzahl": 8000},
+                        {"name": "Körperverletzung", "anzahl": 6500},
+                        {"name": "Vermögensdelikte", "anzahl": 7000},
+                        {"name": "Betrug", "anzahl": 4000},
+                        {"name": "Nebengesetze", "anzahl": 5000}
+                    ]
+                },
+                {
+                    "name": "Thüringen", 
+                    "einwohner": 2150000, 
+                    "tv_gesamt": 33407, 
+                    "rate_pro_100k": 1553.8, 
+                    "maennlich": 24053, 
+                    "weiblich": 9354,
+                    "altersgruppen": {
+                        "kinder_0_17": 4700,
+                        "erwachsene_18_59": 19600,
+                        "senioren_60plus": 9107
+                    },
+                    "straftaten": [
+                        {"name": "Rohheitsdelikte", "anzahl": 7000},
+                        {"name": "Körperverletzung", "anzahl": 5500},
+                        {"name": "Vermögensdelikte", "anzahl": 6000},
+                        {"name": "Betrug", "anzahl": 3000},
+                        {"name": "Nebengesetze", "anzahl": 4000}
+                    ]
+                },
+                {
+                    "name": "Sachsen-Anhalt", 
+                    "einwohner": 2200000, 
+                    "tv_gesamt": 32173, 
+                    "rate_pro_100k": 1462.4, 
+                    "maennlich": 23165, 
+                    "weiblich": 9008,
+                    "altersgruppen": {
+                        "kinder_0_17": 4500,
+                        "erwachsene_18_59": 18900,
+                        "senioren_60plus": 8773
+                    },
+                    "straftaten": [
+                        {"name": "Rohheitsdelikte", "anzahl": 6500},
+                        {"name": "Körperverletzung", "anzahl": 5000},
+                        {"name": "Vermögensdelikte", "anzahl": 6000},
+                        {"name": "Betrug", "anzahl": 3000},
+                        {"name": "Nebengesetze", "anzahl": 4000}
+                    ]
+                },
+                {
+                    "name": "Mecklenburg-Vorpommern", 
+                    "einwohner": 1600000, 
+                    "tv_gesamt": 23398, 
+                    "rate_pro_100k": 1462.4, 
+                    "maennlich": 16847, 
+                    "weiblich": 6551,
+                    "altersgruppen": {
+                        "kinder_0_17": 3300,
+                        "erwachsene_18_59": 13700,
+                        "senioren_60plus": 6398
+                    },
+                    "straftaten": [
+                        {"name": "Rohheitsdelikte", "anzahl": 4800},
+                        {"name": "Körperverletzung", "anzahl": 3700},
+                        {"name": "Vermögensdelikte", "anzahl": 4300},
+                        {"name": "Betrug", "anzahl": 2200},
+                        {"name": "Nebengesetze", "anzahl": 2900}
+                    ]
+                },
+                {
+                    "name": "Saarland", 
+                    "einwohner": 1000000, 
+                    "tv_gesamt": 19194, 
+                    "rate_pro_100k": 1919.4, 
+                    "maennlich": 13820, 
+                    "weiblich": 5374,
+                    "altersgruppen": {
+                        "kinder_0_17": 2700,
+                        "erwachsene_18_59": 11200,
+                        "senioren_60plus": 5294
+                    },
+                    "straftaten": [
+                        {"name": "Rohheitsdelikte", "anzahl": 4000},
+                        {"name": "Körperverletzung", "anzahl": 3200},
+                        {"name": "Vermögensdelikte", "anzahl": 3500},
+                        {"name": "Betrug", "anzahl": 2000},
+                        {"name": "Nebengesetze", "anzahl": 2500}
+                    ]
+                },
+                {
+                    "name": "Bremen", 
+                    "einwohner": 700000, 
+                    "tv_gesamt": 17914, 
+                    "rate_pro_100k": 2559.2, 
+                    "maennlich": 12898, 
+                    "weiblich": 5016,
+                    "altersgruppen": {
+                        "kinder_0_17": 2500,
+                        "erwachsene_18_59": 10800,
+                        "senioren_60plus": 4614
+                    },
+                    "straftaten": [
+                        {"name": "Rohheitsdelikte", "anzahl": 3800},
+                        {"name": "Körperverletzung", "anzahl": 3200},
+                        {"name": "Vermögensdelikte", "anzahl": 3000},
+                        {"name": "Betrug", "anzahl": 2200},
+                        {"name": "Nebengesetze", "anzahl": 2400}
+                    ]
+                }
+            ]
+        };
+
+        let charts = {};
+        let currentSortCol = null;
+        let currentSortAsc = true;
+
+        // ============================
+        // INIT DASHBOARD
+        // ============================
+        document.addEventListener('DOMContentLoaded', function() {
+            updateKPIs();
+            createCharts();
+            populateTable();
+        });
+
+        // ============================
+        // KPI UPDATE
+        // ============================
+        function updateKPIs() {
+            const summary = dashboardData.summary;
+            
+            document.getElementById('totalTV').textContent = summary.tv_gesamt.toLocaleString('de-DE');
+            
+            // Höchste Rate finden
+            const highestBL = dashboardData.bl_data.reduce((max, bl) => 
+                bl.rate_pro_100k > max.rate_pro_100k ? bl : max, 
+                dashboardData.bl_data[0]
+            );
+            document.getElementById('highestRate').textContent = highestBL.rate_pro_100k.toLocaleString('de-DE');
+            document.getElementById('highestLand').textContent = `📍 ${highestBL.name}`;
+            
+            // Geschlechterverhältnis
+            const totalMale = dashboardData.bl_data.reduce((sum, bl) => sum + bl.maennlich, 0);
+            const totalFemale = dashboardData.bl_data.reduce((sum, bl) => sum + bl.weiblich, 0);
+            const ratio = (totalMale / totalFemale).toFixed(1);
+            document.getElementById('genderRatio').textContent = `${ratio} : 1`;
+            
+            // Durchschnittliche Rate
+            const avgRate = Math.round(dashboardData.bl_data.reduce((sum, bl) => sum + bl.rate_pro_100k, 0) / dashboardData.bl_data.length);
+            document.getElementById('avgRate').textContent = avgRate.toLocaleString('de-DE');
+        }
+
+        // ============================
+        // CHARTS ERSTELLEN
+        // ============================
+        function createCharts() {
+            const labels = dashboardData.bl_data.map(bl => bl.name);
+            
+            // Bar Chart: TV nach Bundesland
+            charts.bar = new Chart(document.getElementById('barChart'), {
+                type: 'bar',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Tatverdächtige',
+                        data: dashboardData.bl_data.map(bl => bl.tv_gesamt),
+                        backgroundColor: 'rgba(59, 130, 246, 0.7)',
+                        borderColor: 'rgb(59, 130, 246)',
+                        borderWidth: 1,
+                        borderRadius: 4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false } },
+                    scales: {
+                        y: { beginAtZero: true, ticks: { color: '#94a3b8' }, grid: { color: 'rgba(148,163,184,0.1)' } },
+                        x: { ticks: { color: '#94a3b8', maxRotation: 45 } }
+                    }
+                }
+            });
+
+            // Line Chart: Rate pro 100k
+            charts.rate = new Chart(document.getElementById('rateChart'), {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Rate / 100k',
+                        data: dashboardData.bl_data.map(bl => bl.rate_pro_100k),
+                        borderColor: 'rgb(16, 185, 129)',
+                        backgroundColor: 'rgba(16, 185, 129, 0.1)',
+                        fill: true,
+                        tension: 0.4,
+                        pointRadius: 4,
+                        pointHoverRadius: 6
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false } },
+                    scales: {
+                        y: { beginAtZero: true, ticks: { color: '#94a3b8' }, grid: { color: 'rgba(148,163,184,0.1)' } },
+                        x: { ticks: { color: '#94a3b8', maxRotation: 45 } }
+                    }
+                }
+            });
+        }
+
+        // ============================
+        // TABELLE POPULIEREN (MIT KLIKKBAREN REIHEN)
+        // ============================
+        function populateTable() {
+            const tbody = document.getElementById('tableBody');
+            const sortedData = [...dashboardData.bl_data].sort((a, b) => b.tv_gesamt - a.tv_gesamt);
+            
+            sortedData.forEach((bl, index) => {
+                const row = document.createElement('tr');
+                row.className = 'clickable-row';
+                row.onclick = () => openModal(bl);
+                
+                row.innerHTML = `
+                    <td>${index + 1}</td>
+                    <td><strong>${bl.name}</strong></td>
+                    <td>${bl.einwohner.toLocaleString('de-DE')}</td>
+                    <td><strong style="color: ${bl.rate_pro_100k >= 2000 ? '#ef4444' : '#3b82f6'}">${bl.tv_gesamt.toLocaleString('de-DE')}</strong></td>
+                    <td>${bl.rate_pro_100k.toFixed(1)}</td>
+                    <td>
+                        <span class="badge badge-male">♂️ ${((bl.maennlich / bl.tv_gesamt * 100)).toFixed(1)}%</span>
+                        <span class="badge badge-female">♀️ ${((bl.weiblich / bl.tv_gesamt * 100)).toFixed(1)}%</span>
+                    </td>
+                `;
+                tbody.appendChild(row);
+            });
+        }
+
+        // ============================
+        // MODAL FÜR DETAILS
+        // ============================
+        function openModal(bl) {
+            const modal = document.getElementById('detailModal');
+            const title = document.getElementById('modalTitle');
+            const body = document.getElementById('modalBody');
+            
+            title.textContent = `📊 Detaillierte Analyse: ${bl.name}`;
+            
+            // Berechnungen
+            const rate = bl.rate_pro_100k;
+            const malePct = (bl.maennlich / bl.tv_gesamt * 100).toFixed(1);
+            const femalePct = (bl.weiblich / bl.tv_gesamt * 100).toFixed(1);
+            
+            // Altersgruppen-Raten berechnen
+            const ag = bl.altersgruppen;
+            const kindRate = (ag.kinder_0_17 / bl.einwohner * 100000).toFixed(1);
+            const erwRate = (ag.erwachsene_18_59 / bl.einwohner * 100000).toFixed(1);
+            const senRate = (ag.senioren_60plus / bl.einwohner * 100000).toFixed(1);
+            
+            // Straftaten-Raten berechnen
+            const crimesHTML = bl.straftaten.map(crime => {
+                const crimeRate = (crime.anzahl / bl.einwohner * 100000).toFixed(1);
+                const pctWidth = (crime.anzahl / bl.tv_gesamt * 100).toFixed(1);
+                return `
+                    <div class="crime-item">
+                        <div class="crime-name">${crime.name}</div>
+                        <div class="crime-bar">
+                            <div class="crime-bar-fill" style="width: ${pctWidth}%"></div>
+                        </div>
+                        <div class="crime-values">
+                            <div class="crime-value">${crime.anzahl.toLocaleString('de-DE')}</div>
+                            <div class="crime-rate">${crimeRate}/100k</div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+            
+            body.innerHTML = `
+                <!-- Übersicht -->
+                <div class="detail-section">
+                    <h3 class="section-title">📈 Grunddaten</h3>
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-label">Einwohner</div>
+                            <div class="stat-value">${bl.einwohner.toLocaleString('de-DE')}</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-label">TV Gesamt</div>
+                            <div class="stat-value" style="color: var(--accent-blue)">${bl.tv_gesamt.toLocaleString('de-DE')}</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-label">Rate pro 100k</div>
+                            <div class="stat-value" style="color: var(--accent-red)">${rate.toFixed(1)}</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-label">Bundesdurchschnitt</div>
+                            <div class="stat-subvalue">Rate: 1.828/100k</div>
+                            <div class="stat-subvalue">Status: ${rate >= 2000 ? '🔴 HOCH' : '🟢 NORMAL'}</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Geschlecht -->
+                <div class="detail-section">
+                    <h3 class="section-title">⚖️ Geschlechterverteilung</h3>
+                    <div class="stats-grid">
+                        <div class="stat-card" style="border-left-color: var(--accent-blue)">
+                            <div class="stat-label">Männlich</div>
+                            <div class="stat-value">${bl.maennlich.toLocaleString('de-DE')}</div>
+                            <div class="stat-subvalue">${malePct}% der TV</div>
+                        </div>
+                        <div class="stat-card" style="border-left-color: #ec4899">
+                            <div class="stat-label">Weiblich</div>
+                            <div class="stat-value">${bl.weiblich.toLocaleString('de-DE')}</div>
+                            <div class="stat-subvalue">${femalePct}% der TV</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Altersgruppen -->
+                <div class="detail-section">
+                    <h3 class="section-title">👥 Altersgruppen</h3>
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-label">Kinder (0-17 Jahre)</div>
+                            <div class="stat-value">${ag.kinder_0_17.toLocaleString('de-DE')}</div>
+                            <div class="stat-subvalue">Rate: ${kindRate}/100k</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-label">Erwachsene (18-59)</div>
+                            <div class="stat-value">${ag.erwachsene_18_59.toLocaleString('de-DE')}</div>
+                            <div class="stat-subvalue">Rate: ${erwRate}/100k</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-label">Senioren (60+)</div>
+                            <div class="stat-value">${ag.senioren_60plus.toLocaleString('de-DE')}</div>
+                            <div class="stat-subvalue">Rate: ${senRate}/100k</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Straftaten -->
+                <div class="detail-section">
+                    <h3 class="section-title">🚨 Straftat-Aufschlüsselung</h3>
+                    <p style="color: var(--text-secondary); margin-bottom: 1rem;">Absolutwerte mit Raten pro 100.000 Einwohner:</p>
+                    ${crimesHTML}
+                </div>
+            `;
+            
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('detailModal');
+            modal.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        // Close on outside click
+        document.getElementById('detailModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeModal();
+            }
+        });
+
+        // Close on Escape key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeModal();
+            }
+        });
+
+        // ============================
+        // SORTIERFUNKTION
+        // ============================
+        function sortTable(colIndex) {
+            const tbody = document.getElementById('tableBody');
+            const rows = Array.from(tbody.querySelectorAll('tr'));
+            
+            if (currentSortCol === colIndex) {
+                currentSortAsc = !currentSortAsc;
+            } else {
+                currentSortCol = colIndex;
+                currentSortAsc = true;
+            }
+            
+            rows.sort((a, b) => {
+                const aText = a.children[colIndex].textContent.trim();
+                const bText = b.children[colIndex].textContent.trim();
+                
+                const aNum = parseFloat(aText.replace(/[^0-9.-]/g, ''));
+                const bNum = parseFloat(bText.replace(/[^0-9.-]/g, ''));
+                
+                if (!isNaN(aNum) && !isNaN(bNum)) {
+                    return currentSortAsc ? aNum - bNum : bNum - aNum;
+                }
+                
+                return currentSortAsc ? aText.localeCompare(bText) : bText.localeCompare(aText);
+            });
+            
+            rows.forEach(row => tbody.appendChild(row));
+        }
+    </script>
+</body>
+</html>

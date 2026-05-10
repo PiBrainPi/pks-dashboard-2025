@@ -1,0 +1,499 @@
+     1|     1|<!DOCTYPE html>
+     2|     2|<html lang="de" data-theme="dark">
+     3|     3|<head>
+     4|     4|    <meta charset="UTF-8">
+     5|     5|    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+     6|     6|    <meta name="description" content="PKS 2025 Tatverdächtigen-Dashboard - Interaktive Kriminalitätsstatistik nach Bundesländern, Nationalitäten und Straftaten">
+     7|     7|    <meta name="theme-color" content="#0f172a">
+     8|     8|    <title>PKS 2025 - Tatverdächtigen Dashboard</title>
+     9|     9|    
+    10|    10|    <!-- Chart.js CDN -->
+    11|    11|    12|    12|    13|    13|    
+    14|    14|    <style>
+    15|    15|        /* ============================
+    16|    16|           DESIGN TOKENS (Primitive & Semantic)
+    17|    17|           ============================ */
+    18|    18|        :root {
+    19|    19|            /* Primitive Tokens */
+    20|    20|            --color-slate-50: #f8fafc;
+    21|    21|            --color-slate-100: #f1f5f9;
+    22|    22|            --color-slate-200: #e2e8f0;
+    23|    23|            --color-slate-300: #cbd5e1;
+    24|    24|            --color-slate-400: #94a3b8;
+    25|    25|            --color-slate-500: #64748b;
+    26|    26|            --color-slate-600: #475569;
+    27|    27|            --color-slate-700: #334155;
+    28|    28|            --color-slate-800: #1e293b;
+    29|    29|            --color-slate-900: #0f172a;
+    30|    30|            --color-slate-950: #020617;
+    31|    31|            
+    32|    32|            --color-red-500: #ef4444;
+    33|    33|            --color-orange-500: #f97316;
+    34|    34|            --color-amber-500: #f59e0b;
+    35|    35|            --color-emerald-500: #10b981;
+    36|    36|            --color-blue-500: #3b82f6;
+    37|    37|            --color-purple-500: #8b5cf6;
+    38|    38|            --color-pink-500: #ec4899;
+    39|    39|            
+    40|    40|            /* Semantic Tokens */
+    41|    41|            --color-bg-primary: var(--color-slate-950);
+    42|    42|            --color-bg-secondary: var(--color-slate-900);
+    43|    43|            --color-bg-card: var(--color-slate-800);
+    44|    44|            --color-bg-hover: var(--color-slate-700);
+    45|    45|            --color-border: var(--color-slate-700);
+    46|    46|            --color-text-primary: var(--color-slate-50);
+    47|    47|            --color-text-secondary: var(--color-slate-400);
+    48|    48|            --color-accent: var(--color-blue-500);
+    49|    49|            --color-accent-hover: #2563eb;
+    50|    50|            --color-danger: var(--color-red-500);
+    51|    51|            --color-warning: var(--color-amber-500);
+    52|    52|            --color-success: var(--color-emerald-500);
+    53|    53|            
+    54|    54|            /* Spacing Scale (fluid) */
+    55|    55|            --space-xs: clamp(0.25rem, 0.5vw, 0.5rem);
+    56|    56|            --space-sm: clamp(0.5rem, 1vw, 1rem);
+    57|    57|            --space-md: clamp(1rem, 2vw, 1.5rem);
+    58|    58|            --space-lg: clamp(1.5rem, 3vw, 2.5rem);
+    59|    59|            --space-xl: clamp(2rem, 4vw, 4rem);
+    60|    60|            
+    61|    61|            /* Typography (fluid) */
+    62|    62|            --text-xs: clamp(0.75rem, 1vw, 0.875rem);
+    63|    63|            --text-sm: clamp(0.875rem, 1.2vw, 1rem);
+    64|    64|            --text-base: clamp(1rem, 1.5vw, 1.125rem);
+    65|    65|            --text-lg: clamp(1.125rem, 2vw, 1.5rem);
+    66|    66|            --text-xl: clamp(1.5rem, 3vw, 2rem);
+    67|    67|            --text-2xl: clamp(2rem, 4vw, 3rem);
+    68|    68|            
+    69|    69|            /* Radii */
+    70|    70|            --radius-sm: 0.375rem;
+    71|    71|            --radius-md: 0.5rem;
+    72|    72|            --radius-lg: 0.75rem;
+    73|    73|            --radius-xl: 1rem;
+    74|    74|            
+    75|    75|            /* Shadows */
+    76|    76|            --shadow-sm: 0 1px 2px rgba(0,0,0,0.3);
+    77|    77|            --shadow-md: 0 4px 12px rgba(0,0,0,0.4);
+    78|    78|            --shadow-lg: 0 10px 30px rgba(0,0,0,0.5);
+    79|    79|            
+    80|    80|            /* Transitions */
+    81|    81|            --transition-fast: 150ms ease;
+    82|    82|            --transition-normal: 250ms ease;
+    83|    83|            --transition-slow: 350ms ease;
+    84|    84|        }
+    85|    85|        
+    86|    86|        /* Light Theme */
+    87|    87|        [data-theme="light"] {
+    88|    88|            --color-bg-primary: var(--color-slate-50);
+    89|    89|            --color-bg-secondary: var(--color-slate-100);
+    90|    90|            --color-bg-card: white;
+    91|    91|            --color-bg-hover: var(--color-slate-100);
+    92|    92|            --color-border: var(--color-slate-200);
+    93|    93|            --color-text-primary: var(--color-slate-900);
+    94|    94|            --color-text-secondary: var(--color-slate-600);
+    95|    95|            --color-accent: var(--color-blue-500);
+    96|    96|            --color-accent-hover: #2563eb;
+    97|    97|        }
+    98|    98|        
+    99|    99|        /* ============================
+   100|   100|           RESET & BASE
+   101|   101|           ============================ */
+   102|   102|        *,
+   103|   103|        *::before,
+   104|   104|        *::after {
+   105|   105|            box-sizing: border-box;
+   106|   106|            margin: 0;
+   107|   107|        }
+   108|   108|        
+   109|   109|        html {
+   110|   110|            scroll-behavior: smooth;
+   111|   111|        }
+   112|   112|        
+   113|   113|        body {
+   114|   114|            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+   115|   115|            background-color: var(--color-bg-primary);
+   116|   116|            color: var(--color-text-primary);
+   117|   117|            line-height: 1.6;
+   118|   118|            font-size: var(--text-base);
+   119|   119|            min-height: 100vh;
+   120|   120|            padding: var(--space-md);
+   121|   121|            transition: background-color var(--transition-normal), color var(--transition-normal);
+   122|   122|        }
+   123|   123|        
+   124|   124|        /* Skip Link */
+   125|   125|        .skip-link {
+   126|   126|            position: absolute;
+   127|   127|            top: -100%;
+   128|   128|            left: 50%;
+   129|   129|            transform: translateX(-50%);
+   130|   130|            background: var(--color-accent);
+   131|   131|            color: white;
+   132|   132|            padding: var(--space-sm) var(--space-md);
+   133|   133|            border-radius: var(--radius-md);
+   134|   134|            z-index: 1000;
+   135|   135|            transition: top var(--transition-fast);
+   136|   136|        }
+   137|   137|        
+   138|   138|        .skip-link:focus {
+   139|   139|            top: var(--space-sm);
+   140|   140|        }
+   141|   141|        
+   142|   142|        /* ============================
+   143|   143|           LAYOUT (CSS Grid)
+   144|   144|           ============================ */
+   145|   145|        .app-layout {
+   146|   146|            display: grid;
+   147|   147|            grid-template-columns: 280px 1fr;
+   148|   148|            gap: var(--space-lg);
+   149|   149|            max-width: 1920px;
+   150|   150|            margin: 0 auto;
+   151|   151|            min-height: 100vh;
+   152|   152|        }
+   153|   153|        
+   154|   154|        @media (max-width: 1024px) {
+   155|   155|            .app-layout {
+   156|   156|                grid-template-columns: 1fr;
+   157|   157|            }
+   158|   158|        }
+   159|   159|        
+   160|   160|        /* ============================
+   161|   161|           HEADER (Landmark)
+   162|   162|           ============================ */
+   163|   163|        header[role="banner"] {
+   164|   164|            grid-column: 1 / -1;
+   165|   165|            display: flex;
+   166|   166|            justify-content: space-between;
+   167|   167|            align-items: center;
+   168|   168|            padding: var(--space-md) 0;
+   169|   169|            border-bottom: 1px solid var(--color-border);
+   170|   170|            margin-bottom: var(--space-md);
+   171|   171|        }
+   172|   172|        
+   173|   173|        .header-title {
+   174|   174|            font-size: var(--text-xl);
+   175|   175|            font-weight: 700;
+   176|   176|            background: linear-gradient(135deg, var(--color-accent), var(--color-purple-500));
+   177|   177|            -webkit-background-clip: text;
+   178|   178|            -webkit-text-fill-color: transparent;
+   179|   179|            background-clip: text;
+   180|   180|        }
+   181|   181|        
+   182|   182|        .theme-toggle {
+   183|   183|            background: var(--color-bg-card);
+   184|   184|            border: 1px solid var(--color-border);
+   185|   185|            color: var(--color-text-primary);
+   186|   186|            padding: var(--space-xs) var(--space-sm);
+   187|   187|            border-radius: var(--radius-md);
+   188|   188|            cursor: pointer;
+   189|   189|            font-size: var(--text-sm);
+   190|   190|            transition: all var(--transition-fast);
+   191|   191|        }
+   192|   192|        
+   193|   193|        .theme-toggle:hover {
+   194|   194|            background: var(--color-bg-hover);
+   195|   195|            transform: translateY(-1px);
+   196|   196|            box-shadow: var(--shadow-sm);
+   197|   197|        }
+   198|   198|        
+   199|   199|        /* ============================
+   200|   200|           SIDEBAR (Filter)
+   201|   201|           ============================ */
+   202|   202|        .sidebar {
+   203|   203|            background: var(--color-bg-secondary);
+   204|   204|            border-radius: var(--radius-lg);
+   205|   205|            padding: var(--space-md);
+   206|   206|            border: 1px solid var(--color-border);
+   207|   207|            height: fit-content;
+   208|   208|            position: sticky;
+   209|   209|            top: var(--space-md);
+   210|   210|        }
+   211|   211|        
+   212|   212|        @media (max-width: 1024px) {
+   213|   213|            .sidebar {
+   214|   214|                position: static;
+   215|   215|            }
+   216|   216|        }
+   217|   217|        
+   218|   218|        .filter-group {
+   219|   219|            margin-bottom: var(--space-md);
+   220|   220|        }
+   221|   221|        
+   222|   222|        .filter-label {
+   223|   223|            display: block;
+   224|   224|            font-size: var(--text-sm);
+   225|   225|            font-weight: 600;
+   226|   226|            color: var(--color-text-secondary);
+   227|   227|            margin-bottom: var(--space-xs);
+   228|   228|            text-transform: uppercase;
+   229|   229|            letter-spacing: 0.05em;
+   230|   230|        }
+   231|   231|        
+   232|   232|        .filter-select {
+   233|   233|            width: 100%;
+   234|   234|            background: var(--color-bg-card);
+   235|   235|            border: 1px solid var(--color-border);
+   236|   236|            color: var(--color-text-primary);
+   237|   237|            padding: var(--space-xs) var(--space-sm);
+   238|   238|            border-radius: var(--radius-sm);
+   239|   239|            font-size: var(--text-sm);
+   240|   240|            cursor: pointer;
+   241|   241|            transition: border-color var(--transition-fast);
+   242|   242|        }
+   243|   243|        
+   244|   244|        .filter-select:focus {
+   245|   245|            outline: none;
+   246|   246|            border-color: var(--color-accent);
+   247|   247|            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.3);
+   248|   248|        }
+   249|   249|        
+   250|   250|        /* ============================
+   251|   251|           MAIN CONTENT
+   252|   252|           ============================ */
+   253|   253|        main[role="main"] {
+   254|   254|            display: grid;
+   255|   255|            gap: var(--space-lg);
+   256|   256|        }
+   257|   257|        
+   258|   258|        /* KPI Cards */
+   259|   259|        .kpi-grid {
+   260|   260|            display: grid;
+   261|   261|            grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr));
+   262|   262|            gap: var(--space-md);
+   263|   263|        }
+   264|   264|        
+   265|   265|        .kpi-card {
+   266|   266|            background: var(--color-bg-card);
+   267|   267|            border: 1px solid var(--color-border);
+   268|   268|            border-radius: var(--radius-lg);
+   269|   269|            padding: var(--space-md);
+   270|   270|            transition: all var(--transition-normal);
+   271|   271|            position: relative;
+   272|   272|            overflow: hidden;
+   273|   273|        }
+   274|   274|        
+   275|   275|        .kpi-card::before {
+   276|   276|            content: '';
+   277|   277|            position: absolute;
+   278|   278|            top: 0;
+   279|   279|            left: 0;
+   280|   280|            width: 4px;
+   281|   281|            height: 100%;
+   282|   282|            background: var(--card-accent, var(--color-accent));
+   283|   283|        }
+   284|   284|        
+   285|   285|        .kpi-card:hover {
+   286|   286|            transform: translateY(-2px);
+   287|   287|            box-shadow: var(--shadow-md);
+   288|   288|        }
+   289|   289|        
+   290|   290|        .kpi-label {
+   291|   291|            font-size: var(--text-xs);
+   292|   292|            color: var(--color-text-secondary);
+   293|   293|            text-transform: uppercase;
+   294|   294|            letter-spacing: 0.05em;
+   295|   295|            margin-bottom: var(--space-xs);
+   296|   296|        }
+   297|   297|        
+   298|   298|        .kpi-value {
+   299|   299|            font-size: var(--text-2xl);
+   300|   300|            font-weight: 700;
+   301|   301|            line-height: 1.2;
+   302|   302|            margin-bottom: var(--space-xs);
+   303|   303|        }
+   304|   304|        
+   305|   305|        .kpi-change {
+   306|   306|            font-size: var(--text-xs);
+   307|   307|            display: flex;
+   308|   308|            align-items: center;
+   309|   309|            gap: var(--space-xs);
+   310|   310|        }
+   311|   311|        
+   312|   312|        .kpi-change.positive { color: var(--color-success); }
+   313|   313|        .kpi-change.negative { color: var(--color-danger); }
+   314|   314|        
+   315|   315|        /* Chart Sections */
+   316|   316|        .chart-section {
+   317|   317|            background: var(--color-bg-card);
+   318|   318|            border: 1px solid var(--color-border);
+   319|   319|            border-radius: var(--radius-lg);
+   320|   320|            padding: var(--space-md);
+   321|   321|        }
+   322|   322|        
+   323|   323|        .section-title {
+   324|   324|            font-size: var(--text-lg);
+   325|   325|            font-weight: 600;
+   326|   326|            margin-bottom: var(--space-md);
+   327|   327|            display: flex;
+   328|   328|            align-items: center;
+   329|   329|            gap: var(--space-sm);
+   330|   330|        }
+   331|   331|        
+   332|   332|        .chart-container {
+   333|   333|            position: relative;
+   334|   334|            height: 400px;
+   335|   335|            width: 100%;
+   336|   336|        }
+   337|   337|        
+   338|   338|        .chart-grid {
+   339|   339|            display: grid;
+   340|   340|            grid-template-columns: repeat(auto-fit, minmax(min(100%, 450px), 1fr));
+   341|   341|            gap: var(--space-md);
+   342|   342|        }
+   343|   343|        
+   344|   344|        /* Data Table */
+   345|   345|        .table-container {
+   346|   346|            background: var(--color-bg-card);
+   347|   347|            border: 1px solid var(--color-border);
+   348|   348|            border-radius: var(--radius-lg);
+   349|   349|            overflow: hidden;
+   350|   350|        }
+   351|   351|        
+   352|   352|        .data-table {
+   353|   353|            width: 100%;
+   354|   354|            border-collapse: collapse;
+   355|   355|            font-size: var(--text-sm);
+   356|   356|        }
+   357|   357|        
+   358|   358|        .data-table thead {
+   359|   359|            background: var(--color-bg-secondary);
+   360|   360|        }
+   361|   361|        
+   362|   362|        .data-table th {
+   363|   363|            padding: var(--space-sm) var(--space-md);
+   364|   364|            text-align: left;
+   365|   365|            font-weight: 600;
+   366|   366|            color: var(--color-text-secondary);
+   367|   367|            border-bottom: 2px solid var(--color-border);
+   368|   368|            cursor: pointer;
+   369|   369|            user-select: none;
+   370|   370|            transition: color var(--transition-fast);
+   371|   371|        }
+   372|   372|        
+   373|   373|        .data-table th:hover {
+   374|   374|            color: var(--color-text-primary);
+   375|   375|        }
+   376|   376|        
+   377|   377|        .data-table td {
+   378|   378|            padding: var(--space-sm) var(--space-md);
+   379|   379|            border-bottom: 1px solid var(--color-border);
+   380|   380|            transition: background-color var(--transition-fast);
+   381|   381|        }
+   382|   382|        
+   383|   383|        .data-table tbody tr:hover {
+   384|   384|            background: var(--color-bg-hover);
+   385|   385|        }
+   386|   386|        
+   387|   387|        .data-table tbody tr:nth-child(even) {
+   388|   388|            background: rgba(0,0,0,0.05);
+   389|   389|        }
+   390|   390|        
+   391|   391|        [data-theme="dark"] .data-table tbody tr:nth-child(even) {
+   392|   392|            background: rgba(255,255,255,0.02);
+   393|   393|        }
+   394|   394|        
+   395|   395|        /* Badge */
+   396|   396|        .badge {
+   397|   397|            display: inline-block;
+   398|   398|            padding: 0.125rem 0.5rem;
+   399|   399|            border-radius: 999px;
+   400|   400|            font-size: var(--text-xs);
+   401|   401|            font-weight: 600;
+   402|   402|        }
+   403|   403|        
+   404|   404|        .badge-male { background: rgba(59, 130, 246, 0.2); color: var(--color-blue-500); }
+   405|   405|        .badge-female { background: rgba(236, 72, 153, 0.2); color: var(--color-pink-500); }
+   406|   406|        
+   407|   407|        /* ============================
+   408|   408|           FOOTER
+   409|   409|           ============================ */
+   410|   410|        footer[role="contentinfo"] {
+   411|   411|            grid-column: 1 / -1;
+   412|   412|            text-align: center;
+   413|   413|            padding: var(--space-md) 0;
+   414|   414|            border-top: 1px solid var(--color-border);
+   415|   415|            font-size: var(--text-xs);
+   416|   416|            color: var(--color-text-secondary);
+   417|   417|            margin-top: var(--space-lg);
+   418|   418|        }
+   419|   419|        
+   420|   420|        /* ============================
+   421|   421|           SCROLL-DRIVEN ANIMATIONS
+   422|   422|           ============================ */
+   423|   423|        @keyframes fadeInUp {
+   424|   424|            from {
+   425|   425|                opacity: 0;
+   426|   426|                transform: translateY(20px);
+   427|   427|            }
+   428|   428|            to {
+   429|   429|                opacity: 1;
+   430|   430|                transform: translateY(0);
+   431|   431|            }
+   432|   432|        }
+   433|   433|        
+   434|   434|        .animate-in {
+   435|   435|            animation: fadeInUp var(--transition-slow) ease forwards;
+   436|   436|            opacity: 0;
+   437|   437|        }
+   438|   438|        
+   439|   439|        .delay-1 { animation-delay: 100ms; }
+   440|   440|        .delay-2 { animation-delay: 200ms; }
+   441|   441|        .delay-3 { animation-delay: 300ms; }
+   442|   442|        
+   443|   443|        /* ============================
+   444|   444|           CONTAINER QUERIES (Component Responsive)
+   445|   445|           ============================ */
+   446|   446|        .kpi-card {
+   447|   447|            container-type: inline-size;
+   448|   448|        }
+   449|   449|        
+   450|   450|        @container (max-width: 200px) {
+   451|   451|            .kpi-value {
+   452|   452|                font-size: var(--text-xl);
+   453|   453|            }
+   454|   454|        }
+   455|   455|        
+   456|   456|        /* ============================
+   457|   457|           ACCESSIBILITY
+   458|   458|           ============================ */
+   459|   459|        .visually-hidden {
+   460|   460|            position: absolute;
+   461|   461|            width: 1px;
+   462|   462|            height: 1px;
+   463|   463|            padding: 0;
+   464|   464|            margin: -1px;
+   465|   465|            overflow: hidden;
+   466|   466|            clip: rect(0, 0, 0, 0);
+   467|   467|            white-space: nowrap;
+   468|   468|            border: 0;
+   469|   469|        }
+   470|   470|        
+   471|   471|        /* Focus Visible */
+   472|   472|        :focus-visible {
+   473|   473|            outline: 2px solid var(--color-accent);
+   474|   474|            outline-offset: 2px;
+   475|   475|        }
+   476|   476|        
+   477|   477|        /* Reduced Motion */
+   478|   478|        @media (prefers-reduced-motion: reduce) {
+   479|   479|            *,
+   480|   480|            *::before,
+   481|   481|            *::after {
+   482|   482|                animation-duration: 0.01ms !important;
+   483|   483|                animation-iteration-count: 1 !important;
+   484|   484|                transition-duration: 0.01ms !important;
+   485|   485|            }
+   486|   486|        }
+   487|   487|    </style>
+   488|   488|</head>
+   489|   489|<body>
+   490|   490|    <a href="#main-content" class="skip-link">Skip to main content</a>
+   491|   491|    
+   492|   492|    <div class="app-layout">
+   493|   493|        <header role="banner">
+   494|   494|            <h1 class="header-title">PKS 2025 Dashboard</h1>
+   495|   495|            <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark/light mode">
+   496|   496|                <span id="themeIcon">☀️</span> Theme
+   497|   497|            </button>
+   498|   498|        </header>
+   499|   499|        
+   500|   500|        <aside class="sidebar" role="complementary" aria-label="Filter options">
+   501|

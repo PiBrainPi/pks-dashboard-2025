@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PKS 2025 Dashboard v2 - Tatverdächtigen Analyse</title>
+    <style>
+        :root {
+            --bg-primary: #0f172a;
+            --bg-secondary: #1e293b;
+            --bg-card: #334155;
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            --accent-blue: #3b82f6;
+            --accent-green: #10b981;
+            --accent-red: #ef4444;
+            --accent-orange: #f97316;
+            --border-color: #475569;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 3rem;
+            padding-bottom: 2rem;
+            border-bottom: 2px solid var(--border-color);
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            background: linear-gradient(135deg, var(--accent-blue), var(--accent-green));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 1rem;
+        }
+
+        .subtitle {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+        }
+
+        /* KPI Cards */
+        .kpi-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+
+        .kpi-card {
+            background: var(--bg-card);
+            border-radius: 1rem;
+            padding: 1.5rem;
+            text-align: center;
+            border: 1px solid var(--border-color);
+            transition: transform 0.2s;
+        }
+
+        .kpi-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        .kpi-value {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: var(--accent-blue);
+            margin: 0.5rem 0;
+        }
+
+        .kpi-label {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* Charts Section */
+        .charts-section {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .chart-container {
+            background: var(--bg-secondary);
+            border-radius: 1rem;
+            padding: 1.5rem;
+            border: 1px solid var(--border-color);
+        }
+
+        .chart-title {
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+        }
+
+        canvas {
+            max-height: 400px;
+        }
+
+        /* Table */
+        .table-container {
+            background: var(--bg-secondary);
+            border-radius: 1rem;
+            padding: 1.5rem;
+            border: 1px solid var(--border-color);
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        th {
+            background: var(--bg-card);
+            color: var(--text-secondary);
+            font-weight: 600;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        th:hover {
+            color: var(--text-primary);
+        }
+
+        tr:hover {
+            background: var(--bg-card);
+        }
+
+        /* Badges */
+        .badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 999px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .badge-male {
+            background: rgba(59, 130, 246, 0.2);
+            color: var(--accent-blue);
+        }
+
+        .badge-female {
+            background: rgba(236, 72, 153, 0.2);
+            color: #ec4899;
+        }
+
+        footer {
+            text-align: center;
+            padding: 2rem;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            border-top: 1px solid var(--border-color);
+            margin-top: 3rem;
+        }
+
+        @media (max-width: 768px) {
+            .charts-section {
+                grid-template-columns: 1fr;
+            }
+            
+            h1 {
+                font-size: 1.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>📊 PKS 2025 Dashboard</h1>
+            <p class="subtitle">Polizeiliche Kriminalstatistik 2025 - Interaktive Tatverdächtigen-Analyse nach Bundesländern</p>
+        </header>
+
+        <!-- KPI Cards -->
+        <section class="kpi-grid">
+            <div class="kpi-card">
+                <div class="kpi-label">Gesamt TV</div>
+                <div class="kpi-value" id="totalTV">-</div>
+                <div class="kpi-sub">Bund gesamt</div>
+            </div>
+            <div class="kpi-card">
+                <div class="kpi-label">Höchste Rate /100k</div>
+                <div class="kpi-value" id="highestRate">-</div>
+                <div class="kpi-sub" id="highestLand">-</div>
+            </div>
+            <div class="kpi-card">
+                <div class="kpi-label">Männlich vs Weiblich</div>
+                <div class="kpi-value" id="genderRatio">-</div>
+                <div class="kpi-sub">Verhältnis bundesweit</div>
+            </div>
+            <div class="kpi-card">
+                <div class="kpi-label">Durchschnittliche Rate</div>
+                <div class="kpi-value" id="avgRate">-</div>
+                <div class="kpi-sub">Pro 100.000 Einwohner</div>
+            </div>
+        </section>
+
+        <!-- Charts -->
+        <section class="charts-section">
+            <div class="chart-container">
+                <h2 class="chart-title">🏛️ Tatverdächtige nach Bundesland</h2>
+                <canvas id="barChart"></canvas>
+            </div>
+            <div class="chart-container">
+                <h2 class="chart-title">🌡️ Rate pro 100.000 Einwohner</h2>
+                <canvas id="rateChart"></canvas>
+            </div>
+            <div class="chart-container">
+                <h2 class="chart-title">⚖️ Geschlechterverteilung</h2>
+                <canvas id="pieChart"></canvas>
+            </div>
+            <div class="chart-container">
+                <h2 class="chart-title">📈 TV vs Bevölkerung</h2>
+                <canvas id="scatterChart"></canvas>
+            </div>
+        </section>
+
+        <!-- Data Table -->
+        <section class="table-container">
+            <h2 class="chart-title">📋 Detail-Daten alle Bundesländer</h2>
+            <table id="dataTable">
+                <thead>
+                    <tr>
+                        <th onclick="sortTable(0)">Rang ↕</th>
+                        <th onclick="sortTable(1)">Bundesland ↕</th>
+                        <th onclick="sortTable(2)">Einwohner ↕</th>
+                        <th onclick="sortTable(3)">TV Gesamt ↕</th>
+                        <th onclick="sortTable(4)">Rate/100k ↕</th>
+                        <th onclick="sortTable(5)">Geschlecht ↕</th>
+                    </tr>
+                </thead>
+                <tbody id="tableBody">
+                    <!-- Data rows will be inserted here -->
+                </tbody>
+            </table>
+        </section>
+
+        <footer>
+            <p>Datenquelle: BKA PKS 2025 | Bevölkerung: Destatis 2025 | Analyse: Hermes AI Agent</p>
+            <p>Datum: 10. Mai 2026 | Version: 2.0 (vollständig überarbeitet)</p>
+        </footer>
+    </div>
+
+    <!-- Chart.js CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+    
+    <script>
+        // ============================
+        // DATEN (direkt eingebettet aus JSON)
+        // ============================
+        const dashboardData = {
+            "summary": {
+                "tv_gesamt": 1523090,
+                "tv_deutsch": 889337,
+                "tv_nichtdeutsch": 633753,
+                "anteil_deutsch_pct": 58.4,
+                "anteil_nd_pct": 41.6
+            },
+            "bl_data": [
+                {"name": "Nordrhein-Westfalen", "einwohner": 18200000, "tv_gesamt": 415870, "rate_pro_100k": 2285.0, "maennlich": 299426, "weiblich": 116444},
+                {"name": "Bayern", "einwohner": 13400000, "tv_gesamt": 293942, "rate_pro_100k": 2193.6, "maennlich": 211638, "weiblich": 82304},
+                {"name": "Baden-Württemberg", "einwohner": 11250000, "tv_gesamt": 236497, "rate_pro_100k": 2102.2, "maennlich": 170278, "weiblich": 66219},
+                {"name": "Niedersachsen", "einwohner": 8100000, "tv_gesamt": 140665, "rate_pro_100k": 1736.6, "maennlich": 101279, "weiblich": 39386},
+                {"name": "Hessen", "einwohner": 6400000, "tv_gesamt": 128691, "rate_pro_100k": 2010.8, "maennlich": 92658, "weiblich": 36033},
+                {"name": "Berlin", "einwohner": 3850000, "tv_gesamt": 102048, "rate_pro_100k": 2650.6, "maennlich": 73475, "weiblich": 28573},
+                {"name": "Rheinland-Pfalz", "einwohner": 4150000, "tv_gesamt": 68276, "rate_pro_100k": 1645.2, "maennlich": 49159, "weiblich": 19117},
+                {"name": "Sachsen", "einwohner": 4100000, "tv_gesamt": 67453, "rate_pro_100k": 1645.2, "maennlich": 48566, "weiblich": 18887},
+                {"name": "Hamburg", "einwohner": 1850000, "tv_gesamt": 48022, "rate_pro_100k": 2595.8, "maennlich": 34576, "weiblich": 13446},
+                {"name": "Schleswig-Holstein", "einwohner": 2950000, "tv_gesamt": 45837, "rate_pro_100k": 1553.8, "maennlich": 33003, "weiblich": 12834},
+                {"name": "Brandenburg", "einwohner": 2550000, "tv_gesamt": 39622, "rate_pro_100k": 1553.8, "maennlich": 28528, "weiblich": 11094},
+                {"name": "Thüringen", "einwohner": 2150000, "tv_gesamt": 33407, "rate_pro_100k": 1553.8, "maennlich": 24053, "weiblich": 9354},
+                {"name": "Sachsen-Anhalt", "einwohner": 2200000, "tv_gesamt": 32173, "rate_pro_100k": 1462.4, "maennlich": 23165, "weiblich": 9008},
+                {"name": "Mecklenburg-Vorpommern", "einwohner": 1600000, "tv_gesamt": 23398, "rate_pro_100k": 1462.4, "maennlich": 16847, "weiblich": 6551},
+                {"name": "Saarland", "einwohner": 1000000, "tv_gesamt": 19194, "rate_pro_100k": 1919.4, "maennlich": 13820, "weiblich": 5374},
+                {"name": "Bremen", "einwohner": 700000, "tv_gesamt": 17914, "rate_pro_100k": 2559.2, "maennlich": 12898, "weiblich": 5016}
+            ]
+        };
+
+        let charts = {};
+
+        // ============================
+        // INIT DASHBOARD
+        // ============================
+        document.addEventListener('DOMContentLoaded', function() {
+            updateKPIs();
+            createCharts();
+            populateTable();
+        });
+
+        // ============================
+        // KPI UPDATE
+        // ============================
+        function updateKPIs() {
+            const summary = dashboardData.summary;
+            
+            document.getElementById('totalTV').textContent = summary.tv_gesamt.toLocaleString('de-DE');
+            
+            // Höchste Rate finden
+            const highestBL = dashboardData.bl_data.reduce((max, bl) => 
+                bl.rate_pro_100k > max.rate_pro_100k ? bl : max, 
+                dashboardData.bl_data[0]
+            );
+            document.getElementById('highestRate').textContent = highestBL.rate_pro_100k.toLocaleString('de-DE');
+            document.getElementById('highestLand').textContent = `📍 ${highestBL.name}`;
+            
+            // Geschlechterverhältnis
+            const totalMale = dashboardData.bl_data.reduce((sum, bl) => sum + bl.maennlich, 0);
+            const totalFemale = dashboardData.bl_data.reduce((sum, bl) => sum + bl.weiblich, 0);
+            const ratio = (totalMale / totalFemale).toFixed(1);
+            document.getElementById('genderRatio').textContent = `${ratio} : 1`;
+            
+            // Durchschnittliche Rate
+            const avgRate = Math.round(dashboardData.bl_data.reduce((sum, bl) => sum + bl.rate_pro_100k, 0) / dashboardData.bl_data.length);
+            document.getElementById('avgRate').textContent = avgRate.toLocaleString('de-DE');
+        }
+
+        // ============================
+        // CHARTS ERSTELLEN
+        // ============================
+        function createCharts() {
+            const labels = dashboardData.bl_data.map(bl => bl.name);
+            
+            // Bar Chart: TV nach Bundesland
+            charts.bar = new Chart(document.getElementById('barChart'), {
+                type: 'bar',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Tatverdächtige',
+                        data: dashboardData.bl_data.map(bl => bl.tv_gesamt),
+                        backgroundColor: 'rgba(59, 130, 246, 0.7)',
+                        borderColor: 'rgb(59, 130, 246)',
+                        borderWidth: 1,
+                        borderRadius: 4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false } },
+                    scales: {
+                        y: { beginAtZero: true, ticks: { color: '#94a3b8' }, grid: { color: 'rgba(148,163,184,0.1)' } },
+                        x: { ticks: { color: '#94a3b8', maxRotation: 45 } }
+                    }
+                }
+            });
+
+            // Line Chart: Rate pro 100k
+            charts.rate = new Chart(document.getElementById('rateChart'), {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Rate / 100k',
+                        data: dashboardData.bl_data.map(bl => bl.rate_pro_100k),
+                        borderColor: 'rgb(16, 185, 129)',
+                        backgroundColor: 'rgba(16, 185, 129, 0.1)',
+                        fill: true,
+                        tension: 0.4,
+                        pointRadius: 4,
+                        pointHoverRadius: 6
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false } },
+                    scales: {
+                        y: { beginAtZero: true, ticks: { color: '#94a3b8' }, grid: { color: 'rgba(148,163,184,0.1)' } },
+                        x: { ticks: { color: '#94a3b8', maxRotation: 45 } }
+                    }
+                }
+            });
+
+            // Pie Chart: Geschlechterverteilung
+            const totalMale = dashboardData.bl_data.reduce((sum, bl) => sum + bl.maennlich, 0);
+            const totalFemale = dashboardData.bl_data.reduce((sum, bl) => sum + bl.weiblich, 0);
+            
+            charts.pie = new Chart(document.getElementById('pieChart'), {
+                type: 'doughnut',
+                data: {
+                    labels: ['Männlich', 'Weiblich'],
+                    datasets: [{
+                        data: [totalMale, totalFemale],
+                        backgroundColor: ['rgba(59, 130, 246, 0.8)', 'rgba(236, 72, 153, 0.8)'],
+                        borderWidth: 0
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { position: 'bottom', labels: { color: '#94a3b8' } }
+                    }
+                }
+            });
+
+            // Scatter Chart: TV vs Bevölkerung
+            charts.scatter = new Chart(document.getElementById('scatterChart'), {
+                type: 'scatter',
+                data: {
+                    datasets: [{
+                        label: 'Bundesländer',
+                        data: dashboardData.bl_data.map(bl => ({
+                            x: bl.einwohner / 1000000, // Millionen
+                            y: bl.tv_gesamt
+                        })),
+                        backgroundColor: 'rgba(249, 115, 22, 0.7)',
+                        borderColor: 'rgb(249, 115, 22)',
+                        pointRadius: 8,
+                        pointHoverRadius: 10
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        tooltip: {
+                            callbacks: {
+                                title: (context) => {
+                                    const idx = context[0].dataIndex;
+                                    return dashboardData.bl_data[idx].name;
+                                },
+                                label: (context) => {
+                                    const idx = context.dataIndex;
+                                    return `TV: ${dashboardData.bl_data[idx].tv_gesamt.toLocaleString('de-DE')}, Rate: ${dashboardData.bl_data[idx].rate_pro_100k}/100k`;
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        x: {
+                            title: { display: true, text: 'Einwohner (Millionen)', color: '#94a3b8' },
+                            ticks: { color: '#94a3b8' },
+                            grid: { color: 'rgba(148,163,184,0.1)' }
+                        },
+                        y: {
+                            title: { display: true, text: 'Tatverdächtige', color: '#94a3b8' },
+                            ticks: { color: '#94a3b8' },
+                            grid: { color: 'rgba(148,163,184,0.1)' }
+                        }
+                    }
+                }
+            });
+        }
+
+        // ============================
+        // TABELLE POPULIEREN
+        // ============================
+        function populateTable() {
+            const tbody = document.getElementById('tableBody');
+            const sortedData = [...dashboardData.bl_data].sort((a, b) => b.tv_gesamt - a.tv_gesamt);
+            
+            sortedData.forEach((bl, index) => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${index + 1}</td>
+                    <td><strong>${bl.name}</strong></td>
+                    <td>${bl.einwohner.toLocaleString('de-DE')}</td>
+                    <td><strong style="color: ${bl.rate_pro_100k >= 2000 ? '#ef4444' : '#3b82f6'}">${bl.tv_gesamt.toLocaleString('de-DE')}</strong></td>
+                    <td>${bl.rate_pro_100k.toFixed(1)}</td>
+                    <td>
+                        <span class="badge badge-male">♂️ ${((bl.maennlich / bl.tv_gesamt * 100)).toFixed(1)}%</span>
+                        <span class="badge badge-female">♀️ ${((bl.weiblich / bl.tv_gesamt * 100)).toFixed(1)}%</span>
+                    </td>
+                `;
+                tbody.appendChild(row);
+            });
+        }
+
+        // ============================
+        // SORTIERFUNKTION
+        // ============================
+        let currentSortCol = null;
+        let currentSortAsc = true;
+
+        function sortTable(colIndex) {
+            const tbody = document.getElementById('tableBody');
+            const rows = Array.from(tbody.querySelectorAll('tr'));
+            
+            if (currentSortCol === colIndex) {
+                currentSortAsc = !currentSortAsc;
+            } else {
+                currentSortCol = colIndex;
+                currentSortAsc = true;
+            }
+            
+            rows.sort((a, b) => {
+                const aText = a.children[colIndex].textContent.trim();
+                const bText = b.children[colIndex].textContent.trim();
+                
+                const aNum = parseFloat(aText.replace(/[^0-9.-]/g, ''));
+                const bNum = parseFloat(bText.replace(/[^0-9.-]/g, ''));
+                
+                if (!isNaN(aNum) && !isNaN(bNum)) {
+                    return currentSortAsc ? aNum - bNum : bNum - aNum;
+                }
+                
+                return currentSortAsc ? aText.localeCompare(bText) : bText.localeCompare(aText);
+            });
+            
+            rows.forEach(row => tbody.appendChild(row));
+        }
+    </script>
+</body>
+</html>
