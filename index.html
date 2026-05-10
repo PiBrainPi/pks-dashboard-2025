@@ -569,8 +569,12 @@
         </section>
 
         <footer>
-            <p>Datenquelle: BKA PKS 2025 | Bevölkerung: Destatis 2025 (Geschätzt) | Analyse: Hermes AI Agent BY FB</p>
+            <p>Datenquelle: BKA PKS 2025 | Bevölkerung: Destatis 2025 (Geschätzt) | Analyse: Hermes AI Agent by Fabs</p>
             <p>Aktualisiert: 10. Mai 2026 | Mit Nationalitäten-Vergleich & Straftaten-Kategorien</p>
+     <p>DISCLAIMER: Ich übernehme keine Gewähr auf Richtigkeit der Angaben! Dieses Projekt wurde in ~2h erstellt mittels agentischer AI</p>
+     <p>------------------------------------------------------------------------------------------------------------------------------------------------------</p>
+     <p>Datenquelle:</p>
+     <a href="https://www.bka.de/DE/AktuelleInformationen/StatistikenLagebilder/PolizeilicheKriminalstatistik/PKS2025/pksTabellen_Interpretationshilfen/ThematischeGliederung/tabellenthema_node.html">Klick für BKA-Daten</a>
         </footer>
     </div>
 
@@ -845,10 +849,11 @@
                 data: {
                     labels: labels,
                     datasets: [{
-                        label: 'Verhältnis',
-                        data: ratios,
-                        backgroundColor: ratios.map(r => r >= 1.8 ? 'rgba(249, 115, 22, 0.8)' : r >= 1.4 ? 'rgba(139, 92, 246, 0.8)' : 'rgba(59, 130, 246, 0.8)'),
-                        borderRadius: 6
+                       label: 'Verhältnis',
+                       data: ratios,
+                        backgroundColor: 'rgba(59, 130, 246, 0.7)',
+                        borderColor: 'rgba(59, 130, 246, 1)',
+                       borderRadius: 6
                     }]
                 },
                 options: {
@@ -874,7 +879,8 @@
                             }
                         }
                     },
-                    scales: { x: { max: 3, ticks: { callback: (v) => `${v}x` }, title: { display: true, text: 'Wievielfach höher als Deutsche?' } }, y: { grid: { display: false } } }
+                    scales: { x: { max: 3, ticks: { color: '#ffffff',
+                                    callback: (v) => `${v}x` }, title: { display: true, text: 'Wievielfach höher als Deutsche?' } }, y: { grid: { display: false } } }
                 }
             });
 
@@ -884,10 +890,11 @@
                 data: {
                     labels: labels,
                     datasets: [{
-                        label: 'Nicht-deutscher Anteil (%)',
-                        data: ndPopPcts,
-                        backgroundColor: ndPopPcts.map(p => p >= 18 ? 'rgba(239, 68, 68, 0.8)' : p >= 12 ? 'rgba(249, 115, 22, 0.8)' : p >= 8 ? 'rgba(139, 92, 246, 0.8)' : 'rgba(16, 185, 129, 0.8)'),
-                        borderRadius: 6
+                       label: 'Nicht-deutscher Anteil (%)',
+                       data: ndPopPcts,
+                        backgroundColor: 'rgba(59, 130, 246, 0.7)',
+                        borderColor: 'rgba(59, 130, 246, 1)',
+                       borderRadius: 6
                     }]
                 },
                 options: {
@@ -927,13 +934,8 @@
                     datasets: [{
                         label: 'Verhältnis zur deutschen Rate (X-mal häufiger)',
                         data: natRatios,
-                        backgroundColor: natRatios.map(r => {
-                            if (r >= 8) return 'rgba(239, 68, 68, 0.8)';
-                            if (r >= 5) return 'rgba(249, 115, 22, 0.8)';
-                            if (r >= 3) return 'rgba(139, 92, 246, 0.8)';
-                            if (r >= 2) return 'rgba(59, 130, 246, 0.8)';
-                            return 'rgba(16, 185, 129, 0.8)';
-                        }),
+                        backgroundColor: 'rgba(59, 130, 246, 0.7)',
+                        borderColor: 'rgba(59, 130, 246, 1)',,
                         borderWidth: 2,
                         borderRadius: 8
                     }]
